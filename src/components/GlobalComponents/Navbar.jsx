@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import chartIcon from ".../assets/chart.svg"; // Example path
-// <img src={chartIcon} style={{ paddingRight: "8px", width: "32px", height: "32px" }} alt="My Image" />
 
 const Navbar = () => {
   return (
@@ -11,9 +9,9 @@ const Navbar = () => {
         {/* Brand */}
         <Link className="navbar-brand d-flex align-items-center" to="/">
           <img
-            src="/chart-white.svg"
+            src={`${import.meta.env.BASE_URL}chart-white.svg`}
             alt="Logo"
-            style={{ maxWidth: "28px", maxHeight: "28px", marginRight:"8px" }}
+            style={{ maxWidth: "28px", maxHeight: "28px", marginRight: "8px" }}
           />
           Oakie
         </Link>

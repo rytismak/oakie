@@ -4,6 +4,8 @@ import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { Link } from "react-router-dom";
 import PriceChart from "../CompanyAnalysis/PriceChart";
 import ValuationMetrics from "../CompanyAnalysis/ValuationMetrics";
+import InfoCards from "../CompanyAnalysis/InfoCards";
+
 const pageName = "ACME Corporation";
 export default function CompanyAnalysis() {
   return (
@@ -23,6 +25,15 @@ export default function CompanyAnalysis() {
         ACME is a leading manufacturer of industrial equipment, serving markets
         across North America and Europe.
       </p>
+
+      <div className="container p-0 mt-4">
+        <InfoCards
+          stockPrice={120.5}
+          evaluationMin={115}
+          evaluationMax={125}
+          differencePercent={-3.2}
+        />
+      </div>
 
       <PriceChart />
       <ValuationMetrics />

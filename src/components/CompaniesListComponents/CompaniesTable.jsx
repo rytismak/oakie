@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // Generate 70 realistic dummy companies
 const companies = Array.from({ length: 70 }).map((_, i) => {
@@ -8,72 +9,88 @@ const companies = Array.from({ length: 70 }).map((_, i) => {
     name: `Company ${i + 1}`,
     ticker: `TICK${i + 1}`,
     marketCap: Math.round(Math.random() * 100000) + 500,
-    industry: ['Technology', 'Healthcare', 'Retail', 'Energy', 'Automotive'][Math.floor(Math.random() * 5)],
+    industry: ["Technology", "Healthcare", "Retail", "Energy", "Automotive"][
+      Math.floor(Math.random() * 5)
+    ],
     currentPrice: parseFloat((Math.random() * 500).toFixed(2)),
-    intrinsicValue: parseFloat((Math.random() * 500).toFixed(2))
-  }
-})
+    intrinsicValue: parseFloat((Math.random() * 500).toFixed(2)),
+  };
+});
 
 function CompaniesTable() {
   const [sortField, setSortField] = useState(null);
-  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortOrder, setSortOrder] = useState("asc");
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterIndustry, setFilterIndustry] = useState('');
-  const [filterMarketCap, setFilterMarketCap] = useState('');
-  
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterIndustry, setFilterIndustry] = useState("");
+  const [filterMarketCap, setFilterMarketCap] = useState("");
+
   const perPage = 15;
 
-  const industryOptions = ['All sectors', 'Technology', 'Healthcare', 'Retail', 'Energy', 'Automotive'];
+  const industryOptions = [
+    "All sectors",
+    "Technology",
+    "Healthcare",
+    "Retail",
+    "Energy",
+    "Automotive",
+  ];
 
   const handleSort = (field) => {
     if (sortField === field) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
     } else {
       setSortField(field);
-      setSortOrder('asc');
+      setSortOrder("asc");
     }
-  }
+  };
 
   const filterByMarketCap = (comp) => {
     if (!filterMarketCap) return true;
-    if (filterMarketCap === 'Micro') return comp.marketCap < 300;
-    if (filterMarketCap === 'Small') return comp.marketCap >= 300 && comp.marketCap < 2000;
-    if (filterMarketCap === 'Mid') return comp.marketCap >= 2000 && comp.marketCap <= 10000;
-    if (filterMarketCap === 'Large') return comp.marketCap > 10000;
+    if (filterMarketCap === "Micro") return comp.marketCap < 300;
+    if (filterMarketCap === "Small")
+      return comp.marketCap >= 300 && comp.marketCap < 2000;
+    if (filterMarketCap === "Mid")
+      return comp.marketCap >= 2000 && comp.marketCap <= 10000;
+    if (filterMarketCap === "Large") return comp.marketCap > 10000;
     return true;
   };
 
   const filtered = companies.filter((comp) => {
     return (
-      (filterIndustry === '' ||
-        filterIndustry === 'All sectors' ||
+      (filterIndustry === "" ||
+        filterIndustry === "All sectors" ||
         comp.industry === filterIndustry) &&
       filterByMarketCap(comp) &&
       (comp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        comp.ticker.toLowerCase().includes(searchTerm.toLowerCase()) )
-    )
+        comp.ticker.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
   });
 
   const sorted = [...filtered].sort((a, b) => {
     if (sortField) {
       let valA = a[sortField];
       let valB = b[sortField];
-      if (sortField === 'currentPrice' ||
-          sortField === 'intrinsicValue' ||
-          sortField === 'marketCap') {
+      if (
+        sortField === "currentPrice" ||
+        sortField === "intrinsicValue" ||
+        sortField === "marketCap"
+      ) {
         valA = parseFloat(valA);
         valB = parseFloat(valB);
       }
-      if (valA < valB) return sortOrder === 'asc' ? -1 : 1;
-      if (valA > valB) return sortOrder === 'asc' ? 1 : -1;
+      if (valA < valB) return sortOrder === "asc" ? -1 : 1;
+      if (valA > valB) return sortOrder === "asc" ? 1 : -1;
     }
     return 0;
   });
 
   const pageCount = Math.ceil(sorted.length / perPage);
-  const paged = sorted.slice((currentPage - 1) * perPage, currentPage * perPage);
-
+  const paged = sorted.slice(
+    (currentPage - 1) * perPage,
+    currentPage * perPage
+  );
+  const navigate = useNavigate();
 
   return (
     <div className="container mt-4">
@@ -137,7 +154,7 @@ function CompaniesTable() {
       {/* Table */}
       <div className="table-responsive" style={{ overflowX: "auto" }}>
         <table
-          className="table table-bordered table-hover"
+          className="table table-hover"
           style={{ tableLayout: "fixed", minWidth: "800px" }}
         >
           <thead style={{ background: "white", color: "black" }}>
@@ -173,7 +190,7 @@ function CompaniesTable() {
               <tr
                 key={comp.id}
                 style={{ cursor: "pointer" }}
-                onClick={() => (window.location.href = "/company-analysis")}
+                onClick={() => navigate("/company-analysis")} // <- use navigate here
               >
                 <td
                   style={{

@@ -139,7 +139,7 @@ export default function PriceChart() {
   };
 
   return (
-    <div className="mb-4">
+    <div className="mb-4 mt-4">
       <h4>Stock price vs Intrinsics (Past 365 days)</h4>
       <ResponsiveContainer width="99%" height={200}>
         <LineChart 
@@ -177,8 +177,8 @@ export default function PriceChart() {
               x2={q.endDate}
               y1={q.intrinsicMin}
               y2={q.intrinsicMax}
-              fill="#fff9cc"
-              fillOpacity={0.5}
+              fill="#ffff00"
+              fillOpacity={0.2}
             />
             
           ))}
