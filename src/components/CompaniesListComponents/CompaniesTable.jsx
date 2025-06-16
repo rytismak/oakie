@@ -214,7 +214,7 @@ function CompaniesTable() {
       </div>
 
       {/* Pagination */}
-      <div className="d-flex justify-content-center align-items-center flex-wrap">
+      <div className="d-flex justify-content-center align-items-center flex-wrap mt-2">
         <button
           className="btn btn-primary me-2 mb-2"
           disabled={currentPage === 1}

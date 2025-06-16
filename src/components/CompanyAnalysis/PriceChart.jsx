@@ -26,12 +26,18 @@ function generateDailyPrices(start, days) {
 
 const priceData = generateDailyPrices(100, 365);
 
+//data for the cards
+const lastStckPrice=0;
+const lastIntrinsicMin=0;
+const lastIntrinsicMax=0;
+const lastPercent=0;
+
 // --- 2. Prepare 4 quarterly intrinsics ---
 function generateQuarterlyValues(data) {
   const totalLength = data.length;
   const quarterLength = Math.floor(totalLength / 4);
   
-  console.log('Total data length:', totalLength, 'Quarter length:', quarterLength);
+  // console.log('Total data length:', totalLength, 'Quarter length:', quarterLength);
   
   const quarters = [];
   for (let i = 0; i < 4; i++) {
@@ -94,9 +100,9 @@ const paddedMax = maxY * 1.1;
 
 export default function PriceChart() {
   // Debug: Log the first quarter data
-  console.log('First quarter:', quarterlyValues[0]);
-  console.log('First few data points:', filledData.slice(0, 5));
-  console.log('Quarter indices:', quarterlyValues.map(q => ({ start: q.startIdx, end: q.endIdx })));
+  // console.log('First quarter:', quarterlyValues[0]);
+  // console.log('First few data points:', filledData.slice(0, 5));
+  // console.log('Quarter indices:', quarterlyValues.map(q => ({ start: q.startIdx, end: q.endIdx })));
   const firstOfMonthDates = filledData
     .filter((item) => new Date(item.date).getUTCDate() === 1)
     .map((item) => item.date);
@@ -140,11 +146,11 @@ export default function PriceChart() {
 
   return (
     <div className="mb-4 mt-4">
-      <h4>Stock price vs Intrinsics (Past 365 days)</h4>
+      <h2 className="mb-4 pt-4 mt-4">Stock price vs Intrinsics (Past 365 days)</h2>
       <ResponsiveContainer width="99%" height={200}>
         <LineChart 
           data={filledData}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          margin={{ top: 5, right: 1, left: 1, bottom: 5}}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis

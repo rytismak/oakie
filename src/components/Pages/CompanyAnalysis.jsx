@@ -6,6 +6,8 @@ import PriceChart from "../CompanyAnalysis/PriceChart";
 import ValuationMetrics from "../CompanyAnalysis/ValuationMetrics";
 import InfoCards from "../CompanyAnalysis/InfoCards";
 
+// <span className="badge display-2 text-bg-warning">Top 3%</span>
+
 const pageName = "ACME Corporation";
 export default function CompanyAnalysis() {
   return (
@@ -18,10 +20,10 @@ export default function CompanyAnalysis() {
       </Breadcrumb>
 
       {/* Header */}
-      <h1>{pageName}</h1>
+      <h1 className="display-4">{pageName}</h1>
 
       {/* Company Description */}
-      <p>
+      <p className="mt-4 text-muted">
         ACME is a leading manufacturer of industrial equipment, serving markets
         across North America and Europe.
       </p>

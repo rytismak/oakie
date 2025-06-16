@@ -30,14 +30,14 @@ function ValuationMetrics() {
 
   return(
     <div className="mb-4">
-      <h4>Valuation Metrics</h4>
+      <h2 className="mb-4 pt-4">Valuation Metrics</h2>
       <table className="table">
         <thead>
           <tr>
-            <th>Metric</th>
-            <th className="text-center">2022</th>
-            <th className="text-center">2023</th>
-            <th className="text-center">2024</th>
+            <th className="h5 fw-bold">Metric</th>
+            <th className="text-center fw-bold h5">2022</th>
+            <th className="text-center fw-bold h5">2023</th>
+            <th className="text-center fw-bold h5">2024</th>
           </tr>
         </thead>
         <tbody>

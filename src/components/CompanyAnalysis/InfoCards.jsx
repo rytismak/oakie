@@ -22,7 +22,7 @@ const InfoCards = ({
         <Card>
           <Card.Body>
             <Card.Title className="h6 text-muted">Price</Card.Title>
-            <Card.Text className="h4">
+            <Card.Text className="h5">
               <strong>${stockPrice}</strong>
             </Card.Text>
           </Card.Body>
@@ -33,7 +33,7 @@ const InfoCards = ({
         <Card>
           <Card.Body>
             <Card.Title className="h6 text-muted">Evaluation</Card.Title>
-            <Card.Text className="h4"><strong>
+            <Card.Text className="h5"><strong>
               ${evaluationMin} - ${evaluationMax}</strong>
             </Card.Text>
           </Card.Body>
@@ -44,7 +44,7 @@ const InfoCards = ({
         <Card style={cardStyle}>
           <Card.Body>
             <Card.Title className="h6 text-muted">Difference</Card.Title>
-            <Card.Text className={`h4 ${textColor}`}><strong>{differencePercent}%</strong></Card.Text>
+            <Card.Text className={`h5 ${textColor}`}><strong>{differencePercent}%</strong></Card.Text>
           </Card.Body>
         </Card>
       </Col>
