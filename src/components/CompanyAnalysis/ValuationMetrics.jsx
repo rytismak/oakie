@@ -34,10 +34,10 @@ function ValuationMetrics() {
       <table className="table">
         <thead>
           <tr>
-            <th className="h5 fw-bold">Metric</th>
-            <th className="text-center fw-bold h5">2022</th>
-            <th className="text-center fw-bold h5">2023</th>
-            <th className="text-center fw-bold h5">2024</th>
+            <th className="fw-bold">Metric</th>
+            <th className="text-center fw-bold ">2022</th>
+            <th className="text-center fw-bold ">2023</th>
+            <th className="text-center fw-bold ">2024</th>
           </tr>
         </thead>
         <tbody>

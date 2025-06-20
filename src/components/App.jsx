@@ -20,7 +20,7 @@ function App() {
         <Navbar />
         <div className="container align-items-center">
           <Routes>
-            <Route path="/" element={<CompaniesList />} />
+            <Route path="/" element={<Home />} />
             <Route path="/key-metrics" element={<KeyMetrics />} />
             <Route path="/our-approach" element={<OurApproach />} />
             <Route path="/feedback" element={<Feedback />} />
