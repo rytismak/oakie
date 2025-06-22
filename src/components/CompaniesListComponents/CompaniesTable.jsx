@@ -1,23 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 // Generate 70 realistic dummy companies
-const companies = Array.from({ length: 70 }).map((_, i) => {
-  return {
-    id: i + 1,
-    name: `Company ${i + 1}`,
-    ticker: `TICK${i + 1}`,
-    marketCap: Math.round(Math.random() * 100000) + 500,
-    industry: ["Technology", "Healthcare", "Retail", "Energy", "Automotive"][
-      Math.floor(Math.random() * 5)
-    ],
-    currentPrice: parseFloat((Math.random() * 500).toFixed(2)),
-    intrinsicValue: parseFloat((Math.random() * 500).toFixed(2)),
-  };
-});
+// const companies = Array.from({ length: 70 }).map((_, i) => {
+//   return {
+//     id: i + 1,
+//     name: `Company ${i + 1}`,
+//     ticker: `TICK${i + 1}`,
+//     marketCap: Math.round(Math.random() * 100000) + 500,
+//     industry: ["Technology", "Healthcare", "Retail", "Energy", "Automotive"][
+//       Math.floor(Math.random() * 5)
+//     ],
+//     currentPrice: parseFloat((Math.random() * 500).toFixed(2)),
+//     intrinsicValue: parseFloat((Math.random() * 500).toFixed(2)),
+//   };
+// });
 
 function CompaniesTable() {
+  const [companies, setCompanies] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.BASE_URL}/data/companies-list.json`)
+      .then((response) => {
+        setCompanies(response.data);
+      })
+      .catch((error) => {
+        console.error("Failed to load companies:", error);
+      });
+  }, []);
+
   const [sortField, setSortField] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
   const [currentPage, setCurrentPage] = useState(1);
@@ -28,12 +42,16 @@ function CompaniesTable() {
   const perPage = 15;
 
   const industryOptions = [
-    "All sectors",
     "Technology",
+    "Finance",
     "Healthcare",
     "Retail",
     "Energy",
-    "Automotive",
+    "Telecommunications",
+    "Real Estate",
+    "Transportation",
+    "Consumer Goods",
+    "Utilities",
   ];
 
   const handleSort = (field) => {
@@ -62,7 +80,7 @@ function CompaniesTable() {
         filterIndustry === "All sectors" ||
         comp.industry === filterIndustry) &&
       filterByMarketCap(comp) &&
-      (comp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (comp.companyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         comp.ticker.toLowerCase().includes(searchTerm.toLowerCase()))
     );
   });
@@ -176,7 +194,8 @@ function CompaniesTable() {
                     left: idx === 0 ? 0 : "",
                     zIndex: idx === 0 ? 2 : "",
                     background: "white",
-                    color: "black",
+                    color: "black"
+                    
                   }}
                 >
                   {field.charAt(0).toUpperCase() + field.slice(1)}
@@ -185,12 +204,14 @@ function CompaniesTable() {
               ))}
             </tr>
           </thead>
-          <tbody>
+          <tbody className="fs-6">
             {paged.map((comp) => (
               <tr
-                key={comp.id}
+                key={comp.ticker}
                 style={{ cursor: "pointer" }}
-                onClick={() => navigate("/company-analysis")} // <- use navigate here
+                onClick={() =>
+                  navigate(`/company-analysis?ticker=${comp.ticker}`)
+                } 
               >
                 <td
                   style={{
@@ -200,13 +221,15 @@ function CompaniesTable() {
                     background: "white",
                   }}
                 >
-                  {comp.name}
+                  {comp.companyName}
                 </td>
                 <td>{comp.ticker}</td>
                 <td>{comp.marketCap}</td>
                 <td>{comp.industry}</td>
                 <td>{comp.currentPrice}</td>
-                <td>{comp.intrinsicValue}</td>
+                <td>
+                  {comp.intrinsicPrice.min} - {comp.intrinsicPrice.max}
+                </td>
               </tr>
             ))}
           </tbody>

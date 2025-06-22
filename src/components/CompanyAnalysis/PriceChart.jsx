@@ -175,7 +175,7 @@ export default function PriceChart() {
 
           <Tooltip content={<CustomTooltip />} />
           
-          {/* Yellow areas for each quarter - Fixed */}
+          {/* Yellow areas for each quarter ` */}
           {quarterlyValues.map((q, i) => (
             <ReferenceArea
               key={`area-${i}`}
@@ -189,31 +189,6 @@ export default function PriceChart() {
             
           ))}
 
-          {/* Top and bottom dashed borders - simplified approach */}
-          {quarterlyValues.map((q, i) => (
-            <React.Fragment key={`borders-${i}`}>
-              {/* Top dashed line */}
-              <ReferenceLine
-                y={q.intrinsicMax}
-                stroke="#ffcc5b"
-                strokeWidth={2}
-                strokeDasharray="8 4"
-                x1={q.startDate}
-                x2={q.endDate}
-              />
-              {/* Bottom dashed line */}
-              <ReferenceLine
-                y={q.intrinsicMin}
-                stroke="#ffcc5b"
-                strokeWidth={2}
-                strokeDasharray="8 4"
-                x1={q.startDate}
-                x2={q.endDate}
-              />
-            </React.Fragment>
-          ))}
-
-          {/* Reference lines removed to avoid conflicts */}
 
           {/* Stock price */}
           <Line
