@@ -5,6 +5,9 @@ on:
     branches:
       - master
 
+permissions:
+  contents: write  # 👈 this is mandatory for pushing to gh-pages
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
