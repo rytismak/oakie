@@ -164,12 +164,12 @@ function CompaniesTable() {
           <thead style={{ background: "white", color: "black" }}>
             <tr>
               {[
-                "name",
+                "companyName",
                 "ticker",
                 "marketCap",
                 "industry",
                 "currentPrice",
-                "intrinsicValue",
+                "intrinsicPrice",
               ].map((field, idx) => (
                 <th
                   key={field}
