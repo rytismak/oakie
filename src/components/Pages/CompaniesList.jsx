@@ -1,5 +1,5 @@
 import CompaniesTable from "../CompaniesListComponents/CompaniesTable";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 
 function CompaniesList() {
   return (

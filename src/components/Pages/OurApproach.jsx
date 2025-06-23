@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import React, { useState } from "react";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import { HashLink } from "react-router-hash-link";
 
 function OurApproach() {

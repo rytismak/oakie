@@ -1,4 +1,4 @@
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { Link } from "react-router-dom";
 import PriceChart from "../CompanyAnalysis/PriceChart";
@@ -25,7 +25,7 @@ export default function CompanyAnalysis() {
       .get(dataURL)
       .then((response) => {
         setcompanyData(response.data);
-        console.log(response.data.evaluationMetrics);
+        // console.log(response.data.evaluationMetrics);
       })
       .catch((error) => {
         console.error("Failed to load companies:", error);
@@ -35,7 +35,7 @@ export default function CompanyAnalysis() {
   return (
     <div className="container mt-4">
       <Breadcrumb>
-        <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/" }}>
+        <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/featured-companies" }}>
           Home
         </Breadcrumb.Item>
         <Breadcrumb.Item active>{companyData.companyName}</Breadcrumb.Item>

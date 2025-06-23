@@ -13,7 +13,7 @@ function ValuationMetrics({ evaluationMetrics }) {
     const parsed = parseFloat(value);
     if (value == "bad") return "danger";
     if (value == "good") return "success";
-    return "warning";
+    return "secondary";
   };
 
   // color classes
@@ -66,7 +66,7 @@ function ValuationMetrics({ evaluationMetrics }) {
                   const entry = m.values.find(
                     (v) => v.year === parseInt(year)
                   );
-                  if (!entry) return <td key={year}>–</td>;
+                  if (!entry) return <td key={year} className="text-center">–</td>;
                   const badgeColor = getColor(entry.label);
                   return (
                     <td key={year} className="text-center">
@@ -97,7 +97,7 @@ function ValuationMetrics({ evaluationMetrics }) {
         </Badge>{" "}
         <Badge
           pill
-          className={colorClass("warning")}
+          className={colorClass("secondary")}
           style={{ minWidth: "60px", textAlign: "center" }}
         >
           Neutral

@@ -1,1102 +1,1102 @@
 [
   {
-    "companyName": "Hebert-Jensen",
-    "ticker": "VLYG",
-    "marketCap": "1225.7",
-    "industry": "Retail",
-    "currentPrice": 289.79,
-    "intrinsicPrice": {
-      "min": 289.72,
-      "max": 318.04
-    }
-  },
-  {
-    "companyName": "Douglas PLC",
-    "ticker": "LHEAJ",
-    "marketCap": "10.2",
-    "industry": "Consumer Goods",
-    "currentPrice": 65.97,
-    "intrinsicPrice": {
-      "min": 63.13,
-      "max": 68.23
-    }
-  },
-  {
-    "companyName": "Gardner, Marshall and Pearson",
-    "ticker": "QURXC",
-    "marketCap": "885.7",
+    "companyName": "Velazquez, Espinoza and Moore",
+    "ticker": "MZEZ",
+    "marketCap": "128.3",
     "industry": "Energy",
-    "currentPrice": 381.87,
+    "currentPrice": 437.38,
     "intrinsicPrice": {
-      "min": 379.29,
-      "max": 419.23
+      "min": 410.15,
+      "max": 449.76
     }
   },
   {
-    "companyName": "Lewis and Sons",
-    "ticker": "DIGX",
-    "marketCap": "1126.0",
-    "industry": "Finance",
-    "currentPrice": 386.89,
+    "companyName": "Vaughan, Marquez and Pena",
+    "ticker": "VXV",
+    "marketCap": "370.6",
+    "industry": "Retail",
+    "currentPrice": 190.55,
     "intrinsicPrice": {
-      "min": 383.27,
-      "max": 394.23
+      "min": 179.28,
+      "max": 201.14
     }
   },
   {
-    "companyName": "Parsons, Wade and Walker",
-    "ticker": "GFEWX",
-    "marketCap": "434.0",
-    "industry": "Utilities",
-    "currentPrice": 144.69,
-    "intrinsicPrice": {
-      "min": 143.71,
-      "max": 150.3
-    }
-  },
-  {
-    "companyName": "Smith, Russell and Ward",
-    "ticker": "ZWHBM",
-    "marketCap": "1910.7",
+    "companyName": "Hernandez Ltd",
+    "ticker": "YBZV",
+    "marketCap": "638.3",
     "industry": "Telecommunications",
-    "currentPrice": 349.58,
+    "currentPrice": 427.41,
     "intrinsicPrice": {
-      "min": 315.0,
-      "max": 351.96
+      "min": 410.47,
+      "max": 469.32
     }
   },
   {
-    "companyName": "Wilson-Rogers",
-    "ticker": "AUU",
-    "marketCap": "983.7",
+    "companyName": "Walton PLC",
+    "ticker": "ADXM",
+    "marketCap": "1631.5",
     "industry": "Retail",
-    "currentPrice": 21.81,
+    "currentPrice": 306.47,
     "intrinsicPrice": {
-      "min": 21.74,
-      "max": 23.8
+      "min": 278.45,
+      "max": 318.89
     }
   },
   {
-    "companyName": "Franco-Leon",
-    "ticker": "GHBA",
-    "marketCap": "830.7",
-    "industry": "Retail",
-    "currentPrice": 14.33,
+    "companyName": "Pitts-Kim",
+    "ticker": "PRI",
+    "marketCap": "1199.4",
+    "industry": "Telecommunications",
+    "currentPrice": 277.56,
     "intrinsicPrice": {
-      "min": 13.81,
-      "max": 14.96
+      "min": 258.04,
+      "max": 284.74
     }
   },
   {
-    "companyName": "Marshall-Foster",
-    "ticker": "AYD",
-    "marketCap": "800.9",
-    "industry": "Transportation",
-    "currentPrice": 160.93,
-    "intrinsicPrice": {
-      "min": 151.58,
-      "max": 170.86
-    }
-  },
-  {
-    "companyName": "Steele-Jackson",
-    "ticker": "NSYF",
-    "marketCap": "1792.3",
-    "industry": "Real Estate",
-    "currentPrice": 470.23,
-    "intrinsicPrice": {
-      "min": 450.58,
-      "max": 473.76
-    }
-  },
-  {
-    "companyName": "Whitehead-Rodriguez",
-    "ticker": "RAUJ",
-    "marketCap": "1353.0",
-    "industry": "Energy",
-    "currentPrice": 128.08,
-    "intrinsicPrice": {
-      "min": 115.47,
-      "max": 133.44
-    }
-  },
-  {
-    "companyName": "Johnson, Simmons and Newman",
-    "ticker": "RDX",
-    "marketCap": "1566.0",
-    "industry": "Transportation",
-    "currentPrice": 22.98,
-    "intrinsicPrice": {
-      "min": 21.16,
-      "max": 24.3
-    }
-  },
-  {
-    "companyName": "White, Marshall and Wilkinson",
-    "ticker": "ORQ",
-    "marketCap": "1377.8",
-    "industry": "Transportation",
-    "currentPrice": 243.49,
-    "intrinsicPrice": {
-      "min": 229.09,
-      "max": 245.68
-    }
-  },
-  {
-    "companyName": "David PLC",
-    "ticker": "KCRXT",
-    "marketCap": "1290.5",
-    "industry": "Consumer Goods",
-    "currentPrice": 495.89,
-    "intrinsicPrice": {
-      "min": 476.97,
-      "max": 519.27
-    }
-  },
-  {
-    "companyName": "Hernandez-Dunn",
-    "ticker": "EGWBV",
-    "marketCap": "1877.1",
-    "industry": "Transportation",
-    "currentPrice": 150.34,
-    "intrinsicPrice": {
-      "min": 145.69,
-      "max": 156.69
-    }
-  },
-  {
-    "companyName": "Jackson-Lindsey",
-    "ticker": "OSHVO",
-    "marketCap": "1612.9",
-    "industry": "Energy",
-    "currentPrice": 94.61,
-    "intrinsicPrice": {
-      "min": 94.6,
-      "max": 97.2
-    }
-  },
-  {
-    "companyName": "Rodriguez, Harris and Hernandez",
-    "ticker": "HELP",
-    "marketCap": "1376.3",
-    "industry": "Energy",
-    "currentPrice": 103.21,
-    "intrinsicPrice": {
-      "min": 97.29,
-      "max": 111.2
-    }
-  },
-  {
-    "companyName": "Cuevas-Ellis",
-    "ticker": "CRXM",
-    "marketCap": "497.2",
-    "industry": "Real Estate",
-    "currentPrice": 212.95,
-    "intrinsicPrice": {
-      "min": 197.04,
-      "max": 228.69
-    }
-  },
-  {
-    "companyName": "Ortiz-Johnston",
-    "ticker": "CGV",
-    "marketCap": "1638.9",
-    "industry": "Energy",
-    "currentPrice": 355.47,
-    "intrinsicPrice": {
-      "min": 354.59,
-      "max": 389.0
-    }
-  },
-  {
-    "companyName": "Porter-Lewis",
-    "ticker": "AEVS",
-    "marketCap": "1852.4",
+    "companyName": "Stephenson PLC",
+    "ticker": "XOHM",
+    "marketCap": "1223.1",
     "industry": "Utilities",
-    "currentPrice": 335.51,
+    "currentPrice": 30.39,
     "intrinsicPrice": {
-      "min": 308.53,
-      "max": 364.03
+      "min": 29.54,
+      "max": 31.82
     }
   },
   {
-    "companyName": "Evans-Romero",
-    "ticker": "ZJG",
-    "marketCap": "1900.6",
+    "companyName": "Tapia, Miller and Brown",
+    "ticker": "TWJ",
+    "marketCap": "1416.1",
+    "industry": "Technology",
+    "currentPrice": 197.63,
+    "intrinsicPrice": {
+      "min": 180.34,
+      "max": 207.9
+    }
+  },
+  {
+    "companyName": "Lawrence, Smith and Osborne",
+    "ticker": "VJI",
+    "marketCap": "1354.3",
+    "industry": "Telecommunications",
+    "currentPrice": 377.11,
+    "intrinsicPrice": {
+      "min": 372.43,
+      "max": 381.5
+    }
+  },
+  {
+    "companyName": "Thompson LLC",
+    "ticker": "NMO",
+    "marketCap": "1718.0",
+    "industry": "Energy",
+    "currentPrice": 207.45,
+    "intrinsicPrice": {
+      "min": 204.55,
+      "max": 225.04
+    }
+  },
+  {
+    "companyName": "Thomas, Kim and Moore",
+    "ticker": "COLZZ",
+    "marketCap": "1499.9",
+    "industry": "Real Estate",
+    "currentPrice": 145.13,
+    "intrinsicPrice": {
+      "min": 138.85,
+      "max": 159.16
+    }
+  },
+  {
+    "companyName": "Morris, Nelson and Brown",
+    "ticker": "RSOSR",
+    "marketCap": "1073.6",
+    "industry": "Transportation",
+    "currentPrice": 50.21,
+    "intrinsicPrice": {
+      "min": 49.98,
+      "max": 51.38
+    }
+  },
+  {
+    "companyName": "Baker Ltd",
+    "ticker": "MWCJM",
+    "marketCap": "1046.4",
+    "industry": "Transportation",
+    "currentPrice": 303.51,
+    "intrinsicPrice": {
+      "min": 286.95,
+      "max": 325.93
+    }
+  },
+  {
+    "companyName": "Khan-Thompson",
+    "ticker": "BDE",
+    "marketCap": "275.8",
+    "industry": "Technology",
+    "currentPrice": 333.31,
+    "intrinsicPrice": {
+      "min": 301.06,
+      "max": 351.18
+    }
+  },
+  {
+    "companyName": "White LLC",
+    "ticker": "YFGGX",
+    "marketCap": "1277.5",
+    "industry": "Telecommunications",
+    "currentPrice": 449.88,
+    "intrinsicPrice": {
+      "min": 424.68,
+      "max": 489.78
+    }
+  },
+  {
+    "companyName": "Miller Group",
+    "ticker": "CPY",
+    "marketCap": "584.5",
+    "industry": "Retail",
+    "currentPrice": 176.63,
+    "intrinsicPrice": {
+      "min": 175.7,
+      "max": 193.89
+    }
+  },
+  {
+    "companyName": "Parker, Berger and Acevedo",
+    "ticker": "OPQYY",
+    "marketCap": "1244.2",
+    "industry": "Technology",
+    "currentPrice": 41.3,
+    "intrinsicPrice": {
+      "min": 38.05,
+      "max": 44.48
+    }
+  },
+  {
+    "companyName": "Moon, Galvan and Lee",
+    "ticker": "WAFDH",
+    "marketCap": "79.8",
+    "industry": "Finance",
+    "currentPrice": 305.24,
+    "intrinsicPrice": {
+      "min": 274.9,
+      "max": 329.14
+    }
+  },
+  {
+    "companyName": "Alexander-Martin",
+    "ticker": "FYGT",
+    "marketCap": "1067.4",
+    "industry": "Technology",
+    "currentPrice": 357.83,
+    "intrinsicPrice": {
+      "min": 332.3,
+      "max": 378.86
+    }
+  },
+  {
+    "companyName": "Valencia and Sons",
+    "ticker": "MJCR",
+    "marketCap": "1317.0",
+    "industry": "Healthcare",
+    "currentPrice": 74.05,
+    "intrinsicPrice": {
+      "min": 68.59,
+      "max": 81.14
+    }
+  },
+  {
+    "companyName": "Bean-Jackson",
+    "ticker": "NIRQ",
+    "marketCap": "1821.0",
+    "industry": "Real Estate",
+    "currentPrice": 72.14,
+    "intrinsicPrice": {
+      "min": 70.54,
+      "max": 79.32
+    }
+  },
+  {
+    "companyName": "Price, Dunn and Wagner",
+    "ticker": "TYQ",
+    "marketCap": "1185.1",
+    "industry": "Utilities",
+    "currentPrice": 439.43,
+    "intrinsicPrice": {
+      "min": 433.87,
+      "max": 457.01
+    }
+  },
+  {
+    "companyName": "Stevens-Anderson",
+    "ticker": "CXRIJ",
+    "marketCap": "1711.8",
+    "industry": "Transportation",
+    "currentPrice": 36.83,
+    "intrinsicPrice": {
+      "min": 36.59,
+      "max": 39.1
+    }
+  },
+  {
+    "companyName": "Bryant-Gray",
+    "ticker": "SBY",
+    "marketCap": "1844.2",
+    "industry": "Technology",
+    "currentPrice": 473.29,
+    "intrinsicPrice": {
+      "min": 473.03,
+      "max": 510.84
+    }
+  },
+  {
+    "companyName": "Brown, Gardner and Hamilton",
+    "ticker": "ZVN",
+    "marketCap": "1777.9",
+    "industry": "Finance",
+    "currentPrice": 122.32,
+    "intrinsicPrice": {
+      "min": 113.72,
+      "max": 129.75
+    }
+  },
+  {
+    "companyName": "Garcia LLC",
+    "ticker": "TJR",
+    "marketCap": "336.6",
     "industry": "Consumer Goods",
-    "currentPrice": 250.0,
+    "currentPrice": 100.28,
     "intrinsicPrice": {
-      "min": 246.45,
-      "max": 262.96
+      "min": 99.93,
+      "max": 108.14
     }
   },
   {
-    "companyName": "Morrison and Sons",
-    "ticker": "BEQSJ",
-    "marketCap": "481.5",
-    "industry": "Finance",
-    "currentPrice": 315.97,
-    "intrinsicPrice": {
-      "min": 286.13,
-      "max": 329.7
-    }
-  },
-  {
-    "companyName": "Edwards, Johnson and Bird",
-    "ticker": "OEKW",
-    "marketCap": "247.0",
+    "companyName": "Huff LLC",
+    "ticker": "CNEBM",
+    "marketCap": "272.2",
     "industry": "Transportation",
-    "currentPrice": 302.65,
+    "currentPrice": 289.25,
     "intrinsicPrice": {
-      "min": 301.91,
-      "max": 321.98
+      "min": 286.25,
+      "max": 303.95
     }
   },
   {
-    "companyName": "Johnson-Gonzales",
-    "ticker": "OZFGM",
-    "marketCap": "524.0",
-    "industry": "Finance",
-    "currentPrice": 279.43,
-    "intrinsicPrice": {
-      "min": 271.6,
-      "max": 283.64
-    }
-  },
-  {
-    "companyName": "Lee-Porter",
-    "ticker": "XNVRT",
-    "marketCap": "458.1",
+    "companyName": "Webb LLC",
+    "ticker": "YBL",
+    "marketCap": "1656.3",
     "industry": "Transportation",
-    "currentPrice": 204.71,
+    "currentPrice": 175.21,
     "intrinsicPrice": {
-      "min": 196.75,
-      "max": 208.47
+      "min": 159.5,
+      "max": 188.48
     }
   },
   {
-    "companyName": "Morales Inc",
-    "ticker": "YLP",
-    "marketCap": "772.3",
-    "industry": "Transportation",
-    "currentPrice": 162.13,
-    "intrinsicPrice": {
-      "min": 153.84,
-      "max": 173.1
-    }
-  },
-  {
-    "companyName": "Lynch, Lee and Powell",
-    "ticker": "DSZW",
-    "marketCap": "643.3",
-    "industry": "Transportation",
-    "currentPrice": 83.72,
-    "intrinsicPrice": {
-      "min": 79.31,
-      "max": 87.03
-    }
-  },
-  {
-    "companyName": "Butler, Edwards and Thompson",
-    "ticker": "ZZH",
-    "marketCap": "1704.2",
-    "industry": "Transportation",
-    "currentPrice": 113.6,
-    "intrinsicPrice": {
-      "min": 111.82,
-      "max": 121.67
-    }
-  },
-  {
-    "companyName": "Smith-Garcia",
-    "ticker": "JKHMZ",
-    "marketCap": "968.6",
-    "industry": "Healthcare",
-    "currentPrice": 282.73,
-    "intrinsicPrice": {
-      "min": 278.12,
-      "max": 284.55
-    }
-  },
-  {
-    "companyName": "Rodriguez-Richards",
-    "ticker": "MPDVY",
-    "marketCap": "1798.1",
-    "industry": "Healthcare",
-    "currentPrice": 132.7,
-    "intrinsicPrice": {
-      "min": 124.26,
-      "max": 135.26
-    }
-  },
-  {
-    "companyName": "Aguilar, Krause and Ware",
-    "ticker": "RYB",
-    "marketCap": "886.7",
-    "industry": "Real Estate",
-    "currentPrice": 63.4,
-    "intrinsicPrice": {
-      "min": 62.47,
-      "max": 64.88
-    }
-  },
-  {
-    "companyName": "Richard, Nguyen and Bell",
-    "ticker": "QKEXJ",
-    "marketCap": "90.3",
-    "industry": "Finance",
-    "currentPrice": 358.79,
-    "intrinsicPrice": {
-      "min": 339.87,
-      "max": 391.65
-    }
-  },
-  {
-    "companyName": "Alvarez, Matthews and Best",
-    "ticker": "BKKE",
-    "marketCap": "515.9",
+    "companyName": "Williams and Sons",
+    "ticker": "BKGA",
+    "marketCap": "1457.5",
     "industry": "Technology",
-    "currentPrice": 490.15,
-    "intrinsicPrice": {
-      "min": 444.98,
-      "max": 511.65
-    }
-  },
-  {
-    "companyName": "Coleman-Boyer",
-    "ticker": "HXHA",
-    "marketCap": "1988.4",
-    "industry": "Finance",
-    "currentPrice": 423.22,
-    "intrinsicPrice": {
-      "min": 408.81,
-      "max": 426.72
-    }
-  },
-  {
-    "companyName": "Allen-Hernandez",
-    "ticker": "FCC",
-    "marketCap": "504.9",
-    "industry": "Finance",
-    "currentPrice": 454.43,
-    "intrinsicPrice": {
-      "min": 414.93,
-      "max": 476.23
-    }
-  },
-  {
-    "companyName": "Stephens Ltd",
-    "ticker": "DCGDH",
-    "marketCap": "22.3",
-    "industry": "Real Estate",
-    "currentPrice": 476.92,
-    "intrinsicPrice": {
-      "min": 438.98,
-      "max": 502.73
-    }
-  },
-  {
-    "companyName": "Sandoval and Sons",
-    "ticker": "GIJ",
-    "marketCap": "94.5",
-    "industry": "Real Estate",
-    "currentPrice": 234.3,
-    "intrinsicPrice": {
-      "min": 215.95,
-      "max": 254.34
-    }
-  },
-  {
-    "companyName": "Sanders-Bailey",
-    "ticker": "QZQWH",
-    "marketCap": "650.3",
-    "industry": "Technology",
-    "currentPrice": 486.49,
-    "intrinsicPrice": {
-      "min": 458.35,
-      "max": 500.56
-    }
-  },
-  {
-    "companyName": "Caldwell, Schultz and Young",
-    "ticker": "EHQ",
-    "marketCap": "773.0",
-    "industry": "Real Estate",
-    "currentPrice": 96.45,
+    "currentPrice": 97.86,
     "intrinsicPrice": {
       "min": 94.02,
-      "max": 102.33
+      "max": 101.81
     }
   },
   {
-    "companyName": "Huff, Juarez and Torres",
-    "ticker": "WADN",
-    "marketCap": "744.4",
+    "companyName": "Stewart and Sons",
+    "ticker": "PTP",
+    "marketCap": "1299.9",
+    "industry": "Consumer Goods",
+    "currentPrice": 145.69,
+    "intrinsicPrice": {
+      "min": 132.08,
+      "max": 157.8
+    }
+  },
+  {
+    "companyName": "Cruz-Hampton",
+    "ticker": "NJOV",
+    "marketCap": "322.4",
+    "industry": "Utilities",
+    "currentPrice": 432.4,
+    "intrinsicPrice": {
+      "min": 402.53,
+      "max": 454.9
+    }
+  },
+  {
+    "companyName": "Schmidt, Jones and Farmer",
+    "ticker": "XWX",
+    "marketCap": "674.3",
     "industry": "Retail",
-    "currentPrice": 63.98,
+    "currentPrice": 324.47,
     "intrinsicPrice": {
-      "min": 63.27,
-      "max": 69.35
+      "min": 295.59,
+      "max": 348.94
     }
   },
   {
-    "companyName": "Ray LLC",
-    "ticker": "PJUQV",
-    "marketCap": "43.2",
+    "companyName": "Jenkins, Romero and Kelly",
+    "ticker": "SXWUH",
+    "marketCap": "1536.4",
+    "industry": "Consumer Goods",
+    "currentPrice": 236.82,
+    "intrinsicPrice": {
+      "min": 229.98,
+      "max": 255.23
+    }
+  },
+  {
+    "companyName": "Drake LLC",
+    "ticker": "YOTBN",
+    "marketCap": "1837.0",
+    "industry": "Telecommunications",
+    "currentPrice": 409.6,
+    "intrinsicPrice": {
+      "min": 398.78,
+      "max": 430.01
+    }
+  },
+  {
+    "companyName": "Weaver Inc",
+    "ticker": "DEO",
+    "marketCap": "24.3",
     "industry": "Utilities",
-    "currentPrice": 233.19,
+    "currentPrice": 45.14,
     "intrinsicPrice": {
-      "min": 228.72,
-      "max": 255.71
+      "min": 42.33,
+      "max": 48.43
     }
   },
   {
-    "companyName": "Dean, Smith and Shaw",
-    "ticker": "JYG",
-    "marketCap": "1419.6",
-    "industry": "Healthcare",
-    "currentPrice": 210.06,
-    "intrinsicPrice": {
-      "min": 199.17,
-      "max": 220.38
-    }
-  },
-  {
-    "companyName": "Nash-Fleming",
-    "ticker": "MGSOZ",
-    "marketCap": "1320.0",
-    "industry": "Transportation",
-    "currentPrice": 420.76,
-    "intrinsicPrice": {
-      "min": 390.14,
-      "max": 428.78
-    }
-  },
-  {
-    "companyName": "Clark, Perez and Ellis",
-    "ticker": "ZBNIM",
-    "marketCap": "1806.0",
-    "industry": "Transportation",
-    "currentPrice": 246.47,
-    "intrinsicPrice": {
-      "min": 242.42,
-      "max": 259.43
-    }
-  },
-  {
-    "companyName": "Palmer Inc",
-    "ticker": "WVLR",
-    "marketCap": "1620.8",
-    "industry": "Healthcare",
-    "currentPrice": 426.17,
-    "intrinsicPrice": {
-      "min": 425.79,
-      "max": 433.76
-    }
-  },
-  {
-    "companyName": "Bishop PLC",
-    "ticker": "LUOMR",
-    "marketCap": "814.6",
-    "industry": "Telecommunications",
-    "currentPrice": 215.73,
-    "intrinsicPrice": {
-      "min": 213.47,
-      "max": 235.57
-    }
-  },
-  {
-    "companyName": "White-Thomas",
-    "ticker": "ZUOYV",
-    "marketCap": "1938.1",
-    "industry": "Technology",
-    "currentPrice": 333.26,
-    "intrinsicPrice": {
-      "min": 300.38,
-      "max": 359.05
-    }
-  },
-  {
-    "companyName": "Hoffman-Travis",
-    "ticker": "BACU",
-    "marketCap": "1614.7",
-    "industry": "Transportation",
-    "currentPrice": 206.84,
-    "intrinsicPrice": {
-      "min": 206.71,
-      "max": 208.14
-    }
-  },
-  {
-    "companyName": "Clark, Harris and Baker",
-    "ticker": "WUM",
-    "marketCap": "1749.1",
-    "industry": "Consumer Goods",
-    "currentPrice": 65.72,
-    "intrinsicPrice": {
-      "min": 63.89,
-      "max": 67.55
-    }
-  },
-  {
-    "companyName": "Long-Barajas",
-    "ticker": "ZGND",
-    "marketCap": "935.9",
-    "industry": "Telecommunications",
-    "currentPrice": 355.25,
-    "intrinsicPrice": {
-      "min": 348.71,
-      "max": 377.9
-    }
-  },
-  {
-    "companyName": "Galvan Inc",
-    "ticker": "FGAS",
-    "marketCap": "1703.4",
-    "industry": "Telecommunications",
-    "currentPrice": 458.28,
-    "intrinsicPrice": {
-      "min": 456.28,
-      "max": 479.53
-    }
-  },
-  {
-    "companyName": "Barnes Ltd",
-    "ticker": "ODCJO",
-    "marketCap": "1271.2",
-    "industry": "Energy",
-    "currentPrice": 234.48,
-    "intrinsicPrice": {
-      "min": 215.13,
-      "max": 248.82
-    }
-  },
-  {
-    "companyName": "Snyder, Smith and Schneider",
-    "ticker": "YFUT",
-    "marketCap": "129.7",
-    "industry": "Real Estate",
-    "currentPrice": 16.88,
-    "intrinsicPrice": {
-      "min": 15.37,
-      "max": 17.5
-    }
-  },
-  {
-    "companyName": "Shaw-Harris",
-    "ticker": "LKNJY",
-    "marketCap": "564.3",
-    "industry": "Consumer Goods",
-    "currentPrice": 16.68,
-    "intrinsicPrice": {
-      "min": 16.68,
-      "max": 16.74
-    }
-  },
-  {
-    "companyName": "Allen Ltd",
-    "ticker": "IRJN",
-    "marketCap": "1577.9",
-    "industry": "Real Estate",
-    "currentPrice": 498.4,
-    "intrinsicPrice": {
-      "min": 491.92,
-      "max": 542.44
-    }
-  },
-  {
-    "companyName": "Madden Inc",
-    "ticker": "SPV",
-    "marketCap": "743.4",
+    "companyName": "Wright, Scott and Juarez",
+    "ticker": "OKOH",
+    "marketCap": "577.3",
     "industry": "Finance",
-    "currentPrice": 186.67,
+    "currentPrice": 94.69,
     "intrinsicPrice": {
-      "min": 174.73,
-      "max": 190.74
+      "min": 86.87,
+      "max": 98.91
     }
   },
   {
-    "companyName": "Schneider Ltd",
-    "ticker": "CNAWP",
-    "marketCap": "270.5",
-    "industry": "Technology",
-    "currentPrice": 145.23,
+    "companyName": "Bates-Burgess",
+    "ticker": "RQSS",
+    "marketCap": "1393.7",
+    "industry": "Utilities",
+    "currentPrice": 344.49,
     "intrinsicPrice": {
-      "min": 133.76,
-      "max": 156.13
+      "min": 326.37,
+      "max": 348.85
     }
   },
   {
-    "companyName": "Smith-Pruitt",
-    "ticker": "ZOLLT",
-    "marketCap": "549.6",
+    "companyName": "Davila, Jones and Powell",
+    "ticker": "KYDWY",
+    "marketCap": "913.2",
     "industry": "Consumer Goods",
-    "currentPrice": 207.51,
+    "currentPrice": 297.99,
     "intrinsicPrice": {
-      "min": 199.7,
-      "max": 211.27
+      "min": 269.52,
+      "max": 301.16
     }
   },
   {
-    "companyName": "Jacobs Group",
-    "ticker": "OPTAD",
-    "marketCap": "1321.1",
+    "companyName": "Rivera Group",
+    "ticker": "KHIFS",
+    "marketCap": "657.7",
+    "industry": "Telecommunications",
+    "currentPrice": 128.3,
+    "intrinsicPrice": {
+      "min": 116.18,
+      "max": 138.78
+    }
+  },
+  {
+    "companyName": "Pugh Group",
+    "ticker": "STDCM",
+    "marketCap": "1585.8",
+    "industry": "Energy",
+    "currentPrice": 405.47,
+    "intrinsicPrice": {
+      "min": 398.23,
+      "max": 409.24
+    }
+  },
+  {
+    "companyName": "Carroll, Smith and Malone",
+    "ticker": "VXLJ",
+    "marketCap": "1647.1",
+    "industry": "Technology",
+    "currentPrice": 412.35,
+    "intrinsicPrice": {
+      "min": 381.67,
+      "max": 413.63
+    }
+  },
+  {
+    "companyName": "Paul Inc",
+    "ticker": "OITMP",
+    "marketCap": "1565.9",
+    "industry": "Technology",
+    "currentPrice": 351.35,
+    "intrinsicPrice": {
+      "min": 339.79,
+      "max": 361.45
+    }
+  },
+  {
+    "companyName": "Davis-Waters",
+    "ticker": "MRQID",
+    "marketCap": "846.7",
+    "industry": "Transportation",
+    "currentPrice": 109.84,
+    "intrinsicPrice": {
+      "min": 102.41,
+      "max": 118.89
+    }
+  },
+  {
+    "companyName": "Edwards PLC",
+    "ticker": "UUEMA",
+    "marketCap": "1175.3",
     "industry": "Retail",
-    "currentPrice": 473.15,
+    "currentPrice": 169.71,
     "intrinsicPrice": {
-      "min": 458.77,
-      "max": 475.88
+      "min": 167.76,
+      "max": 186.09
     }
   },
   {
-    "companyName": "Hernandez, Martin and Franklin",
-    "ticker": "QFED",
-    "marketCap": "1624.4",
+    "companyName": "Gill Group",
+    "ticker": "RKN",
+    "marketCap": "1135.2",
     "industry": "Retail",
-    "currentPrice": 416.15,
+    "currentPrice": 206.62,
     "intrinsicPrice": {
-      "min": 414.42,
-      "max": 432.91
+      "min": 201.58,
+      "max": 211.28
     }
   },
   {
-    "companyName": "Williams, Hill and Nguyen",
-    "ticker": "QGQ",
-    "marketCap": "1745.9",
-    "industry": "Finance",
-    "currentPrice": 60.13,
-    "intrinsicPrice": {
-      "min": 56.7,
-      "max": 62.11
-    }
-  },
-  {
-    "companyName": "Miller, Vega and Gutierrez",
-    "ticker": "NLGOA",
-    "marketCap": "1653.7",
-    "industry": "Energy",
-    "currentPrice": 189.2,
-    "intrinsicPrice": {
-      "min": 182.94,
-      "max": 191.75
-    }
-  },
-  {
-    "companyName": "Howell LLC",
-    "ticker": "PDFUS",
-    "marketCap": "1117.9",
-    "industry": "Real Estate",
-    "currentPrice": 419.48,
-    "intrinsicPrice": {
-      "min": 379.44,
-      "max": 444.12
-    }
-  },
-  {
-    "companyName": "Palmer, Lloyd and Ingram",
-    "ticker": "WVX",
-    "marketCap": "1209.4",
-    "industry": "Consumer Goods",
-    "currentPrice": 329.63,
-    "intrinsicPrice": {
-      "min": 327.53,
-      "max": 343.98
-    }
-  },
-  {
-    "companyName": "Grant LLC",
-    "ticker": "YSM",
-    "marketCap": "539.6",
-    "industry": "Transportation",
-    "currentPrice": 337.86,
-    "intrinsicPrice": {
-      "min": 333.94,
-      "max": 363.21
-    }
-  },
-  {
-    "companyName": "Alexander LLC",
-    "ticker": "OHNP",
-    "marketCap": "1136.2",
-    "industry": "Finance",
-    "currentPrice": 431.29,
-    "intrinsicPrice": {
-      "min": 416.56,
-      "max": 441.36
-    }
-  },
-  {
-    "companyName": "Daniels-Brown",
-    "ticker": "VCTVG",
-    "marketCap": "1813.0",
-    "industry": "Transportation",
-    "currentPrice": 401.68,
-    "intrinsicPrice": {
-      "min": 386.29,
-      "max": 426.39
-    }
-  },
-  {
-    "companyName": "Patterson Inc",
-    "ticker": "NKCY",
-    "marketCap": "539.6",
-    "industry": "Consumer Goods",
-    "currentPrice": 355.81,
-    "intrinsicPrice": {
-      "min": 334.75,
-      "max": 370.46
-    }
-  },
-  {
-    "companyName": "Gates-Jones",
-    "ticker": "LOYRI",
-    "marketCap": "1023.3",
-    "industry": "Transportation",
-    "currentPrice": 269.47,
-    "intrinsicPrice": {
-      "min": 262.59,
-      "max": 276.77
-    }
-  },
-  {
-    "companyName": "Johnson, Mullins and Sharp",
-    "ticker": "UYY",
-    "marketCap": "1339.4",
-    "industry": "Energy",
-    "currentPrice": 392.79,
-    "intrinsicPrice": {
-      "min": 362.62,
-      "max": 422.49
-    }
-  },
-  {
-    "companyName": "Woods, Steele and Church",
-    "ticker": "OSO",
-    "marketCap": "260.2",
-    "industry": "Transportation",
-    "currentPrice": 70.62,
-    "intrinsicPrice": {
-      "min": 66.12,
-      "max": 71.77
-    }
-  },
-  {
-    "companyName": "Nguyen, Hanson and Patterson",
-    "ticker": "PTM",
-    "marketCap": "304.1",
-    "industry": "Consumer Goods",
-    "currentPrice": 273.44,
-    "intrinsicPrice": {
-      "min": 261.9,
-      "max": 283.85
-    }
-  },
-  {
-    "companyName": "Patterson Inc",
-    "ticker": "RNJNF",
-    "marketCap": "782.9",
-    "industry": "Real Estate",
-    "currentPrice": 39.23,
-    "intrinsicPrice": {
-      "min": 35.32,
-      "max": 41.31
-    }
-  },
-  {
-    "companyName": "Parsons-Patel",
-    "ticker": "HZX",
-    "marketCap": "1703.9",
-    "industry": "Consumer Goods",
-    "currentPrice": 237.78,
-    "intrinsicPrice": {
-      "min": 229.13,
-      "max": 249.02
-    }
-  },
-  {
-    "companyName": "Carter, Smith and Robinson",
-    "ticker": "UZYG",
-    "marketCap": "311.2",
-    "industry": "Finance",
-    "currentPrice": 367.45,
-    "intrinsicPrice": {
-      "min": 355.89,
-      "max": 394.9
-    }
-  },
-  {
-    "companyName": "Hardy-Guzman",
-    "ticker": "ZYK",
-    "marketCap": "1892.9",
-    "industry": "Finance",
-    "currentPrice": 159.9,
-    "intrinsicPrice": {
-      "min": 159.42,
-      "max": 169.55
-    }
-  },
-  {
-    "companyName": "Francis Ltd",
-    "ticker": "YWA",
-    "marketCap": "134.7",
-    "industry": "Energy",
-    "currentPrice": 227.0,
-    "intrinsicPrice": {
-      "min": 220.33,
-      "max": 241.5
-    }
-  },
-  {
-    "companyName": "Patel-Gilbert",
-    "ticker": "JBAN",
-    "marketCap": "161.1",
+    "companyName": "Cline, Gross and Fisher",
+    "ticker": "IYEFT",
+    "marketCap": "693.0",
     "industry": "Telecommunications",
-    "currentPrice": 495.82,
+    "currentPrice": 372.11,
     "intrinsicPrice": {
-      "min": 486.91,
-      "max": 516.3
+      "min": 342.15,
+      "max": 381.39
     }
   },
   {
-    "companyName": "May-Chang",
-    "ticker": "JTLRB",
-    "marketCap": "1251.1",
-    "industry": "Telecommunications",
-    "currentPrice": 155.55,
+    "companyName": "Liu Ltd",
+    "ticker": "BFUR",
+    "marketCap": "997.5",
+    "industry": "Technology",
+    "currentPrice": 476.31,
     "intrinsicPrice": {
-      "min": 149.31,
-      "max": 166.47
+      "min": 472.7,
+      "max": 522.23
     }
   },
   {
-    "companyName": "Strong and Sons",
-    "ticker": "DQJG",
-    "marketCap": "1871.3",
-    "industry": "Utilities",
-    "currentPrice": 92.78,
-    "intrinsicPrice": {
-      "min": 90.85,
-      "max": 100.0
-    }
-  },
-  {
-    "companyName": "Walters-Ward",
-    "ticker": "HDN",
-    "marketCap": "956.2",
-    "industry": "Utilities",
-    "currentPrice": 159.84,
-    "intrinsicPrice": {
-      "min": 144.11,
-      "max": 163.6
-    }
-  },
-  {
-    "companyName": "Nelson, Skinner and Hodges",
-    "ticker": "BYXHR",
-    "marketCap": "1010.3",
+    "companyName": "Acosta, Zamora and Reynolds",
+    "ticker": "UEUF",
+    "marketCap": "1441.0",
     "industry": "Healthcare",
-    "currentPrice": 79.4,
+    "currentPrice": 349.46,
     "intrinsicPrice": {
-      "min": 76.95,
-      "max": 81.97
-    }
-  },
-  {
-    "companyName": "Price-Hernandez",
-    "ticker": "VXAJ",
-    "marketCap": "258.7",
-    "industry": "Transportation",
-    "currentPrice": 230.34,
-    "intrinsicPrice": {
-      "min": 222.74,
-      "max": 237.0
-    }
-  },
-  {
-    "companyName": "Gutierrez-Garza",
-    "ticker": "ZWT",
-    "marketCap": "522.4",
-    "industry": "Energy",
-    "currentPrice": 325.85,
-    "intrinsicPrice": {
-      "min": 293.6,
-      "max": 353.49
-    }
-  },
-  {
-    "companyName": "King and Sons",
-    "ticker": "IYPF",
-    "marketCap": "1408.8",
-    "industry": "Technology",
-    "currentPrice": 260.71,
-    "intrinsicPrice": {
-      "min": 236.0,
-      "max": 278.2
-    }
-  },
-  {
-    "companyName": "Rodriguez PLC",
-    "ticker": "PBV",
-    "marketCap": "306.4",
-    "industry": "Consumer Goods",
-    "currentPrice": 225.03,
-    "intrinsicPrice": {
-      "min": 208.34,
-      "max": 241.1
-    }
-  },
-  {
-    "companyName": "Davis-Mendoza",
-    "ticker": "GDT",
-    "marketCap": "903.1",
-    "industry": "Transportation",
-    "currentPrice": 435.71,
-    "intrinsicPrice": {
-      "min": 406.93,
-      "max": 449.11
-    }
-  },
-  {
-    "companyName": "Parks, Bell and Kennedy",
-    "ticker": "JAJUG",
-    "marketCap": "1324.1",
-    "industry": "Transportation",
-    "currentPrice": 459.11,
-    "intrinsicPrice": {
-      "min": 454.77,
-      "max": 495.99
-    }
-  },
-  {
-    "companyName": "Murray and Sons",
-    "ticker": "LVZJK",
-    "marketCap": "1304.8",
-    "industry": "Real Estate",
-    "currentPrice": 240.54,
-    "intrinsicPrice": {
-      "min": 217.09,
-      "max": 256.1
-    }
-  },
-  {
-    "companyName": "White Inc",
-    "ticker": "QQRT",
-    "marketCap": "271.8",
-    "industry": "Finance",
-    "currentPrice": 138.46,
-    "intrinsicPrice": {
-      "min": 135.27,
-      "max": 140.13
-    }
-  },
-  {
-    "companyName": "Obrien Inc",
-    "ticker": "FIMJ",
-    "marketCap": "415.5",
-    "industry": "Technology",
-    "currentPrice": 142.92,
-    "intrinsicPrice": {
-      "min": 142.9,
-      "max": 148.0
-    }
-  },
-  {
-    "companyName": "Archer, Bennett and Howe",
-    "ticker": "RKJGK",
-    "marketCap": "1212.5",
-    "industry": "Utilities",
-    "currentPrice": 170.3,
-    "intrinsicPrice": {
-      "min": 161.36,
-      "max": 178.45
-    }
-  },
-  {
-    "companyName": "Roberts PLC",
-    "ticker": "MYTR",
-    "marketCap": "1815.8",
-    "industry": "Healthcare",
-    "currentPrice": 348.58,
-    "intrinsicPrice": {
-      "min": 331.48,
-      "max": 372.77
-    }
-  },
-  {
-    "companyName": "Stone-Singleton",
-    "ticker": "UIH",
-    "marketCap": "1607.3",
-    "industry": "Technology",
-    "currentPrice": 13.41,
-    "intrinsicPrice": {
-      "min": 13.16,
-      "max": 14.36
-    }
-  },
-  {
-    "companyName": "Smith-Johnston",
-    "ticker": "GQFKA",
-    "marketCap": "923.4",
-    "industry": "Real Estate",
-    "currentPrice": 220.46,
-    "intrinsicPrice": {
-      "min": 212.06,
-      "max": 230.23
-    }
-  },
-  {
-    "companyName": "Aguirre and Sons",
-    "ticker": "PEFF",
-    "marketCap": "955.1",
-    "industry": "Consumer Goods",
-    "currentPrice": 146.28,
-    "intrinsicPrice": {
-      "min": 138.05,
-      "max": 158.34
-    }
-  },
-  {
-    "companyName": "Crane PLC",
-    "ticker": "RLIIO",
-    "marketCap": "171.9",
-    "industry": "Consumer Goods",
-    "currentPrice": 205.74,
-    "intrinsicPrice": {
-      "min": 193.58,
-      "max": 207.14
-    }
-  },
-  {
-    "companyName": "Joseph Ltd",
-    "ticker": "ION",
-    "marketCap": "1995.7",
-    "industry": "Energy",
-    "currentPrice": 138.37,
-    "intrinsicPrice": {
-      "min": 130.68,
-      "max": 147.43
-    }
-  },
-  {
-    "companyName": "Schwartz, Morgan and Estrada",
-    "ticker": "CVT",
-    "marketCap": "894.9",
-    "industry": "Consumer Goods",
-    "currentPrice": 361.45,
-    "intrinsicPrice": {
-      "min": 349.53,
+      "min": 331.97,
       "max": 382.56
     }
   },
   {
-    "companyName": "Hartman-Lee",
-    "ticker": "JVGDZ",
-    "marketCap": "1215.2",
-    "industry": "Transportation",
-    "currentPrice": 34.26,
+    "companyName": "Martinez, Collins and Clark",
+    "ticker": "VRG",
+    "marketCap": "855.9",
+    "industry": "Telecommunications",
+    "currentPrice": 214.15,
     "intrinsicPrice": {
-      "min": 33.01,
-      "max": 36.75
+      "min": 210.97,
+      "max": 228.4
+    }
+  },
+  {
+    "companyName": "Rhodes-Brooks",
+    "ticker": "RKFV",
+    "marketCap": "1403.5",
+    "industry": "Energy",
+    "currentPrice": 49.82,
+    "intrinsicPrice": {
+      "min": 46.29,
+      "max": 54.58
+    }
+  },
+  {
+    "companyName": "Burgess, Stephens and Williams",
+    "ticker": "GKFM",
+    "marketCap": "1823.7",
+    "industry": "Consumer Goods",
+    "currentPrice": 180.35,
+    "intrinsicPrice": {
+      "min": 163.17,
+      "max": 194.27
+    }
+  },
+  {
+    "companyName": "Murillo-Kirby",
+    "ticker": "YKRDF",
+    "marketCap": "1560.5",
+    "industry": "Energy",
+    "currentPrice": 157.35,
+    "intrinsicPrice": {
+      "min": 148.16,
+      "max": 162.73
+    }
+  },
+  {
+    "companyName": "Guzman-Green",
+    "ticker": "WBD",
+    "marketCap": "420.3",
+    "industry": "Real Estate",
+    "currentPrice": 174.62,
+    "intrinsicPrice": {
+      "min": 167.29,
+      "max": 182.1
+    }
+  },
+  {
+    "companyName": "Bentley, Hughes and Brown",
+    "ticker": "WRPSY",
+    "marketCap": "497.1",
+    "industry": "Energy",
+    "currentPrice": 45.99,
+    "intrinsicPrice": {
+      "min": 43.51,
+      "max": 47.89
+    }
+  },
+  {
+    "companyName": "Klein-Larson",
+    "ticker": "HZP",
+    "marketCap": "1662.1",
+    "industry": "Utilities",
+    "currentPrice": 333.14,
+    "intrinsicPrice": {
+      "min": 331.02,
+      "max": 353.99
+    }
+  },
+  {
+    "companyName": "Hernandez-Hall",
+    "ticker": "HGO",
+    "marketCap": "1947.3",
+    "industry": "Retail",
+    "currentPrice": 429.65,
+    "intrinsicPrice": {
+      "min": 401.25,
+      "max": 439.04
+    }
+  },
+  {
+    "companyName": "Ingram, Gomez and Richardson",
+    "ticker": "CRHB",
+    "marketCap": "93.7",
+    "industry": "Energy",
+    "currentPrice": 324.95,
+    "intrinsicPrice": {
+      "min": 301.42,
+      "max": 346.24
+    }
+  },
+  {
+    "companyName": "French-Rivera",
+    "ticker": "PIGLA",
+    "marketCap": "709.0",
+    "industry": "Finance",
+    "currentPrice": 363.14,
+    "intrinsicPrice": {
+      "min": 360.5,
+      "max": 392.97
+    }
+  },
+  {
+    "companyName": "Sanchez-Fowler",
+    "ticker": "SMT",
+    "marketCap": "567.0",
+    "industry": "Transportation",
+    "currentPrice": 415.36,
+    "intrinsicPrice": {
+      "min": 413.78,
+      "max": 438.24
+    }
+  },
+  {
+    "companyName": "Horton-Taylor",
+    "ticker": "WZNM",
+    "marketCap": "813.6",
+    "industry": "Energy",
+    "currentPrice": 225.81,
+    "intrinsicPrice": {
+      "min": 214.37,
+      "max": 241.15
+    }
+  },
+  {
+    "companyName": "Ellis-Rogers",
+    "ticker": "JTRTR",
+    "marketCap": "349.9",
+    "industry": "Real Estate",
+    "currentPrice": 80.24,
+    "intrinsicPrice": {
+      "min": 74.04,
+      "max": 81.87
+    }
+  },
+  {
+    "companyName": "Thomas and Sons",
+    "ticker": "CTAIR",
+    "marketCap": "819.7",
+    "industry": "Energy",
+    "currentPrice": 167.14,
+    "intrinsicPrice": {
+      "min": 158.23,
+      "max": 170.65
+    }
+  },
+  {
+    "companyName": "Dominguez, Johnson and Gonzalez",
+    "ticker": "MDPF",
+    "marketCap": "1138.6",
+    "industry": "Technology",
+    "currentPrice": 249.73,
+    "intrinsicPrice": {
+      "min": 249.09,
+      "max": 263.91
+    }
+  },
+  {
+    "companyName": "Grimes, Warren and Mclaughlin",
+    "ticker": "HQET",
+    "marketCap": "1506.9",
+    "industry": "Consumer Goods",
+    "currentPrice": 21.52,
+    "intrinsicPrice": {
+      "min": 20.6,
+      "max": 22.25
+    }
+  },
+  {
+    "companyName": "Padilla, Barron and Martinez",
+    "ticker": "HRNH",
+    "marketCap": "724.3",
+    "industry": "Telecommunications",
+    "currentPrice": 54.64,
+    "intrinsicPrice": {
+      "min": 49.36,
+      "max": 55.06
+    }
+  },
+  {
+    "companyName": "Romero PLC",
+    "ticker": "GLRK",
+    "marketCap": "1476.1",
+    "industry": "Finance",
+    "currentPrice": 58.64,
+    "intrinsicPrice": {
+      "min": 52.96,
+      "max": 62.26
+    }
+  },
+  {
+    "companyName": "Holmes, Jones and Castillo",
+    "ticker": "CCUH",
+    "marketCap": "1944.9",
+    "industry": "Telecommunications",
+    "currentPrice": 380.92,
+    "intrinsicPrice": {
+      "min": 379.6,
+      "max": 398.3
+    }
+  },
+  {
+    "companyName": "Hall-Williams",
+    "ticker": "RGXAP",
+    "marketCap": "1261.5",
+    "industry": "Telecommunications",
+    "currentPrice": 420.91,
+    "intrinsicPrice": {
+      "min": 418.94,
+      "max": 429.17
+    }
+  },
+  {
+    "companyName": "Garrett LLC",
+    "ticker": "DZG",
+    "marketCap": "308.7",
+    "industry": "Transportation",
+    "currentPrice": 199.54,
+    "intrinsicPrice": {
+      "min": 195.13,
+      "max": 217.46
+    }
+  },
+  {
+    "companyName": "Farmer-Vaughn",
+    "ticker": "OGMA",
+    "marketCap": "1024.1",
+    "industry": "Technology",
+    "currentPrice": 102.09,
+    "intrinsicPrice": {
+      "min": 93.78,
+      "max": 109.97
+    }
+  },
+  {
+    "companyName": "Martin-Jones",
+    "ticker": "RTCK",
+    "marketCap": "1275.4",
+    "industry": "Consumer Goods",
+    "currentPrice": 234.24,
+    "intrinsicPrice": {
+      "min": 228.44,
+      "max": 242.96
+    }
+  },
+  {
+    "companyName": "Rasmussen-Miller",
+    "ticker": "FFXH",
+    "marketCap": "117.0",
+    "industry": "Technology",
+    "currentPrice": 222.77,
+    "intrinsicPrice": {
+      "min": 205.72,
+      "max": 230.17
+    }
+  },
+  {
+    "companyName": "Levine-Kramer",
+    "ticker": "LNEZ",
+    "marketCap": "1280.1",
+    "industry": "Energy",
+    "currentPrice": 287.82,
+    "intrinsicPrice": {
+      "min": 282.0,
+      "max": 312.06
+    }
+  },
+  {
+    "companyName": "Cruz Inc",
+    "ticker": "QPPOC",
+    "marketCap": "54.1",
+    "industry": "Retail",
+    "currentPrice": 477.23,
+    "intrinsicPrice": {
+      "min": 465.21,
+      "max": 519.41
+    }
+  },
+  {
+    "companyName": "Allen-Erickson",
+    "ticker": "ZJZ",
+    "marketCap": "1380.8",
+    "industry": "Energy",
+    "currentPrice": 199.26,
+    "intrinsicPrice": {
+      "min": 197.55,
+      "max": 214.58
+    }
+  },
+  {
+    "companyName": "Hurst-Alvarez",
+    "ticker": "ABRIG",
+    "marketCap": "885.5",
+    "industry": "Utilities",
+    "currentPrice": 410.11,
+    "intrinsicPrice": {
+      "min": 401.2,
+      "max": 413.55
+    }
+  },
+  {
+    "companyName": "Walker-Gonzalez",
+    "ticker": "VOBSE",
+    "marketCap": "1711.0",
+    "industry": "Healthcare",
+    "currentPrice": 192.67,
+    "intrinsicPrice": {
+      "min": 191.65,
+      "max": 207.03
+    }
+  },
+  {
+    "companyName": "Gill, Mcbride and Aguirre",
+    "ticker": "ZSW",
+    "marketCap": "235.0",
+    "industry": "Telecommunications",
+    "currentPrice": 430.65,
+    "intrinsicPrice": {
+      "min": 414.81,
+      "max": 437.39
+    }
+  },
+  {
+    "companyName": "Stevens Inc",
+    "ticker": "GPLZY",
+    "marketCap": "924.6",
+    "industry": "Finance",
+    "currentPrice": 381.64,
+    "intrinsicPrice": {
+      "min": 348.14,
+      "max": 392.74
+    }
+  },
+  {
+    "companyName": "Harris LLC",
+    "ticker": "ITVK",
+    "marketCap": "689.0",
+    "industry": "Finance",
+    "currentPrice": 480.53,
+    "intrinsicPrice": {
+      "min": 445.39,
+      "max": 518.42
+    }
+  },
+  {
+    "companyName": "Houston LLC",
+    "ticker": "EMJ",
+    "marketCap": "560.3",
+    "industry": "Utilities",
+    "currentPrice": 461.16,
+    "intrinsicPrice": {
+      "min": 428.27,
+      "max": 484.15
+    }
+  },
+  {
+    "companyName": "Marsh Group",
+    "ticker": "JSPWQ",
+    "marketCap": "1291.2",
+    "industry": "Technology",
+    "currentPrice": 497.47,
+    "intrinsicPrice": {
+      "min": 482.4,
+      "max": 504.79
+    }
+  },
+  {
+    "companyName": "Harris, Morris and Smith",
+    "ticker": "TMN",
+    "marketCap": "1970.4",
+    "industry": "Telecommunications",
+    "currentPrice": 267.02,
+    "intrinsicPrice": {
+      "min": 244.8,
+      "max": 280.22
+    }
+  },
+  {
+    "companyName": "Smith, Sanders and Hernandez",
+    "ticker": "UJJI",
+    "marketCap": "1268.2",
+    "industry": "Transportation",
+    "currentPrice": 161.68,
+    "intrinsicPrice": {
+      "min": 147.61,
+      "max": 175.24
+    }
+  },
+  {
+    "companyName": "Nunez-Jacobs",
+    "ticker": "CZYOM",
+    "marketCap": "1903.1",
+    "industry": "Energy",
+    "currentPrice": 160.58,
+    "intrinsicPrice": {
+      "min": 144.59,
+      "max": 170.34
+    }
+  },
+  {
+    "companyName": "Cox PLC",
+    "ticker": "CJNQW",
+    "marketCap": "638.6",
+    "industry": "Consumer Goods",
+    "currentPrice": 381.95,
+    "intrinsicPrice": {
+      "min": 370.9,
+      "max": 409.65
+    }
+  },
+  {
+    "companyName": "Nguyen-Long",
+    "ticker": "CTO",
+    "marketCap": "1463.2",
+    "industry": "Telecommunications",
+    "currentPrice": 95.53,
+    "intrinsicPrice": {
+      "min": 88.81,
+      "max": 103.97
+    }
+  },
+  {
+    "companyName": "Campbell-Wilcox",
+    "ticker": "VEL",
+    "marketCap": "709.9",
+    "industry": "Telecommunications",
+    "currentPrice": 248.08,
+    "intrinsicPrice": {
+      "min": 229.7,
+      "max": 265.34
+    }
+  },
+  {
+    "companyName": "Ortega, Hamilton and Kim",
+    "ticker": "KDH",
+    "marketCap": "859.4",
+    "industry": "Energy",
+    "currentPrice": 429.49,
+    "intrinsicPrice": {
+      "min": 392.62,
+      "max": 432.04
+    }
+  },
+  {
+    "companyName": "Carter, Smith and Burgess",
+    "ticker": "EQN",
+    "marketCap": "239.0",
+    "industry": "Healthcare",
+    "currentPrice": 497.71,
+    "intrinsicPrice": {
+      "min": 458.56,
+      "max": 528.63
+    }
+  },
+  {
+    "companyName": "Simmons Ltd",
+    "ticker": "JZH",
+    "marketCap": "1592.9",
+    "industry": "Real Estate",
+    "currentPrice": 365.71,
+    "intrinsicPrice": {
+      "min": 334.69,
+      "max": 375.42
+    }
+  },
+  {
+    "companyName": "Conway-White",
+    "ticker": "KWHQ",
+    "marketCap": "1885.3",
+    "industry": "Real Estate",
+    "currentPrice": 13.36,
+    "intrinsicPrice": {
+      "min": 12.63,
+      "max": 14.36
+    }
+  },
+  {
+    "companyName": "Hughes, Campos and Long",
+    "ticker": "GTTPD",
+    "marketCap": "752.3",
+    "industry": "Telecommunications",
+    "currentPrice": 133.12,
+    "intrinsicPrice": {
+      "min": 125.84,
+      "max": 140.65
+    }
+  },
+  {
+    "companyName": "Davis, Calderon and Hall",
+    "ticker": "IPS",
+    "marketCap": "488.7",
+    "industry": "Utilities",
+    "currentPrice": 69.39,
+    "intrinsicPrice": {
+      "min": 67.02,
+      "max": 72.7
+    }
+  },
+  {
+    "companyName": "Garcia-Mack",
+    "ticker": "ZWEL",
+    "marketCap": "1852.0",
+    "industry": "Energy",
+    "currentPrice": 150.08,
+    "intrinsicPrice": {
+      "min": 141.4,
+      "max": 156.17
+    }
+  },
+  {
+    "companyName": "Stanley, Wilson and Mueller",
+    "ticker": "HGM",
+    "marketCap": "1452.6",
+    "industry": "Transportation",
+    "currentPrice": 214.6,
+    "intrinsicPrice": {
+      "min": 194.97,
+      "max": 220.6
+    }
+  },
+  {
+    "companyName": "Valencia, Carney and Solomon",
+    "ticker": "UOPVF",
+    "marketCap": "1512.2",
+    "industry": "Healthcare",
+    "currentPrice": 417.63,
+    "intrinsicPrice": {
+      "min": 405.36,
+      "max": 440.51
+    }
+  },
+  {
+    "companyName": "Gomez LLC",
+    "ticker": "IDPD",
+    "marketCap": "1159.7",
+    "industry": "Energy",
+    "currentPrice": 342.19,
+    "intrinsicPrice": {
+      "min": 339.2,
+      "max": 365.78
+    }
+  },
+  {
+    "companyName": "Long, Barnes and Durham",
+    "ticker": "EXZ",
+    "marketCap": "142.2",
+    "industry": "Utilities",
+    "currentPrice": 64.83,
+    "intrinsicPrice": {
+      "min": 59.33,
+      "max": 66.89
+    }
+  },
+  {
+    "companyName": "Villegas-Patel",
+    "ticker": "BMEZD",
+    "marketCap": "1021.2",
+    "industry": "Consumer Goods",
+    "currentPrice": 476.41,
+    "intrinsicPrice": {
+      "min": 451.63,
+      "max": 517.58
+    }
+  },
+  {
+    "companyName": "Welch-Cervantes",
+    "ticker": "ZBJUG",
+    "marketCap": "1509.4",
+    "industry": "Transportation",
+    "currentPrice": 407.8,
+    "intrinsicPrice": {
+      "min": 394.87,
+      "max": 440.53
     }
   }
 ]

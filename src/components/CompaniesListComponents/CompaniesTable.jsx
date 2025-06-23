@@ -3,21 +3,6 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-// Generate 70 realistic dummy companies
-// const companies = Array.from({ length: 70 }).map((_, i) => {
-//   return {
-//     id: i + 1,
-//     name: `Company ${i + 1}`,
-//     ticker: `TICK${i + 1}`,
-//     marketCap: Math.round(Math.random() * 100000) + 500,
-//     industry: ["Technology", "Healthcare", "Retail", "Energy", "Automotive"][
-//       Math.floor(Math.random() * 5)
-//     ],
-//     currentPrice: parseFloat((Math.random() * 500).toFixed(2)),
-//     intrinsicValue: parseFloat((Math.random() * 500).toFixed(2)),
-//   };
-// });
-
 function CompaniesTable() {
   const [companies, setCompanies] = useState([]);
 
@@ -42,6 +27,7 @@ function CompaniesTable() {
   const perPage = 15;
 
   const industryOptions = [
+    "All sectors",
     "Technology",
     "Finance",
     "Healthcare",
@@ -156,7 +142,7 @@ function CompaniesTable() {
 
         <div className="col-12  mb-3 col-md-2">
           <button
-            className="btn btn-outline-primary w-100"
+            className="btn btn-outline-dark w-100"
             style={{ minWidth: "130px" }}
             onClick={() => {
               setSearchTerm("");
@@ -194,24 +180,28 @@ function CompaniesTable() {
                     left: idx === 0 ? 0 : "",
                     zIndex: idx === 0 ? 2 : "",
                     background: "white",
-                    color: "black"
-                    
+                    color: "black",
+                    width: idx === 0 ? "250px" : "auto", // even wider
+                    minWidth: idx === 0 ? "250px" : "120px",
                   }}
                 >
                   {field.charAt(0).toUpperCase() + field.slice(1)}
-                  {sortField === field && (sortOrder === "asc" ? " 🔼" : " 🔽")}
+                  {sortField === field &&
+                    (sortOrder === "asc" ? "\u00A0▲" : "\u00A0▼")}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="fs-6">
+          <tbody style={{ fontSize: "0.8rem" }}>
+            {" "}
+            {/* Smallest Bootstrap-ish readable size */}
             {paged.map((comp) => (
               <tr
                 key={comp.ticker}
                 style={{ cursor: "pointer" }}
                 onClick={() =>
                   navigate(`/company-analysis?ticker=${comp.ticker}`)
-                } 
+                }
               >
                 <td
                   style={{
@@ -239,7 +229,7 @@ function CompaniesTable() {
       {/* Pagination */}
       <div className="d-flex justify-content-center align-items-center flex-wrap mt-2">
         <button
-          className="btn btn-primary me-2 mb-2"
+          className="btn  btn-dark me-2 mb-2"
           disabled={currentPage === 1}
           onClick={() => setCurrentPage(currentPage - 1)}
         >
@@ -250,10 +240,13 @@ function CompaniesTable() {
           {Array.from({ length: pageCount }).map((_, i) => (
             <li
               key={i}
-              className={`page-item ${currentPage === i + 1 ? "active" : ""}`}
+              className={`page-item ${currentPage === i + 1 ? "active border-0" : ""}`}
+
             >
               <button
-                className="page-link"
+                className={`page-link ${
+                  currentPage === i + 1 ? "bg-black border-black" : "text-black"
+                }`}
                 onClick={() => setCurrentPage(i + 1)}
               >
                 {i + 1}
@@ -263,7 +256,7 @@ function CompaniesTable() {
         </ul>
 
         <button
-          className="btn btn-primary ms-2 mb-2"
+          className="btn btn-dark ms-2 mb-2"
           disabled={currentPage === pageCount}
           onClick={() => setCurrentPage(currentPage + 1)}
         >

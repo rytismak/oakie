@@ -7,113 +7,49 @@ import {
   CartesianGrid,
   Tooltip,
   ReferenceArea,
-  ReferenceLine,
   ResponsiveContainer,
 } from "recharts";
 
-// --- 1. Generate daily prices for past 365 days ---
-function generateDailyPrices(start, days) {
-  let data = [];
-  let price = start;
-  for (let i = 0; i < days; i++) {
-    price = Math.max(50, price + (Math.random() - 0.5) * 5);
-    let date = new Date();
-    date.setDate(date.getDate() - (days - i)); // counting backwards
-    data.push({ date: date.toISOString().split("T")[0], price });
-  }
-  return data;
-}
+export default function PriceChart({ intrinsicValueEstimates = [], dailyStockPrice = [] }) {
+  if (!dailyStockPrice.length) return null;
 
-const priceData = generateDailyPrices(100, 365);
-
-//data for the cards
-const lastStckPrice=0;
-const lastIntrinsicMin=0;
-const lastIntrinsicMax=0;
-const lastPercent=0;
-
-// --- 2. Prepare 4 quarterly intrinsics ---
-function generateQuarterlyValues(data) {
-  const totalLength = data.length;
-  const quarterLength = Math.floor(totalLength / 4);
-  
-  // console.log('Total data length:', totalLength, 'Quarter length:', quarterLength);
-  
-  const quarters = [];
-  for (let i = 0; i < 4; i++) {
-    const startIdx = i * quarterLength;
-    let endIdx;
-    
-    if (i === 3) {
-      // Last quarter goes to the very end
-      endIdx = totalLength - 1;
-    } else {
-      endIdx = startIdx + quarterLength ;
-    }
-    
-    const base = data[startIdx].price;
-    
-    quarters.push({
-      idx: startIdx,
-      startIdx: startIdx,
-      endIdx: endIdx,
-      startDate: data[startIdx].date,
-      endDate: data[endIdx].date,
-      date: data[startIdx].date,
-      intrinsicMin: base * 0.9,
-      intrinsicMax: base * 1.1,
+  // Extend each price entry with matching intrinsic range
+  const filledData = dailyStockPrice.map((item) => {
+    const intrinsic = intrinsicValueEstimates.find((q) => {
+      const date = new Date(item.date);
+      return date >= new Date(q.startDate) && date <= new Date(q.endDate);
     });
-  }
-  
-  return quarters;
-}
-
-const quarterlyValues = generateQuarterlyValues(priceData);
-
-// --- 3. Combine into unified data ---
-function fillIntrinsics(priceData, quarters) {
-  return priceData.map((item, i) => {
-    let quarter = quarters.find((q) => i >= q.startIdx && i <= q.endIdx); // Fix: include endIdx
     return {
       ...item,
-      intrinsicMin: quarter ? quarter.intrinsicMin : null,
-      intrinsicMax: quarter ? quarter.intrinsicMax : null,
+      intrinsicMin: intrinsic ? intrinsic.min : null,
+      intrinsicMax: intrinsic ? intrinsic.max : null,
     };
   });
-}
 
-const filledData = fillIntrinsics(priceData, quarterlyValues);
+  const chartStart = dailyStockPrice[0].date.split("T")[0];
+  const chartEnd = dailyStockPrice[dailyStockPrice.length - 1].date.split("T")[0];
 
-// Determine minimum and maximum across price and intrinsics
-const allValues = filledData.reduce((acc, item) => {
-  acc.push(item.price);
-  if (item.intrinsicMin !== null) acc.push(item.intrinsicMin);
-  if (item.intrinsicMax !== null) acc.push(item.intrinsicMax);
-  return acc;
-}, []);
+  const allValues = filledData.reduce((acc, item) => {
+    acc.push(item.price);
+    if (item.intrinsicMin != null) acc.push(item.intrinsicMin);
+    if (item.intrinsicMax != null) acc.push(item.intrinsicMax);
+    return acc;
+  }, []);
 
-const minY = Math.min(...allValues);
-const maxY = Math.max(...allValues);
+  const minY = Math.min(...allValues);
+  const maxY = Math.max(...allValues);
+  const paddedMin = minY * 0.95;
+  const paddedMax = maxY * 1.05;
 
-const paddedMin = minY * 0.9;
-const paddedMax = maxY * 1.1;
-
-export default function PriceChart() {
-  // Debug: Log the first quarter data
-  // console.log('First quarter:', quarterlyValues[0]);
-  // console.log('First few data points:', filledData.slice(0, 5));
-  // console.log('Quarter indices:', quarterlyValues.map(q => ({ start: q.startIdx, end: q.endIdx })));
-  const firstOfMonthDates = filledData
-    .filter((item) => new Date(item.date).getUTCDate() === 1)
-    .map((item) => item.date);
-
-  // Define number of ticks you want (say 6 including min and max).
   const numberOfTicks = 4;
-
   const yTicks = Array.from(
     { length: numberOfTicks },
     (_, i) => paddedMin + (i * (paddedMax - paddedMin)) / (numberOfTicks - 1)
   );
+
+  const firstOfMonthDates = filledData
+    .filter((item) => new Date(item.date).getUTCDate() === 1)
+    .map((item) => item.date);
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length > 0) {
@@ -147,11 +83,8 @@ export default function PriceChart() {
   return (
     <div className="mb-4 mt-4">
       <h2 className="mb-4 pt-4 mt-4">Stock price vs Intrinsics (Past 365 days)</h2>
-      <ResponsiveContainer width="99%" height={200}>
-        <LineChart 
-          data={filledData}
-          margin={{ top: 5, right: 1, left: 1, bottom: 5}}
-        >
+      <ResponsiveContainer width="99%" height={240}>
+        <LineChart data={filledData} margin={{ top: 5, right: 1, left: 1, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             dataKey="date"
@@ -162,9 +95,8 @@ export default function PriceChart() {
             angle={-45}
             textAnchor="end"
             ticks={firstOfMonthDates}
-            domain={['dataMin', 'dataMax']}
+            domain={["dataMin", "dataMax"]}
           />
-
           <YAxis
             dataKey="price"
             tick={{ fontSize: 10 }}
@@ -172,25 +104,43 @@ export default function PriceChart() {
             tickFormatter={(value) => `$${value.toFixed(2)}`}
             domain={[paddedMin, paddedMax]}
           />
-
           <Tooltip content={<CustomTooltip />} />
-          
-          {/* Yellow areas for each quarter ` */}
-          {quarterlyValues.map((q, i) => (
-            <ReferenceArea
-              key={`area-${i}`}
-              x1={q.startDate}
-              x2={q.endDate}
-              y1={q.intrinsicMin}
-              y2={q.intrinsicMax}
-              fill="#ffff00"
-              fillOpacity={0.2}
-            />
-            
-          ))}
 
+          {/* --- Clamped intrinsic value zones --- */}
+          {intrinsicValueEstimates
+            .map((q) => {
+              const clampedStart = new Date(
+                Math.max(new Date(q.startDate), new Date(chartStart))
+              )
+                .toISOString()
+                .split("T")[0];
+              const clampedEnd = new Date(
+                Math.min(new Date(q.endDate), new Date(chartEnd))
+              )
+                .toISOString()
+                .split("T")[0];
 
-          {/* Stock price */}
+              return {
+                ...q,
+                clampedStart,
+                clampedEnd,
+              };
+            })
+            .filter((q) => new Date(q.clampedStart) <= new Date(q.clampedEnd))
+            .map((q, i) => (
+              <ReferenceArea
+                key={`q-${i}`}
+                x1={q.clampedStart}
+                x2={q.clampedEnd}
+                y1={q.min}
+                y2={q.max}
+                fill="#ffff00"
+                fillOpacity={0.2}
+                stroke="#000"
+                strokeOpacity={0.00}
+              />
+            ))}
+
           <Line
             stroke="#8884d8"
             dataKey="price"

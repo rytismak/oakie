@@ -4,6 +4,10 @@
   padding: 2rem;
   text-align: center;
 }
+:root {
+  --bs-primary: black;
+  --bs-primary-rgb: 0, 0, 0;
+}
 
 .logo {
   height: 6em;
