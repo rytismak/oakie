@@ -133,10 +133,10 @@ function CompaniesTable() {
             aria-label="Filter by market capitalization"
           >
             <option value="">All Market Caps</option>
-            <option value="Micro">Micro (&lt;$2B)</option>
-            <option value="Small">Small ($2B - $10B)</option>
-            <option value="Mid">Mid ($10B - $200B)</option>
-            <option value="Large">Large (&gt;$200B)</option>
+            <option value="Micro">Small (&lt;$2B)</option>
+            <option value="Small">Mid ($2B - $10B)</option>
+            <option value="Mid">Large ($10B - $200B)</option>
+            <option value="Large">Mega (&gt;$200B)</option>
           </select>
         </div>
 
