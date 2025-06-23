@@ -51,12 +51,12 @@ function CompaniesTable() {
 
   const filterByMarketCap = (comp) => {
     if (!filterMarketCap) return true;
-    if (filterMarketCap === "Micro") return comp.marketCap < 300;
+    if (filterMarketCap === "Micro") return comp.marketCap < 2;
     if (filterMarketCap === "Small")
-      return comp.marketCap >= 300 && comp.marketCap < 2000;
+      return comp.marketCap >= 2 && comp.marketCap < 10;
     if (filterMarketCap === "Mid")
-      return comp.marketCap >= 2000 && comp.marketCap <= 10000;
-    if (filterMarketCap === "Large") return comp.marketCap > 10000;
+      return comp.marketCap >= 10 && comp.marketCap <= 200;
+    if (filterMarketCap === "Large") return comp.marketCap > 200;
     return true;
   };
 
@@ -133,10 +133,10 @@ function CompaniesTable() {
             aria-label="Filter by market capitalization"
           >
             <option value="">All Market Caps</option>
-            <option value="Micro">Micro (&lt;$300M)</option>
-            <option value="Small">Small ($300M - $2B)</option>
-            <option value="Mid">Mid ($2B - $10B)</option>
-            <option value="Large">Large (&gt;$10B)</option>
+            <option value="Micro">Micro (&lt;$2B)</option>
+            <option value="Small">Small ($2B - $10B)</option>
+            <option value="Mid">Mid ($10B - $200B)</option>
+            <option value="Large">Large (&gt;$200B)</option>
           </select>
         </div>
 
