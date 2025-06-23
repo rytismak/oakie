@@ -28,15 +28,15 @@ function CompaniesTable() {
 
   const industryOptions = [
     "All sectors",
-    "Technology",
+    "Consumer Goods",
+    "Energy",
     "Finance",
     "Healthcare",
-    "Retail",
-    "Energy",
-    "Telecommunications",
     "Real Estate",
+    "Retail",
+    "Technology",
+    "Telecommunications",
     "Transportation",
-    "Consumer Goods",
     "Utilities",
   ];
 
@@ -240,8 +240,9 @@ function CompaniesTable() {
           {Array.from({ length: pageCount }).map((_, i) => (
             <li
               key={i}
-              className={`page-item ${currentPage === i + 1 ? "active border-0" : ""}`}
-
+              className={`page-item ${
+                currentPage === i + 1 ? "active border-0" : ""
+              }`}
             >
               <button
                 className={`page-link ${
