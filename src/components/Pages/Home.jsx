@@ -33,7 +33,7 @@ function Home() {
 
       {/* Header 1: Fundamental Analysis */}
       <section id="fundamental-analysis" className="mb-5">
-        <h2>Fundamental Analysis: Understanding True Value</h2>
+        <h2>Fundamental Analysis: Real understanding True Value</h2>
         <p>
           Fundamental analysis focuses on evaluating a company's **intrinsic
           value** by analyzing its financial statements, growth potential, and
