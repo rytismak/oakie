@@ -2,15 +2,16 @@ import React from "react";
 import { Card, Row, Col } from "react-bootstrap";
 
 const InfoCards = ({
-  stockPrice,
+  currentStockPrice,
   evaluationMin,
   evaluationMax,
   differencePercent,
 }) => {
   // Determine styling for Difference card
   const isPositive = differencePercent >= 0;
-  const borderColor = isPositive ? "success" : "danger";
-  const textColor = isPositive ? "text-success" : "text-danger";
+  const borderColor = !isPositive ? "success" : "danger";
+  const textColor = !isPositive ? "text-success" : "text-danger";
+  const valuation = !isPositive ? "undervalued" : "overvalued";
 
   const cardStyle = {
     borderLeft: `5px solid var(--bs-${borderColor})`,
@@ -23,7 +24,7 @@ const InfoCards = ({
           <Card.Body>
             <Card.Title className="h6 text-muted">Price</Card.Title>
             <Card.Text className="h5">
-              <strong>${stockPrice}</strong>
+              <strong>${currentStockPrice}</strong>
             </Card.Text>
           </Card.Body>
         </Card>
@@ -44,7 +45,7 @@ const InfoCards = ({
         <Card style={cardStyle}>
           <Card.Body>
             <Card.Title className="h6 text-muted">Difference</Card.Title>
-            <Card.Text className={`h5 ${textColor}`}><strong>{differencePercent}%</strong></Card.Text>
+            <Card.Text className={`h5 ${textColor}`}><strong>{differencePercent}% ({valuation})</strong></Card.Text>
           </Card.Body>
         </Card>
       </Col>

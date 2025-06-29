@@ -1,4 +1,3 @@
-// import "bootstrap/dist/css/bootstrap.min.css";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { Link } from "react-router-dom";
 import PriceChart from "../CompanyAnalysis/PriceChart";
@@ -10,13 +9,11 @@ import axios from "axios";
 
 // <span className="badge display-2 text-bg-warning">Top 3%</span>
 
-// const pageName = "ACME Corporation";
 export default function CompanyAnalysis() {
   const url = new URL(window.location.href);
   const params = new URLSearchParams(url.hash.split("?")[1]);
   const ticker = params.get("ticker").toLowerCase();
   const dataURL = `${import.meta.env.BASE_URL}data/details/${ticker}.json`;
-  // console.log(dataURL);
 
   const [companyData, setcompanyData] = useState([]);
 
@@ -25,10 +22,9 @@ export default function CompanyAnalysis() {
       .get(dataURL)
       .then((response) => {
         setcompanyData(response.data);
-        // console.log(response.data.evaluationMetrics);
       })
       .catch((error) => {
-        console.error("Failed to load companies:", error);
+        console.error("Failed to load data:", error);
       });
   }, []);
 
@@ -36,7 +32,7 @@ export default function CompanyAnalysis() {
     <div className="container mt-4">
       <Breadcrumb>
         <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/featured-companies" }}>
-          Home
+          Featured Companies
         </Breadcrumb.Item>
         <Breadcrumb.Item active>{companyData.companyName}</Breadcrumb.Item>
       </Breadcrumb>
@@ -47,14 +43,6 @@ export default function CompanyAnalysis() {
       {/* Company Description */}
       <p className="mt-4 text-muted">{companyData.description}</p>
 
-      <div className="container p-0 mt-4">
-        <InfoCards
-          stockPrice={120.5}
-          evaluationMin={115}
-          evaluationMax={125}
-          differencePercent={-3.2}
-        />
-      </div>
 
       <PriceChart
         intrinsicValueEstimates={companyData.intrinsicValueEstimates}
