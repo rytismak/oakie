@@ -39,6 +39,21 @@ function Home() {
           value** by analyzing its financial statements, growth potential, and
           economic environment.
         </p>
+        <p>
+          Fundamental analysis focuses on evaluating a company's **intrinsic
+          value** by analyzing its financial statements, growth potential, and
+          economic environment.
+        </p>
+        <p>
+          Fundamental analysis focuses on evaluating a company's **intrinsic
+          value** by analyzing its financial statements, growth potential, and
+          economic environment.
+        </p>
+                <img
+          src={`${import.meta.env.BASE_URL}Hubble-Telescope-Pictures-1920x1200-575678530.jpg`}
+          alt="Market Trends"
+          className="img-fluid rounded shadow"
+        />
 
         <h4>Key Components:</h4>
         <ul>
