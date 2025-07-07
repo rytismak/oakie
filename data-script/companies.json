@@ -1,0 +1,322 @@
+[
+    {
+        "Company": "ATLANTIC AMERICAN CORP",
+        "Ticker": "AAME",
+        "Sector": "Financials",
+        "Description": NaN,
+        "CurrentPrice": 2.2950000762939453,
+        "MarketCap": 43048827.68,
+        "DCFValue": 3.8913952151872926,
+        "ExitMultipleValue": 2.357111728119896,
+        "Points": 0,
+        "LatestPerformanceMetrics": {
+            "FCF yield": -4.1967345497423905,
+            "NOPAT": -4019898.1762917936,
+            "ROIC": -0.06276873625988466,
+            "ReinvRate": -0.055971566973259536,
+            "D/E": 0.0,
+            "ICR": -1.4391872278664732,
+            "OMS": -0.02634053562985119,
+            "EV/OCF": -0.22711110000000026,
+            "EVA/InvCap": -0.12637049636621217
+        },
+        "LatestPerformanceEvaluations": {
+            "FCF yield.1": "Weak",
+            "ROIC.1": "Weak",
+            "ReinvRate.1": "Weak",
+            "D/E.1": "Strong",
+            "ICR.1": "Weak",
+            "OMS.1": "Weak",
+            "EV/OCF.1": "Strong",
+            "EVA/InvCap.1": "Weak"
+        }
+    },
+    {
+        "Company": "AAON, INC.",
+        "Ticker": "AAON",
+        "Sector": "Industrials",
+        "Description": NaN,
+        "CurrentPrice": 74.54499816894531,
+        "MarketCap": 5975857986.75,
+        "DCFValue": 77.40313858741935,
+        "ExitMultipleValue": 77.03765693929874,
+        "Points": 0,
+        "LatestPerformanceMetrics": {
+            "FCF yield": 0.024459422675396598,
+            "NOPAT": 170620796.46257582,
+            "ROIC": 0.20298274079262574,
+            "ReinvRate": -0.13420403886710536,
+            "D/E": 0.019403770637729176,
+            "ICR": 74.39274279615795,
+            "OMS": 0.17417283354225055,
+            "EV/OCF": 40.88403938519311,
+            "EVA/InvCap": 0.11757393347458932
+        },
+        "LatestPerformanceEvaluations": {
+            "FCF yield.1": "Moderate",
+            "ROIC.1": "Strong",
+            "ReinvRate.1": "Weak",
+            "D/E.1": "Strong",
+            "ICR.1": "Strong",
+            "OMS.1": "Strong",
+            "EV/OCF.1": "Weak",
+            "EVA/InvCap.1": "Strong"
+        }
+    },
+    {
+        "Company": "AbbVie Inc.",
+        "Ticker": "ABBV",
+        "Sector": "Health Care",
+        "Description": NaN,
+        "CurrentPrice": 190.0800018310547,
+        "MarketCap": 327769131762.45,
+        "DCFValue": 163.3936574268042,
+        "ExitMultipleValue": 201.72983169272604,
+        "Points": 0,
+        "LatestPerformanceMetrics": {
+            "FCF yield": 0.045678761866271136,
+            "NOPAT": 10538531216.36168,
+            "ROIC": 0.16226855364326243,
+            "ReinvRate": -0.7703160747293072,
+            "D/E": 20.193684210526317,
+            "ICR": 3.2504446816079686,
+            "OMS": 0.16219334682429792,
+            "EV/OCF": 20.758181263612148,
+            "EVA/InvCap": 0.07509499931215581
+        },
+        "LatestPerformanceEvaluations": {
+            "FCF yield.1": "Moderate",
+            "ROIC.1": "Strong",
+            "ReinvRate.1": "Weak",
+            "D/E.1": "Weak",
+            "ICR.1": "Strong",
+            "OMS.1": "Strong",
+            "EV/OCF.1": "Weak",
+            "EVA/InvCap.1": "Strong"
+        }
+    },
+    {
+        "Company": "Arcosa, Inc.",
+        "Ticker": "ACA",
+        "Sector": "Industrials",
+        "Description": NaN,
+        "CurrentPrice": 89.69499969482422,
+        "MarketCap": 4274451797.58,
+        "DCFValue": 43.760922469058755,
+        "ExitMultipleValue": 43.56652535425689,
+        "Points": 0,
+        "LatestPerformanceMetrics": {
+            "FCF yield": 0.054875466338322645,
+            "NOPAT": 142424000.0,
+            "ROIC": 0.036242047941371064,
+            "ReinvRate": -0.3377239791046453,
+            "D/E": 0.6955357878263735,
+            "ICR": 3.9284294234592445,
+            "OMS": 0.0768901513677575,
+            "EV/OCF": 11.336788464800797,
+            "EVA/InvCap": -0.049166759376665356
+        },
+        "LatestPerformanceEvaluations": {
+            "FCF yield.1": "Strong",
+            "ROIC.1": "Moderate",
+            "ReinvRate.1": "Weak",
+            "D/E.1": "Weak",
+            "ICR.1": "Strong",
+            "OMS.1": "Strong",
+            "EV/OCF.1": "Weak",
+            "EVA/InvCap.1": "Weak"
+        }
+    },
+    {
+        "Company": "ProFrac Holding Corp.",
+        "Ticker": "ACDC",
+        "Sector": "Energy",
+        "Description": NaN,
+        "CurrentPrice": 7.349999904632568,
+        "MarketCap": 1313460200.16,
+        "DCFValue": 3.3053375533318072,
+        "ExitMultipleValue": 1.7396140693031343,
+        "Points": 0,
+        "LatestPerformanceMetrics": {
+            "FCF yield": 0.04997073038378174,
+            "NOPAT": -65751898.73417722,
+            "ROIC": -0.034188799258619604,
+            "ReinvRate": -2.7360426613275837,
+            "D/E": 0.9247194358923428,
+            "ICR": -0.43831640058055155,
+            "OMS": -0.02756857912273495,
+            "EV/OCF": 6.118474166294582,
+            "EVA/InvCap": -0.10861520157048522
+        },
+        "LatestPerformanceEvaluations": {
+            "FCF yield.1": "Moderate",
+            "ROIC.1": "Weak",
+            "ReinvRate.1": "Weak",
+            "D/E.1": "Weak",
+            "ICR.1": "Weak",
+            "OMS.1": "Weak",
+            "EV/OCF.1": "Weak",
+            "EVA/InvCap.1": "Weak"
+        }
+    },
+    {
+        "Company": "ARCH CAPITAL GROUP LTD.",
+        "Ticker": "ACGL",
+        "Sector": "Financials",
+        "Description": NaN,
+        "CurrentPrice": 89.0999984741211,
+        "MarketCap": 34036536028.55,
+        "DCFValue": 196.46498647283678,
+        "ExitMultipleValue": 128.5179990333001,
+        "Points": 0,
+        "LatestPerformanceMetrics": {
+            "FCF yield": 0.19297096689470522,
+            "NOPAT": 38747111.681643136,
+            "ROIC": 0.0019528809879362499,
+            "ReinvRate": 0.0,
+            "D/E": 0.0,
+            "ICR": 0.33070866141732286,
+            "OMS": 0.002408256880733945,
+            "EV/OCF": 5.1821267006743605,
+            "EVA/InvCap": -0.06598124746715131
+        },
+        "LatestPerformanceEvaluations": {
+            "FCF yield.1": "Strong",
+            "ROIC.1": "Weak",
+            "ReinvRate.1": "Weak",
+            "D/E.1": "Strong",
+            "ICR.1": "Strong",
+            "OMS.1": "Weak",
+            "EV/OCF.1": "Weak",
+            "EVA/InvCap.1": "Weak"
+        }
+    },
+    {
+        "Company": "AXCELIS TECHNOLOGIES INC",
+        "Ticker": "ACLS",
+        "Sector": "Information Technology",
+        "Description": NaN,
+        "CurrentPrice": 72.19999694824219,
+        "MarketCap": 2272057926.4,
+        "DCFValue": 161.91288677139522,
+        "ExitMultipleValue": 314.5844877611499,
+        "Points": 0,
+        "LatestPerformanceMetrics": {
+            "FCF yield": 0.07502347519689488,
+            "NOPAT": 183989107.09850004,
+            "ROIC": 0.20689717624691045,
+            "ReinvRate": 0.6832197948148246,
+            "D/E": 0.0,
+            "ICR": 44.59361116987518,
+            "OMS": 0.207094261026757,
+            "EV/OCF": 12.17616581971055,
+            "EVA/InvCap": 0.10184250876502711
+        },
+        "LatestPerformanceEvaluations": {
+            "FCF yield.1": "Strong",
+            "ROIC.1": "Strong",
+            "ReinvRate.1": "Strong",
+            "D/E.1": "Strong",
+            "ICR.1": "Strong",
+            "OMS.1": "Strong",
+            "EV/OCF.1": "Weak",
+            "EVA/InvCap.1": "Strong"
+        }
+    },
+    {
+        "Company": "ACME UNITED CORP",
+        "Ticker": "ACU",
+        "Sector": "Industrials",
+        "Description": NaN,
+        "CurrentPrice": 43.630001068115234,
+        "MarketCap": 145552836.0,
+        "DCFValue": 20.76219847441579,
+        "ExitMultipleValue": 20.66916429528359,
+        "Points": 0,
+        "LatestPerformanceMetrics": {
+            "FCF yield": 0.03088310594495016,
+            "NOPAT": 11528697.25077013,
+            "ROIC": 0.0975458172421953,
+            "ReinvRate": 0.8869004691156211,
+            "D/E": 0.16456779304030117,
+            "ICR": 7.429167535770747,
+            "OMS": 0.07270267188196847,
+            "EV/OCF": 13.050747625934845,
+            "EVA/InvCap": 0.012137009924158873
+        },
+        "LatestPerformanceEvaluations": {
+            "FCF yield.1": "Moderate",
+            "ROIC.1": "Strong",
+            "ReinvRate.1": "Strong",
+            "D/E.1": "Weak",
+            "ICR.1": "Strong",
+            "OMS.1": "Strong",
+            "EV/OCF.1": "Weak",
+            "EVA/InvCap.1": "Strong"
+        }
+    },
+    {
+        "Company": "ADOBE INC.",
+        "Ticker": "ADBE",
+        "Sector": "Information Technology",
+        "Description": NaN,
+        "CurrentPrice": 379.0,
+        "MarketCap": 172817680000.0,
+        "DCFValue": 232.72875694458244,
+        "ExitMultipleValue": 409.50248801937664,
+        "Points": 0,
+        "LatestPerformanceMetrics": {
+            "FCF yield": 0.04275628299587024,
+            "NOPAT": 5407583321.310056,
+            "ROIC": 0.5091406949731716,
+            "ReinvRate": -0.517051672413738,
+            "D/E": 0.2927330733782347,
+            "ICR": 47.13986013986014,
+            "OMS": 0.31346198558474775,
+            "EV/OCF": 22.85708540218471,
+            "EVA/InvCap": 0.4121962180176724
+        },
+        "LatestPerformanceEvaluations": {
+            "FCF yield.1": "Moderate",
+            "ROIC.1": "Strong",
+            "ReinvRate.1": "Weak",
+            "D/E.1": "Weak",
+            "ICR.1": "Strong",
+            "OMS.1": "Strong",
+            "EV/OCF.1": "Weak",
+            "EVA/InvCap.1": "Strong"
+        }
+    },
+    {
+        "Company": "ADEIA INC.",
+        "Ticker": "ADEA",
+        "Sector": "Communication Services",
+        "Description": NaN,
+        "CurrentPrice": 14.694999694824219,
+        "MarketCap": 1506097013.8799999,
+        "DCFValue": 40.307721591270614,
+        "ExitMultipleValue": 26.385505936245373,
+        "Points": 0,
+        "LatestPerformanceMetrics": {
+            "FCF yield": 0.1186058315393526,
+            "NOPAT": 102369830.23144099,
+            "ROIC": 0.12905896635591058,
+            "ReinvRate": 0.7934857351658675,
+            "D/E": 1.198917722173331,
+            "ICR": 2.7497594663359775,
+            "OMS": 0.34202338148628814,
+            "EV/OCF": 8.359024192487093,
+            "EVA/InvCap": 0.06625270136638627
+        },
+        "LatestPerformanceEvaluations": {
+            "FCF yield.1": "Strong",
+            "ROIC.1": "Strong",
+            "ReinvRate.1": "Strong",
+            "D/E.1": "Weak",
+            "ICR.1": "Strong",
+            "OMS.1": "Strong",
+            "EV/OCF.1": "Weak",
+            "EVA/InvCap.1": "Strong"
+        }
+    }
+]
