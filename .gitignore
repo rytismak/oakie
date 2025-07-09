@@ -7,7 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-data-script/venv/
+venv/
 .env
 __pycache__/
 
