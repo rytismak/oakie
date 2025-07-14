@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   LineChart,
   Line,
@@ -10,29 +10,72 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-export default function PriceChart({ intrinsicValueEstimates = [], dailyStockPrice = [] }) {
+// Accepts dailyStockPrice: [{date, price}], intrinsicValueEstimates: [{startDate, endDate, DCFValue, ExitMultipleValue}]
+export default function PriceChart({
+  intrinsicValueEstimates = [],
+  dailyStockPrice = [],
+}) {
+  const PERIODS = [
+    { label: "5Y", years: 5 },
+    { label: "4Y", years: 4 },
+    { label: "3Y", years: 3 },
+    { label: "2Y", years: 2 },
+    { label: "1Y", years: 1 },
+    { label: "YTD", years: "YTD" },
+  ];
+  const [selectedPeriod, setSelectedPeriod] = useState("1Y");
+
   if (!dailyStockPrice.length) return null;
 
-  // Extend each price entry with matching intrinsic range
-  const filledData = dailyStockPrice.map((item) => {
-    const intrinsic = intrinsicValueEstimates.find((q) => {
+  // --- Filter data by selected period ---
+  const now = new Date();
+  let periodStartDate;
+  if (selectedPeriod === "YTD") {
+    periodStartDate = new Date(now.getFullYear(), 0, 1); // Jan 1st this year
+  } else {
+    const years = PERIODS.find((p) => p.label === selectedPeriod)?.years || 1;
+    periodStartDate = new Date(now);
+    periodStartDate.setFullYear(now.getFullYear() - years);
+  }
+
+  // Filter dailyStockPrice
+  const filteredDailyStockPrice = dailyStockPrice.filter((item) => {
+    const d = new Date(item.date);
+    return d >= periodStartDate && d <= now;
+  });
+
+  // Filter intrinsicValueEstimates
+  const filteredIntrinsicValueEstimates = intrinsicValueEstimates.filter(
+    (q) => {
+      const end = new Date(q.endDate);
+      const start = new Date(q.startDate);
+      return end >= periodStartDate && start <= now;
+    }
+  );
+
+  // Extend each price entry with matching DCF/ExitMultiple band
+  const filledData = filteredDailyStockPrice.map((item) => {
+    const intrinsic = filteredIntrinsicValueEstimates.find((q) => {
       const date = new Date(item.date);
       return date >= new Date(q.startDate) && date <= new Date(q.endDate);
     });
     return {
       ...item,
-      intrinsicMin: intrinsic ? intrinsic.min : null,
-      intrinsicMax: intrinsic ? intrinsic.max : null,
+      DCFValue: intrinsic ? intrinsic.DCFValue : null,
+      ExitMultipleValue: intrinsic ? intrinsic.ExitMultipleValue : null,
     };
   });
 
-  const chartStart = dailyStockPrice[0].date.split("T")[0];
-  const chartEnd = dailyStockPrice[dailyStockPrice.length - 1].date.split("T")[0];
+  if (!filledData.length)
+    return <div className="mb-4 mt-4">No data for selected period.</div>;
+
+  const chartStart = filledData[0].date.split("T")[0];
+  const chartEnd = filledData[filledData.length - 1].date.split("T")[0];
 
   const allValues = filledData.reduce((acc, item) => {
     acc.push(item.price);
-    if (item.intrinsicMin != null) acc.push(item.intrinsicMin);
-    if (item.intrinsicMax != null) acc.push(item.intrinsicMax);
+    if (item.DCFValue != null) acc.push(item.DCFValue);
+    if (item.ExitMultipleValue != null) acc.push(item.ExitMultipleValue);
     return acc;
   }, []);
 
@@ -54,18 +97,17 @@ export default function PriceChart({ intrinsicValueEstimates = [], dailyStockPri
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length > 0) {
       const price = payload[0].value;
-      const min = payload[0].payload.intrinsicMin;
-      const max = payload[0].payload.intrinsicMax;
+      const dcf = payload[0].payload.DCFValue;
+      const exit = payload[0].payload.ExitMultipleValue;
 
-      if (min && max) {
-        const percent = ((price - (min + max) / 2) / ((min + max) / 2)) * 100;
+      if (dcf && exit) {
+        const percent = ((price - (dcf + exit) / 2) / ((dcf + exit) / 2)) * 100;
         return (
           <div className="p-2 bg-light border">
             <div>Date: {label}</div>
             <div>Price: ${price.toFixed(2)}</div>
-            <div>
-              Intrinsic (Min - Max): ${min.toFixed(2)} - ${max.toFixed(2)}
-            </div>
+            <div>DCF: ${dcf.toFixed(2)}</div>
+            <div>Exit Multiple: ${exit.toFixed(2)}</div>
             <div>Difference: {percent.toFixed(2)}%</div>
           </div>
         );
@@ -80,11 +122,76 @@ export default function PriceChart({ intrinsicValueEstimates = [], dailyStockPri
     return null;
   };
 
+  // Calculate price change percentage
+  const firstPrice = filledData[0]?.price;
+  const lastPrice = filledData[filledData.length - 1]?.price;
+  let priceDiffLabel = null;
+  if (firstPrice != null && lastPrice != null && firstPrice !== 0) {
+    const percent = ((lastPrice - firstPrice) / firstPrice) * 100;
+    const isUp = percent >= 0;
+    priceDiffLabel = (
+      <span
+        style={{
+          color: isUp ? '#388e3c' : '#d32f2f',
+          fontWeight: 700,
+          marginLeft: 18,
+          fontSize: 15,
+          display: 'inline-flex',
+          alignItems: 'center',
+        }}
+      >
+        {percent.toFixed(2)}% {isUp ? '▲' : '▼'}
+      </span>
+    );
+  }
+
   return (
     <div className="mb-4 mt-4">
-      <h2 className="mb-4 pt-4 mt-4">Stock price vs Intrinsics (Past 365 days)</h2>
+      <h2 className="mb-4 pt-4 mt-4">
+        Stock price vs DCF/Exit Multiple ({selectedPeriod})
+      </h2>
+
+      {/* Tabs for period selection and price diff label */}
+      <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 12, marginBottom: 16 }}>
+        {priceDiffLabel}
+        <div style={{ display: 'flex', gap: 12 }}>
+          {PERIODS.map((p) => (
+            <span
+              key={p.label}
+              onClick={() => setSelectedPeriod(p.label)}
+              style={{
+                cursor: "pointer",
+                color: selectedPeriod === p.label ? "#1976d2" : "#444",
+                fontWeight: selectedPeriod === p.label ? 700 : 400,
+                border: "none",
+                background: "none",
+                padding: "0 0 4px 0",
+                borderBottom: selectedPeriod === p.label ? "3px solid #1976d2" : "3px solid transparent",
+                fontSize: 15,
+                transition: "color 0.2s, border-bottom 0.2s",
+                textDecoration: "none",
+                marginLeft: 0,
+                marginRight: 0,
+                outline: "none",
+                minWidth: 32,
+                textAlign: "center",
+                display: "inline-block",
+              }}
+              tabIndex={0}
+              role="button"
+              onKeyPress={e => { if (e.key === 'Enter' || e.key === ' ') setSelectedPeriod(p.label); }}
+            >
+              {p.label}
+            </span>
+          ))}
+        </div>
+        
+      </div>
       <ResponsiveContainer width="99%" height={240}>
-        <LineChart data={filledData} margin={{ top: 5, right: 1, left: 1, bottom: 5 }}>
+        <LineChart
+          data={filledData}
+          margin={{ top: 5, right: 1, left: 1, bottom: 5 }}
+        >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             dataKey="date"
@@ -106,40 +213,45 @@ export default function PriceChart({ intrinsicValueEstimates = [], dailyStockPri
           />
           <Tooltip content={<CustomTooltip />} />
 
-          {/* --- Clamped intrinsic value zones --- */}
-          {intrinsicValueEstimates
+          {/* --- DCF/Exit Multiple value zones --- */}
+          {filteredIntrinsicValueEstimates
             .map((q) => {
-              const clampedStart = new Date(
-                Math.max(new Date(q.startDate), new Date(chartStart))
-              )
-                .toISOString()
-                .split("T")[0];
-              const clampedEnd = new Date(
-                Math.min(new Date(q.endDate), new Date(chartEnd))
-              )
-                .toISOString()
-                .split("T")[0];
-
+              // Find the closest available dates in filledData for x1 and x2
+              const getClosestDate = (target) => {
+                return filledData.reduce((prev, curr) => {
+                  return Math.abs(new Date(curr.date) - new Date(target)) <
+                    Math.abs(new Date(prev.date) - new Date(target))
+                    ? curr
+                    : prev;
+                }).date;
+              };
+              const clampedStart = getClosestDate(q.startDate);
+              const clampedEnd = getClosestDate(q.endDate);
               return {
                 ...q,
                 clampedStart,
                 clampedEnd,
               };
             })
-            .filter((q) => new Date(q.clampedStart) <= new Date(q.clampedEnd))
-            .map((q, i) => (
-              <ReferenceArea
-                key={`q-${i}`}
-                x1={q.clampedStart}
-                x2={q.clampedEnd}
-                y1={q.min}
-                y2={q.max}
-                fill="#ffff00"
-                fillOpacity={0.2}
-                stroke="#000"
-                strokeOpacity={0.00}
-              />
-            ))}
+            .filter(
+              (q) =>
+                new Date(q.clampedStart) <= new Date(q.clampedEnd) &&
+                !isNaN(q.DCFValue) &&
+                !isNaN(q.ExitMultipleValue)
+            )
+            .map((q, i) => {
+              return (
+                <ReferenceArea
+                  key={i}
+                  x1={q.clampedStart}
+                  x2={q.clampedEnd}
+                  y1={Math.min(q.DCFValue, q.ExitMultipleValue)}
+                  y2={Math.max(q.DCFValue, q.ExitMultipleValue)}
+                  fill="#ffff00"
+                  fillOpacity={1}
+                />
+              );
+            })}
 
           <Line
             stroke="#8884d8"

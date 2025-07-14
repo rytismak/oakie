@@ -2,23 +2,53 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { OverlayTrigger, Popover, Badge } from "react-bootstrap";
 
-function ValuationMetrics({ evaluationMetrics }) {
-  // --- 5. Valuation Metrics Section ---
-   const metricArray = evaluationMetrics || [];
-  // console.log(metricArray);
+// Accepts years as an array of year objects, each with PerformanceMetrics
+function ValuationMetrics({ years }) {
+  if (!years || years.length === 0)
+    return <div>No valuation metrics available.</div>;
 
+  // Get all metric names from the first year
+  const metricNames = Object.keys(years[0].PerformanceMetrics || {});
+  const yearLabels = years.map((y) => y.Year);
+
+  // Build a metrics array for display: [{ name, values: [{year, value, label}] }]
+  const metrics = metricNames.map((metric) => ({
+    name: metric,
+    values: years.map((y) => ({
+      year: y.Year,
+      value: y.PerformanceMetrics[metric]?.Value ?? "",
+      label: y.PerformanceMetrics[metric]?.Evaluation ?? "",
+    })),
+  }));
 
   // color logic
-  const getColor = (value) => {
-    const parsed = parseFloat(value);
-    if (value == "bad") return "danger";
-    if (value == "good") return "success";
+  const getColor = (label) => {
+    if (label === "Weak") return "danger";
+    if (label === "Strong") return "success";
     return "secondary";
   };
 
-  // color classes
-  const colorClass = (color) => {
-    return `badge align-items-center p-2 px-3 text-${color}-emphasis bg-${color}-subtle border border-${color}-subtle rounded-pill`;
+  const colorClass = (color) =>
+    `badge align-items-center p-2 px-3 text-${color}-emphasis bg-${color}-subtle border border-${color}-subtle rounded-pill`;
+
+  // Helper to format numbers to 2 decimals if possible, and add % for certain metrics
+  const percentMetrics = [
+    "FCF yield",
+    "ROIC",
+    "ReinvRate",
+    "OMS",
+    "EVA/InvCap",
+  ];
+  const formatValue = (val, metricName) => {
+    if (val === null || val === undefined || val === "") return "";
+    const num = Number(val);
+    if (!isNaN(num)) {
+      if (percentMetrics.includes(metricName)) {
+        return (num * 100).toFixed(2) + "%";
+      }
+      return num.toFixed(2);
+    }
+    return val;
   };
 
   return (
@@ -28,20 +58,21 @@ function ValuationMetrics({ evaluationMetrics }) {
         <thead>
           <tr>
             <th className="fw-bold">Metric</th>
-            <th className="text-center fw-bold ">2022</th>
-            <th className="text-center fw-bold ">2023</th>
-            <th className="text-center fw-bold ">2024</th>
+            {yearLabels.map((year) => (
+              <th key={year} className="text-center fw-bold">
+                {year}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {metricArray.map((m, i) => {
+          {metrics.map((m, i) => {
             const popover = (
               <Popover id={`popover-${i}`} placement="top">
                 <Popover.Header as="h3">{m.name}</Popover.Header>
-                <Popover.Body>{m.description}</Popover.Body>
+                <Popover.Body>{/* Optionally add description here */}</Popover.Body>
               </Popover>
             );
-
             return (
               <tr key={i}>
                 <td>
@@ -62,36 +93,32 @@ function ValuationMetrics({ evaluationMetrics }) {
                     </span>
                   </OverlayTrigger>
                 </td>
-                {["2022", "2023", "2024"].map((year) => {
-                  const entry = m.values.find(
-                    (v) => v.year === parseInt(year)
-                  );
-                  if (!entry) return <td key={year} className="text-center">–</td>;
-                  const badgeColor = getColor(entry.label);
-                  return (
-                    <td key={year} className="text-center">
-                      <Badge
-                        pill
-                        className={colorClass(badgeColor)}
-                        style={{ minWidth: "60px" }}
-                      >
-                        {entry.value}
-                      </Badge>
-                    </td>
-                  );
-                })}
+                {m.values.map((entry, idx) => (
+                  <td key={entry.year + "-" + idx} className="text-center">
+                    <Badge
+                      pill
+                      className={colorClass(getColor(entry.label))}
+                      style={{ minWidth: "60px" }}
+                    >
+                      {formatValue(entry.value, m.name)}
+                    </Badge>
+                  </td>
+                ))}
               </tr>
             );
           })}
         </tbody>
       </table>
-
       <div className="mt-4">
         <span>Legend: </span>
         <Badge
           pill
           className={colorClass("success")}
-          style={{ marginLeft:"8px", minWidth: "60px", textAlign: "center" }}
+          style={{
+            marginLeft: "8px",
+            minWidth: "60px",
+            textAlign: "center",
+          }}
         >
           Good
         </Badge>{" "}

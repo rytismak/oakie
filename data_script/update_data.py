@@ -72,9 +72,8 @@ try:
                     'Ticker': ticker,
                     'Sector': row['Primary Sector'] if not pd.isna(row['Primary Sector']) else "",
                     'Description': row['Description'] if not pd.isna(row['Description']) else "",
-                    'Years': {}
+                    'Years': []
                 }
-            # Build metrics and evaluations by column name, not by index
             metric_names = [
                 'FCF yield', 'NOPAT', 'ROIC', 'ReinvRate', 'D/E', 'ICR', 'OMS', 'EV/OCF', 'EVA/InvCap'
             ]
@@ -91,12 +90,13 @@ try:
                     'Value': value,
                     'Evaluation': eval_value
                 }
-            company_data[ticker]['Years'][year] = {
+            company_data[ticker]['Years'].append({
+                'Year': year,
                 'DCFValue': row['DCF value'] if not pd.isna(row['DCF value']) else "",
                 'ExitMultipleValue': row['Exit multiple value'] if not pd.isna(row['Exit multiple value']) else "",
                 'MarketCap': row['MarketCap'] if not pd.isna(row['MarketCap']) else "",
                 'PerformanceMetrics': combined
-            }
+            })
     logging.info(f"Parsed Excel: {len(company_data)} companies loaded from sheets {YEARS}.")
 except Exception as e:
     logging.error(f"Error reading Excel: {str(e)}")
@@ -137,8 +137,16 @@ for i in range(0, len(tickers), BATCH_SIZE):
             except:
                 prices = []
 
-            latest_year = '2024' if '2024' in company['Years'] else '2023'
-            perf_metrics = company['Years'][latest_year]['PerformanceMetrics']
+            # Find the latest year entry (by YEARS order)
+            latest_year_entry = None
+            for y in reversed(YEARS):
+                for entry in company['Years']:
+                    if entry['Year'] == y:
+                        latest_year_entry = entry
+                        break
+                if latest_year_entry:
+                    break
+            perf_metrics = latest_year_entry['PerformanceMetrics'] if latest_year_entry else {}
 
             # Calculate Points
             points = sum(1 for v in perf_metrics.values() if v['Evaluation'] == 'Strong') - sum(1 for v in perf_metrics.values() if v['Evaluation'] == 'Weak')
@@ -174,16 +182,13 @@ for i in range(0, len(tickers), BATCH_SIZE):
                 total_files_created += 1
 
             # Summary entry
-            # Find the latest available (non-NaN) price
             current_price = None
             if prices:
-                # Iterate backwards to find the most recent non-NaN price
                 for price_entry in reversed(prices):
                     price_val = price_entry.get('Close')
                     if price_val is not None and not (isinstance(price_val, float) and math.isnan(price_val)):
                         current_price = price_val
                         break
-                # If the latest price is NaN, log an error
                 latest_price_val = prices[-1].get('Close')
                 if latest_price_val is None or (isinstance(latest_price_val, float) and math.isnan(latest_price_val)):
                     logging.error(f"Latest price for {ticker} is NaN or None. Using most recent non-NaN price: {current_price}")
@@ -196,9 +201,9 @@ for i in range(0, len(tickers), BATCH_SIZE):
                 'Sector': company['Sector'],
                 'Description': company['Description'],
                 'CurrentPrice': current_price,
-                'MarketCap': company['Years'][latest_year]['MarketCap'],
-                'DCFValue': company['Years'][latest_year]['DCFValue'],
-                'ExitMultipleValue': company['Years'][latest_year]['ExitMultipleValue'],
+                'MarketCap': latest_year_entry['MarketCap'] if latest_year_entry else "",
+                'DCFValue': latest_year_entry['DCFValue'] if latest_year_entry else "",
+                'ExitMultipleValue': latest_year_entry['ExitMultipleValue'] if latest_year_entry else "",
                 'Points': points,
                 'Comparatives': comparatives,
                 'LatestPerformanceMetrics': perf_metrics
