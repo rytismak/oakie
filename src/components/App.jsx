@@ -1,9 +1,7 @@
-import React, { useState } from "react";
 import Navbar from "./GlobalComponents/Navbar";
-
 import Footer from "./GlobalComponents/Footer";
 import "bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+import '../custom.scss';
 import '../index.css'
 import { HashRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./Pages/Home";

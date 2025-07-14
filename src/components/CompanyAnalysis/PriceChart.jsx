@@ -1,4 +1,6 @@
+
 import React, { useState } from "react";
+
 import {
   LineChart,
   Line,
@@ -10,12 +12,14 @@ import {
   ResponsiveContainer,
   Area,
 } from "recharts";
+import { ButtonGroup, Button } from "react-bootstrap";
+import InfoCards from "./InfoCards"; // Adjust this import path to your project structure
 
-// Accepts dailyStockPrice: [{date, price}], intrinsicValueEstimates: [{startDate, endDate, DCFValue, ExitMultipleValue}]
 export default function PriceChart({
   intrinsicValueEstimates = [],
   dailyStockPrice = [],
 }) {
+  
   const PERIODS = [
     { label: "5Y", years: 5 },
     { label: "4Y", years: 4 },
@@ -73,6 +77,7 @@ export default function PriceChart({
   const chartStart = filledData[0].date.split("T")[0];
   const chartEnd = filledData[filledData.length - 1].date.split("T")[0];
 
+
   const allValues = filledData.reduce((acc, item) => {
     acc.push(item.price);
     if (item.DCFValue != null) acc.push(item.DCFValue);
@@ -98,6 +103,7 @@ export default function PriceChart({
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length > 0) {
       const price = payload[0].value;
+
       const dcf = payload[0].payload.DCFValue;
       const exit = payload[0].payload.ExitMultipleValue;
       // Convert date to human readable format with weekday
@@ -111,6 +117,7 @@ export default function PriceChart({
       if (dcf && exit) {
         const avg = (dcf + exit) / 2;
         const diff = avg / price - 1;
+
         return (
           <div className="p-2 bg-light border">
             <div>Date: {dateStr}</div>
@@ -214,6 +221,7 @@ export default function PriceChart({
           </div>
         </div>
       </div>
+
       <ResponsiveContainer width="99%" height={240}>
         <LineChart
           data={filledData}
@@ -225,6 +233,7 @@ export default function PriceChart({
               <stop offset="100%" stopColor="#8884d8" stopOpacity={0} />
             </linearGradient>
           </defs>
+
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             dataKey="date"
@@ -248,6 +257,7 @@ export default function PriceChart({
 
           {/* --- DCF/Exit Multiple value zones --- */}
           {filteredIntrinsicValueEstimates
+
             .map((q) => {
               // Find the closest available dates in filledData for x1 and x2
               const getClosestDate = (target) => {
@@ -285,6 +295,7 @@ export default function PriceChart({
                 />
               );
             })}
+
 
           <Line
             stroke="#8884d8"
