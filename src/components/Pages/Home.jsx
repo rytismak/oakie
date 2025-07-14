@@ -4,9 +4,15 @@ import { HashLink } from "react-router-hash-link";
 
 function Home() {
   return (
-    <div className="container mt-5">
+    <div className="container mt-4">
       {/* Contents Section */}
-      <div className="border p-3 mb-4 bg-light rounded">
+      
+
+      {/* Header 1: Fundamental Analysis */}
+      <section id="fundamental-analysis" className="mb-5">
+        <h1 className="display-6 mb-4">Fundamental Analysis: Real understanding True Value</h1>
+        
+        <div className="border p-3 mb-4 bg-light rounded">
         <h2>Contents</h2>
         <ul className="list-unstyled">
           <li>
@@ -31,9 +37,6 @@ function Home() {
         </ul>
       </div>
 
-      {/* Header 1: Fundamental Analysis */}
-      <section id="fundamental-analysis" className="mb-5">
-        <h2>Fundamental Analysis: Real understanding True Value</h2>
         <p>
           Fundamental analysis focuses on evaluating a company's **intrinsic
           value** by analyzing its financial statements, growth potential, and

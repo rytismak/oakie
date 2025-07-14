@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { OverlayTrigger, Popover } from "react-bootstrap";
 
 function CompaniesTable() {
   const [companies, setCompanies] = useState([]);
@@ -64,12 +65,30 @@ function CompaniesTable() {
     if (sortField) {
       let valA = a[sortField];
       let valB = b[sortField];
-      if (
-        sortField === "CurrentPrice" ||
-        sortField === "MarketCap"
-      ) {
-        valA = parseFloat(valA);
-        valB = parseFloat(valB);
+      if (sortField === "CurrentPrice" || sortField === "MarketCap") {
+        valA = Number(valA) || 0;
+        valB = Number(valB) || 0;
+      }
+      if (sortField === "Difference") {
+        // Calculate difference for a and b
+        const getDiff = (comp) => {
+          if (
+            comp.DCFValue != null &&
+            comp.ExitMultipleValue != null &&
+            comp.CurrentPrice != null &&
+            !isNaN(comp.DCFValue) &&
+            !isNaN(comp.ExitMultipleValue) &&
+            !isNaN(comp.CurrentPrice) &&
+            comp.CurrentPrice !== 0
+          ) {
+            const avg =
+              (Number(comp.DCFValue) + Number(comp.ExitMultipleValue)) / 2;
+            return avg / Number(comp.CurrentPrice) - 1;
+          }
+          return -Infinity; // Treat missing as lowest
+        };
+        valA = getDiff(a);
+        valB = getDiff(b);
       }
       if (valA < valB) return sortOrder === "asc" ? -1 : 1;
       if (valA > valB) return sortOrder === "asc" ? 1 : -1;
@@ -84,11 +103,23 @@ function CompaniesTable() {
   );
   const navigate = useNavigate();
 
+  // Table column definitions
+  const columns = [
+    { field: "Company", label: "Company", align: "left" },
+    { field: "Ticker", label: "Ticker", align: "left" },
+    { field: "MarketCap", label: "Market\u00A0Cap", align: "right" },
+    { field: "Sector", label: "Sector", align: "left" },
+    { field: "CurrentPrice", label: "Stock\u00A0Price", align: "right" },
+    { field: "Comparatives", label: "Comparatives", align: "right" },
+    { field: "Difference", label: "Difference", align: "right" },
+  ];
+
   return (
     <div className="container mt-4">
+      <h1 className="display-6 mb-4">Featured Companies </h1>
       {/* Filters */}
-      <div className="row mb-3 align-items-center">
-        <div className="col-12  mb-3 col-md-4">
+      <div className="row align-items-center">
+        <div className="col-12  mb-2 col-md-4">
           <input
             type="text"
             className="form-control"
@@ -98,7 +129,7 @@ function CompaniesTable() {
           />
         </div>
 
-        <div className="col-12 mb-3 col-md-3">
+        <div className="col-12 mb-2 col-md-3">
           <select
             className="form-select flex-grow-1"
             onChange={(e) => setFilterIndustry(e.target.value)}
@@ -113,7 +144,7 @@ function CompaniesTable() {
           </select>
         </div>
 
-        <div className="col-12 mb-3 col-md-3">
+        <div className="col-12 mb-2 col-md-3">
           <select
             className="form-select flex-grow-1"
             onChange={(e) => setFilterMarketCap(e.target.value)}
@@ -128,7 +159,7 @@ function CompaniesTable() {
           </select>
         </div>
 
-        <div className="col-12  mb-3 col-md-2">
+        <div className="col-12  mb-2 col-md-2">
           <button
             className="btn btn-outline-dark w-100"
             style={{ minWidth: "130px" }}
@@ -151,10 +182,10 @@ function CompaniesTable() {
         >
           <thead style={{ background: "white", color: "black" }}>
             <tr>
-              {["Company", "Ticker", "Market Cap", "Sector", "Stock Price"].map((field, idx) => (
+              {columns.map((col, idx) => (
                 <th
-                  key={field}
-                  onClick={() => handleSort(field)}
+                  key={col.field}
+                  onClick={() => handleSort(col.field)}
                   style={{
                     cursor: "pointer",
                     position: idx === 0 ? "sticky" : "",
@@ -164,40 +195,202 @@ function CompaniesTable() {
                     color: "black",
                     width: idx === 0 ? "250px" : "auto", // even wider
                     minWidth: idx === 0 ? "250px" : "120px",
+                    textAlign: col.align || "left",
                   }}
                 >
-                  {field.charAt(0).toUpperCase() + field.slice(1)}
-                  {sortField === field &&
+                  {col.label}
+                  {sortField === col.field &&
                     (sortOrder === "asc" ? "\u00A0▲" : "\u00A0▼")}
                 </th>
               ))}
             </tr>
           </thead>
           <tbody style={{ fontSize: "0.8rem" }}>
-            {paged.map((comp) => (
-              <tr
-                key={comp.Ticker}
-                style={{ cursor: "pointer" }}
-                onClick={() =>
-                  navigate(`/company-analysis?ticker=${comp.Ticker}`)
-                }
-              >
-                <td
-                  style={{
-                    position: "sticky",
-                    left: "0",
-                    zIndex: "1",
-                    background: "white",
-                  }}
+            {paged.map((comp) => {
+              // Calculate Difference for each row
+              let diffText = "—";
+              if (
+                comp.DCFValue != null &&
+                comp.ExitMultipleValue != null &&
+                comp.CurrentPrice != null &&
+                !isNaN(comp.DCFValue) &&
+                !isNaN(comp.ExitMultipleValue) &&
+                !isNaN(comp.CurrentPrice) &&
+                comp.CurrentPrice !== 0
+              ) {
+                const avg =
+                  (Number(comp.DCFValue) + Number(comp.ExitMultipleValue)) / 2;
+                const diff = avg / Number(comp.CurrentPrice) - 1;
+                diffText = (diff * 100).toFixed(2) + "%";
+              }
+              return (
+                <tr
+                  key={comp.Ticker}
+                  style={{ cursor: "pointer" }}
+                  onClick={() =>
+                    navigate(`/company-analysis?ticker=${comp.Ticker}`)
+                  }
                 >
-                  {comp.Company}
-                </td>
-                <td>{comp.Ticker}</td>
-                <td>{comp.MarketCap}</td>
-                <td>{comp.Sector}</td>
-                <td>{comp.CurrentPrice}</td>
-              </tr>
-            ))}
+                  <td
+                    style={{
+                      position: "sticky",
+                      left: "0",
+                      zIndex: "1",
+                      background: "white",
+                    }}
+                  >
+                    {comp.Company}
+                  </td>
+                  <td>{comp.Ticker}</td>
+                  <td style={{ textAlign: "right" }}>
+                    {typeof comp.MarketCap === "number"
+                      ? (() => {
+                          const val = comp.MarketCap;
+                          if (val >= 1e8) {
+                            // 100 million or more: show in billions
+                            return `$${(val / 1e9).toLocaleString(undefined, {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}B`;
+                          } else {
+                            // less than 100 million: show in millions
+                            return `$${(val / 1e6).toLocaleString(undefined, {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}M`;
+                          }
+                        })()
+                      : comp.MarketCap}
+                  </td>
+                  <td>{comp.Sector}</td>
+                  <td style={{ textAlign: "right" }}>
+                    {typeof comp.CurrentPrice === "number"
+                      ? `$${comp.CurrentPrice.toFixed(2)}`
+                      : comp.CurrentPrice}
+                  </td>
+                  <td style={{ textAlign: "right" }}>
+                    {typeof comp.Comparatives === "number" ? (
+                      <OverlayTrigger
+                        trigger={["hover", "focus"]}
+                        placement="top"
+                        overlay={
+                          <Popover
+                            id={`popover-comparatives-${comp.Ticker}`}
+                            placement="top"
+                          >
+                            <Popover.Header as="h3">
+                              Comparatives Details
+                            </Popover.Header>
+                            <Popover.Body>
+                              {comp.LatestPerformanceMetrics ? (
+                                <table className="table table-sm mb-0">
+                                  <tbody>
+                                    {Object.entries(
+                                      comp.LatestPerformanceMetrics
+                                    ).map(([name, val]) => {
+                                      // Format percent metrics
+                                      const percentMetrics = [
+                                        "FCF yield",
+                                        "ROIC",
+                                        "ReinvRate",
+                                        "OMS",
+                                        "EVA/InvCap",
+                                      ];
+                                      let valueStr = "—";
+                                      if (
+                                        val &&
+                                        val.Value != null &&
+                                        val.Value !== ""
+                                      ) {
+                                        const num = Number(val.Value);
+                                        if (
+                                          !isNaN(num) &&
+                                          percentMetrics.includes(name)
+                                        ) {
+                                          valueStr =
+                                            (num * 100).toFixed(2) + "%";
+                                        } else if (!isNaN(num)) {
+                                          valueStr = num.toFixed(2);
+                                        } else {
+                                          valueStr = val.Value;
+                                        }
+                                      }
+                                      let evalColor = "";
+                                      if (val.Evaluation === "Weak")
+                                        evalColor = "text-danger fw-bold";
+                                      if (val.Evaluation === "Strong")
+                                        evalColor = "text-success fw-bold";
+                                      return (
+                                        <tr key={name}>
+                                          <td
+                                            style={{
+                                              whiteSpace: "nowrap",
+                                              paddingRight: 18,
+                                            }}
+                                          >
+                                            {name}
+                                          </td>
+                                          <td
+                                            style={{
+                                              whiteSpace: "nowrap",
+                                              paddingRight: 18,
+                                            }}
+                                          >
+                                            {valueStr}
+                                          </td>
+                                          <td
+                                            style={{
+                                              whiteSpace: "nowrap",
+                                              paddingRight: 8,
+                                            }}
+                                          >
+                                            {val.Evaluation && (
+                                              <span className={evalColor}>
+                                                {val.Evaluation}
+                                              </span>
+                                            )}
+                                          </td>
+                                        </tr>
+                                      );
+                                    })}
+                                  </tbody>
+                                </table>
+                              ) : null}
+                            </Popover.Body>
+                          </Popover>
+                        }
+                      >
+                        <span
+                          style={{
+                            borderBottom: "1px dashed grey",
+                            textDecoration: "none",
+                            cursor: "pointer",
+                          }}
+                        >
+                          {Math.floor(comp.Comparatives * 100)}%
+                        </span>
+                      </OverlayTrigger>
+                    ) : (
+                      "—"
+                    )}
+                  </td>
+                  <td style={{ textAlign: "right" }}>
+                    {(() => {
+                      if (diffText === "—") return diffText;
+                      const num = parseFloat(diffText);
+                      let colorClass = "";
+                      if (!isNaN(num)) {
+                        colorClass =
+                          num >= 0
+                            ? "text-success fw-bold"
+                            : "text-danger fw-bold";
+                      }
+                      return <span className={colorClass}>{diffText}</span>;
+                    })()}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
@@ -225,14 +418,17 @@ function CompaniesTable() {
             // If more than 7 pages, show ellipsis and last 2
             if (total > showFirst + showLast) {
               if (currentPage > showFirst && currentPage <= total - showLast) {
-                pages.push('ellipsis1');
+                pages.push("ellipsis1");
                 // Show current page if it's not in first 5 or last 2
-                if (currentPage > showFirst && currentPage <= total - showLast) {
+                if (
+                  currentPage > showFirst &&
+                  currentPage <= total - showLast
+                ) {
                   pages.push(currentPage);
                 }
-                pages.push('ellipsis2');
+                pages.push("ellipsis2");
               } else {
-                pages.push('ellipsis');
+                pages.push("ellipsis");
               }
               for (let i = total - showLast + 1; i <= total; i++) {
                 pages.push(i);
@@ -244,7 +440,7 @@ function CompaniesTable() {
               }
             }
             return pages.map((p, idx) => {
-              if (typeof p === 'string' && p.startsWith('ellipsis')) {
+              if (typeof p === "string" && p.startsWith("ellipsis")) {
                 return (
                   <li key={p + idx} className="page-item disabled">
                     <span className="page-link">...</span>
@@ -254,10 +450,14 @@ function CompaniesTable() {
               return (
                 <li
                   key={p}
-                  className={`page-item ${currentPage === p ? "active border-0" : ""}`}
+                  className={`page-item ${
+                    currentPage === p ? "active border-0" : ""
+                  }`}
                 >
                   <button
-                    className={`page-link ${currentPage === p ? "bg-black border-black" : "text-black"}`}
+                    className={`page-link ${
+                      currentPage === p ? "bg-black border-black" : "text-black"
+                    }`}
                     onClick={() => setCurrentPage(p)}
                   >
                     {p}

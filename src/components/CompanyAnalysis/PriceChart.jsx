@@ -8,6 +8,7 @@ import {
   Tooltip,
   ReferenceArea,
   ResponsiveContainer,
+  Area,
 } from "recharts";
 
 // Accepts dailyStockPrice: [{date, price}], intrinsicValueEstimates: [{startDate, endDate, DCFValue, ExitMultipleValue}]
@@ -99,22 +100,30 @@ export default function PriceChart({
       const price = payload[0].value;
       const dcf = payload[0].payload.DCFValue;
       const exit = payload[0].payload.ExitMultipleValue;
-
+      // Convert date to human readable format with weekday
+      const dateObj = new Date(label);
+      const dateStr = dateObj.toLocaleDateString("en-US", {
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
       if (dcf && exit) {
-        const percent = ((price - (dcf + exit) / 2) / ((dcf + exit) / 2)) * 100;
+        const avg = (dcf + exit) / 2;
+        const diff = avg / price - 1;
         return (
           <div className="p-2 bg-light border">
-            <div>Date: {label}</div>
+            <div>Date: {dateStr}</div>
             <div>Price: ${price.toFixed(2)}</div>
             <div>DCF: ${dcf.toFixed(2)}</div>
             <div>Exit Multiple: ${exit.toFixed(2)}</div>
-            <div>Difference: {percent.toFixed(2)}%</div>
+            <div>Difference: {diff.toFixed(2)}%</div>
           </div>
         );
       }
       return (
         <div className="p-2 bg-light border">
-          <div>Date: {label}</div>
+          <div>Date: {dateStr}</div>
           <div>Price: ${price.toFixed(2)}</div>
         </div>
       );
@@ -132,66 +141,90 @@ export default function PriceChart({
     priceDiffLabel = (
       <span
         style={{
-          color: isUp ? '#388e3c' : '#d32f2f',
+          color: isUp ? "#388e3c" : "#d32f2f",
           fontWeight: 700,
           marginLeft: 18,
+          paddingBottom: 7,
           fontSize: 15,
-          display: 'inline-flex',
-          alignItems: 'center',
+          display: "inline-flex",
+          alignItems: "center",
         }}
       >
-        {percent.toFixed(2)}% {isUp ? '▲' : '▼'}
+        {percent.toFixed(2)}% {isUp ? "▲" : "▼"}
       </span>
     );
   }
 
   return (
     <div className="mb-4 mt-4">
-      <h2 className="mb-4 pt-4 mt-4">
-        Stock price vs DCF/Exit Multiple ({selectedPeriod})
-      </h2>
-
-      {/* Tabs for period selection and price diff label */}
-      <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 12, marginBottom: 16 }}>
-        {priceDiffLabel}
-        <div style={{ display: 'flex', gap: 12 }}>
-          {PERIODS.map((p) => (
-            <span
-              key={p.label}
-              onClick={() => setSelectedPeriod(p.label)}
-              style={{
-                cursor: "pointer",
-                color: selectedPeriod === p.label ? "#1976d2" : "#444",
-                fontWeight: selectedPeriod === p.label ? 700 : 400,
-                border: "none",
-                background: "none",
-                padding: "0 0 4px 0",
-                borderBottom: selectedPeriod === p.label ? "3px solid #1976d2" : "3px solid transparent",
-                fontSize: 15,
-                transition: "color 0.2s, border-bottom 0.2s",
-                textDecoration: "none",
-                marginLeft: 0,
-                marginRight: 0,
-                outline: "none",
-                minWidth: 32,
-                textAlign: "center",
-                display: "inline-block",
-              }}
-              tabIndex={0}
-              role="button"
-              onKeyPress={e => { if (e.key === 'Enter' || e.key === ' ') setSelectedPeriod(p.label); }}
-            >
-              {p.label}
-            </span>
-          ))}
+      {/* Header and period selection in one line */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
+          gap: 12,
+          marginBottom: 16,
+        }}
+      >
+        <h2
+          className="mb-0 mt-4"
+          style={{ paddingBottom: 7, fontSize: 24, fontWeight: 700 }}
+        >
+          Stock price vs Evaluation
+        </h2>
+        <div style={{ display: "flex", alignItems: "flex-end", gap: 12 }}>
+          {priceDiffLabel}
+          <div style={{ display: "flex", gap: 12 }}>
+            {PERIODS.map((p) => (
+              <span
+                key={p.label}
+                onClick={() => setSelectedPeriod(p.label)}
+                style={{
+                  cursor: "pointer",
+                  color: selectedPeriod === p.label ? "#1976d2" : "#444",
+                  fontWeight: selectedPeriod === p.label ? 700 : 400,
+                  border: "none",
+                  background: "none",
+                  padding: "0 0 4px 0",
+                  borderBottom:
+                    selectedPeriod === p.label
+                      ? "3px solid #1976d2"
+                      : "3px solid transparent",
+                  fontSize: 15,
+                  transition: "color 0.2s, border-bottom 0.2s",
+                  textDecoration: "none",
+                  marginLeft: 0,
+                  marginRight: 0,
+                  outline: "none",
+                  minWidth: 32,
+                  textAlign: "center",
+                  display: "inline-block",
+                }}
+                tabIndex={0}
+                role="button"
+                onKeyPress={(e) => {
+                  if (e.key === "Enter" || e.key === " ")
+                    setSelectedPeriod(p.label);
+                }}
+              >
+                {p.label}
+              </span>
+            ))}
+          </div>
         </div>
-        
       </div>
       <ResponsiveContainer width="99%" height={240}>
         <LineChart
           data={filledData}
           margin={{ top: 5, right: 1, left: 1, bottom: 5 }}
         >
+          <defs>
+            <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#8884d8" stopOpacity={0.35} />
+              <stop offset="100%" stopColor="#8884d8" stopOpacity={0} />
+            </linearGradient>
+          </defs>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             dataKey="date"
@@ -248,7 +281,7 @@ export default function PriceChart({
                   y1={Math.min(q.DCFValue, q.ExitMultipleValue)}
                   y2={Math.max(q.DCFValue, q.ExitMultipleValue)}
                   fill="#ffff00"
-                  fillOpacity={1}
+                  fillOpacity={0.2}
                 />
               );
             })}

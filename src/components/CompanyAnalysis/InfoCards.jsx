@@ -113,7 +113,7 @@ const InfoCards = ({ stockPrice, dcfValue, exitMultipleValue }) => {
                     cursor: "pointer",
                   }}
                 >
-                  Evaluation
+                  Intrinsic Evaluation
                 </span>
               </span>
             </OverlayTrigger>

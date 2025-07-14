@@ -1,0 +1,35 @@
+// Make all fonts smaller (example: base font size 14px)
+$font-size-base: 0.85rem; // Bootstrap's default is 1rem (16px)
+
+// Change button primary color to black
+$btn-primary-bg: #000000;
+$btn-primary-border-color: #000000;
+
+// You can also update other buttons if you like:
+// $btn-secondary-bg: #000;
+// $btn-secondary-border-color: #000;
+
+// Example: Make active tab text white and background black
+$nav-tabs-link-active-color: #ffffff;
+$nav-tabs-link-active-bg: #000000;
+
+// Optional: Change the border color of active tab
+$nav-tabs-link-active-border-color: #000000;
+
+// Optional: Change inactive tab color if desired
+$nav-tabs-link-color: #333333; // Tab text color
+$nav-tabs-border-color: #000000; // Tab border color
+
+// Make all primary buttons black with white text
+$primary: #000000; // This changes the "primary" color globally
+
+// Optional: Make sure text is white on primary buttons
+$btn-primary-color: #ffffff;
+
+// Optional: Change outline-primary text to black
+$btn-outline-primary-color: #000000;
+$btn-outline-primary-border-color: #000000;
+
+// Import Bootstrap's full SCSS
+@import 'bootstrap/scss/bootstrap';
+
