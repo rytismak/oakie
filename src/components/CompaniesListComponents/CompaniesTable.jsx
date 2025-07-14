@@ -151,7 +151,7 @@ function CompaniesTable() {
         >
           <thead style={{ background: "white", color: "black" }}>
             <tr>
-              {["Company", "Ticker", "MarketCap", "Sector", "CurrentPrice"].map((field, idx) => (
+              {["Company", "Ticker", "Market Cap", "Sector", "Stock Price"].map((field, idx) => (
                 <th
                   key={field}
                   onClick={() => handleSort(field)}

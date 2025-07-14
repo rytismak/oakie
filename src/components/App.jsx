@@ -12,7 +12,6 @@ import OurApproach from "./Pages/OurApproach";
 import FeaturedCompanies from "./Pages/FeaturedCompanies";
 import Feedback from "./Pages/Feedback";
 import CompanyAnalysis from "./Pages/CompanyAnalysis";
-import Compo from "./Pages/c";
 
 function App() {
   return (
@@ -27,7 +26,6 @@ function App() {
             <Route path="/feedback" element={<Feedback />} />
             <Route path="/company-analysis" element={<CompanyAnalysis />} />
             <Route path="/featured-companies" element={<FeaturedCompanies />} />
-            <Route path="/c" element={<Compo />} />
           </Routes>
           <Footer />
         </div>
