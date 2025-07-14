@@ -110,7 +110,7 @@ export default function PriceChart({
       });
       if (dcf && exit) {
         const avg = (dcf + exit) / 2;
-        const diff = avg / price - 1;
+        const diff = (avg / price - 1) * 100; // Percentage difference
         return (
           <div className="p-2 bg-light border">
             <div>Date: {dateStr}</div>
