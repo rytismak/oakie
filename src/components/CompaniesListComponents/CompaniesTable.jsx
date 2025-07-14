@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { OverlayTrigger, Popover, Badge } from "react-bootstrap";
+
+import { OverlayTrigger, Popover } from "react-bootstrap";
+
 
 function CompaniesTable() {
   const [companies, setCompanies] = useState([]);
+  const [industryOptions, setIndustryOptions] = useState(["All sectors"]);
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.BASE_URL}/data/companies-list.json`)
+      .get(`${import.meta.env.BASE_URL}/companies-data/companies.json`)
       .then((response) => {
         setCompanies(response.data);
+        // Extract unique sectors for filter dropdown
+        const sectors = Array.from(new Set(response.data.map((c) => c.Sector)));
+        setIndustryOptions(["All sectors", ...sectors.filter(Boolean).sort()]);
       })
       .catch((error) => {
         console.error("Failed to load companies:", error);
@@ -26,20 +32,6 @@ function CompaniesTable() {
 
   const perPage = 15;
 
-  const industryOptions = [
-    "All sectors",
-    "Consumer Goods",
-    "Energy",
-    "Finance",
-    "Healthcare",
-    "Real Estate",
-    "Retail",
-    "Technology",
-    "Telecommunications",
-    "Transportation",
-    "Utilities",
-  ];
-
   const handleSort = (field) => {
     if (sortField === field) {
       setSortOrder(sortOrder === "asc" ? "desc" : "asc");
@@ -51,12 +43,11 @@ function CompaniesTable() {
 
   const filterByMarketCap = (comp) => {
     if (!filterMarketCap) return true;
-    if (filterMarketCap === "Micro") return comp.marketCap < 2;
-    if (filterMarketCap === "Small")
-      return comp.marketCap >= 2 && comp.marketCap < 10;
-    if (filterMarketCap === "Mid")
-      return comp.marketCap >= 10 && comp.marketCap <= 200;
-    if (filterMarketCap === "Large") return comp.marketCap > 200;
+    const cap = comp.MarketCap / 1e9; // Convert to billions
+    if (filterMarketCap === "Micro") return cap < 2;
+    if (filterMarketCap === "Small") return cap >= 2 && cap < 10;
+    if (filterMarketCap === "Mid") return cap >= 10 && cap <= 200;
+    if (filterMarketCap === "Large") return cap > 200;
     return true;
   };
 
@@ -64,10 +55,10 @@ function CompaniesTable() {
     return (
       (filterIndustry === "" ||
         filterIndustry === "All sectors" ||
-        comp.industry === filterIndustry) &&
+        comp.Sector === filterIndustry) &&
       filterByMarketCap(comp) &&
-      (comp.companyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        comp.ticker.toLowerCase().includes(searchTerm.toLowerCase()))
+      (comp.Company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        comp.Ticker.toLowerCase().includes(searchTerm.toLowerCase()))
     );
   });
 
@@ -81,20 +72,34 @@ function CompaniesTable() {
 
   const sorted = [...filtered].sort((a, b) => {
     if (sortField) {
-      let valA, valB;
 
-      if (sortField === "currentPrice" || sortField === "marketCap") {
-        valA = parseFloat(a[sortField]);
-        valB = parseFloat(b[sortField]);
-      } else if (sortField === "intrinsicPrice") {
-        valA = (a.intrinsicPrice.min + a.intrinsicPrice.max) / 2;
-        valB = (b.intrinsicPrice.min + b.intrinsicPrice.max) / 2;
-      } else if (sortField === "difference") {
-        valA = calculateDifference(a);
-        valB = calculateDifference(b);
-      } else {
-        valA = a[sortField];
-        valB = b[sortField];
+      let valA = a[sortField];
+      let valB = b[sortField];
+      if (sortField === "CurrentPrice" || sortField === "MarketCap") {
+        valA = Number(valA) || 0;
+        valB = Number(valB) || 0;
+      }
+      if (sortField === "Difference") {
+        // Calculate difference for a and b
+        const getDiff = (comp) => {
+          if (
+            comp.DCFValue != null &&
+            comp.ExitMultipleValue != null &&
+            comp.CurrentPrice != null &&
+            !isNaN(comp.DCFValue) &&
+            !isNaN(comp.ExitMultipleValue) &&
+            !isNaN(comp.CurrentPrice) &&
+            comp.CurrentPrice !== 0
+          ) {
+            const avg =
+              (Number(comp.DCFValue) + Number(comp.ExitMultipleValue)) / 2;
+            return avg / Number(comp.CurrentPrice) - 1;
+          }
+          return -Infinity; // Treat missing as lowest
+        };
+        valA = getDiff(a);
+        valB = getDiff(b);
+
       }
 
       if (valA < valB) return sortOrder === "asc" ? -1 : 1;
@@ -110,6 +115,17 @@ function CompaniesTable() {
   );
   const navigate = useNavigate();
 
+  // Table column definitions
+  const columns = [
+    { field: "Company", label: "Company", align: "left" },
+    { field: "Ticker", label: "Ticker", align: "left" },
+    { field: "MarketCap", label: "Market\u00A0Cap", align: "right" },
+    { field: "Sector", label: "Sector", align: "left" },
+    { field: "CurrentPrice", label: "Stock\u00A0Price", align: "right" },
+    { field: "Comparatives", label: "Comparatives", align: "right" },
+    { field: "Difference", label: "Difference", align: "right" },
+  ];
+
   return (
     <div className="container mt-4">
       {/* Header with Total Companies */}
@@ -118,6 +134,7 @@ function CompaniesTable() {
       {/* Filters */}
       <div className="row mb-2 align-items-center">
         <div className="col-12 col-md-4">
+
           <input
             type="text"
             className="form-control mb-2"
@@ -177,18 +194,12 @@ function CompaniesTable() {
         <table className="table table-hover" style={{ tableLayout: "fixed" }}>
           <thead style={{ background: "white", color: "black" }}>
             <tr>
-              {[
-                "companyName",
-                "ticker",
-                "marketCap",
-                "industry",
-                "currentPrice",
-                "intrinsicPrice",
-                "difference",
-              ].map((field, idx) => (
+
+              {columns.map((col, idx) => (
+
                 <th
-                  key={field}
-                  onClick={() => handleSort(field)}
+                  key={col.field}
+                  onClick={() => handleSort(col.field)}
                   style={{
                     cursor: "pointer",
                     position: idx === 0 ? "sticky" : "",
@@ -196,111 +207,207 @@ function CompaniesTable() {
                     zIndex: idx === 0 ? 2 : "",
                     background: "white",
                     color: "black",
-                    width:
-                      idx === 1 || idx === 2 || idx === 4 || idx === 6
-                        ? "90px"
-                        : idx === 0
-                        ? "200px"
-                        : idx === 5
-                        ? "140px"
-                        : "auto",
-                    maxWidth:
-                      idx === 1 || idx === 2 || idx === 4 || idx === 6
-                        ? "90px"
-                        : idx === 0
-                        ? "200px"
-                        : idx === 5
-                        ? "140px"
-                        : "auto",
-                    minWidth: idx === 0 ? "150px" : "90px",
-                    textAlign:
-                      idx === 2 || idx === 4 || idx === 5 || idx === 6
-                        ? "right"
-                        : "left",
+
+                    width: idx === 0 ? "250px" : "auto", // even wider
+                    minWidth: idx === 0 ? "250px" : "120px",
+                    textAlign: col.align || "left",
                   }}
                 >
-                  {field === "intrinsicPrice"
-                    ? "Intrinsic Value"
-                    : field === "difference"
-                    ? "Difference"
-                    : field.charAt(0).toUpperCase() + field.slice(1)}
-                  {sortField === field &&
+                  {col.label}
+                  {sortField === col.field &&
+
                     (sortOrder === "asc" ? "\u00A0▲" : "\u00A0▼")}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody>
-            {paged.map((comp) => (
-              <tr
-                key={comp.ticker}
-                style={{ cursor: "pointer" }}
-                onClick={() =>
-                  navigate(`/company-analysis?ticker=${comp.ticker}`)
-                }
-              >
-                <td
-                  style={{
-                    position: "sticky",
-                    left: "0",
-                    zIndex: "1",
-                    background: "white",
-                  }}
+          <tbody style={{ fontSize: "0.8rem" }}>
+            {paged.map((comp) => {
+              // Calculate Difference for each row
+              let diffText = "—";
+              if (
+                comp.DCFValue != null &&
+                comp.ExitMultipleValue != null &&
+                comp.CurrentPrice != null &&
+                !isNaN(comp.DCFValue) &&
+                !isNaN(comp.ExitMultipleValue) &&
+                !isNaN(comp.CurrentPrice) &&
+                comp.CurrentPrice !== 0
+              ) {
+                const avg =
+                  (Number(comp.DCFValue) + Number(comp.ExitMultipleValue)) / 2;
+                const diff = avg / Number(comp.CurrentPrice) - 1;
+                diffText = (diff * 100).toFixed(2) + "%";
+              }
+              return (
+                <tr
+                  key={comp.Ticker}
+                  style={{ cursor: "pointer" }}
+                  onClick={() =>
+                    navigate(`/company-analysis?ticker=${comp.Ticker}`)
+                  }
                 >
-                  {comp.companyName}
-                </td>
-                <td>{comp.ticker}</td>
-                <td
-                  style={{
-                    textAlign: "right",
-                  }}
-                >
-                  {comp.marketCap}
-                </td>
-                <td>{comp.industry}</td>
-                <td
-                  style={{
-                    textAlign: "right",
-                  }}
-                >
-                  {comp.currentPrice}
-                </td>
-                <td
-                  style={{
-                    textAlign: "right",
-                  }}
-                >
-                  {comp.intrinsicPrice.min} - {comp.intrinsicPrice.max}
-                </td>
-                <td style={{ textAlign: "right" }}>
-                  <OverlayTrigger
-                    trigger={["hover", "focus"]}
-                    placement="top"
-                    overlay={
-                      <Popover id={`popover-${comp.ticker}`}>
-                        <Popover.Body>
-                          {calculateDifference(comp) < 0
-                            ? "Undervalued"
-                            : "Overvalued"}
-                        </Popover.Body>
-                      </Popover>
-                    }
+                  <td
+                    style={{
+                      position: "sticky",
+                      left: "0",
+                      zIndex: "1",
+                      background: "white",
+                    }}
                   >
-                    <Badge
-                      pill
-                      className={
-                        calculateDifference(comp) > 0
-                          ? "badge bg-danger-subtle border border-danger-subtle text-danger-emphasis rounded-pill"
-                          : "badge bg-success-subtle border border-success-subtle text-success-emphasis rounded-pill"
+                    {comp.Company}
+                  </td>
+                  <td>{comp.Ticker}</td>
+                  <td style={{ textAlign: "right" }}>
+                    {typeof comp.MarketCap === "number"
+                      ? (() => {
+                          const val = comp.MarketCap;
+                          if (val >= 1e8) {
+                            // 100 million or more: show in billions
+                            return `$${(val / 1e9).toLocaleString(undefined, {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}B`;
+                          } else {
+                            // less than 100 million: show in millions
+                            return `$${(val / 1e6).toLocaleString(undefined, {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}M`;
+                          }
+                        })()
+                      : comp.MarketCap}
+                  </td>
+                  <td>{comp.Sector}</td>
+                  <td style={{ textAlign: "right" }}>
+                    {typeof comp.CurrentPrice === "number"
+                      ? `$${comp.CurrentPrice.toFixed(2)}`
+                      : comp.CurrentPrice}
+                  </td>
+                  <td style={{ textAlign: "right" }}>
+                    {typeof comp.Comparatives === "number" ? (
+                      <OverlayTrigger
+                        trigger={["hover", "focus"]}
+                        placement="top"
+                        overlay={
+                          <Popover
+                            id={`popover-comparatives-${comp.Ticker}`}
+                            placement="top"
+                          >
+                            <Popover.Header as="h3">
+                              Comparatives Details
+                            </Popover.Header>
+                            <Popover.Body>
+                              {comp.LatestPerformanceMetrics ? (
+                                <table className="table table-sm mb-0">
+                                  <tbody>
+                                    {Object.entries(
+                                      comp.LatestPerformanceMetrics
+                                    ).map(([name, val]) => {
+                                      // Format percent metrics
+                                      const percentMetrics = [
+                                        "FCF yield",
+                                        "ROIC",
+                                        "ReinvRate",
+                                        "OMS",
+                                        "EVA/InvCap",
+                                      ];
+                                      let valueStr = "—";
+                                      if (
+                                        val &&
+                                        val.Value != null &&
+                                        val.Value !== ""
+                                      ) {
+                                        const num = Number(val.Value);
+                                        if (
+                                          !isNaN(num) &&
+                                          percentMetrics.includes(name)
+                                        ) {
+                                          valueStr =
+                                            (num * 100).toFixed(2) + "%";
+                                        } else if (!isNaN(num)) {
+                                          valueStr = num.toFixed(2);
+                                        } else {
+                                          valueStr = val.Value;
+                                        }
+                                      }
+                                      let evalColor = "";
+                                      if (val.Evaluation === "Weak")
+                                        evalColor = "text-danger fw-bold";
+                                      if (val.Evaluation === "Strong")
+                                        evalColor = "text-success fw-bold";
+                                      return (
+                                        <tr key={name}>
+                                          <td
+                                            style={{
+                                              whiteSpace: "nowrap",
+                                              paddingRight: 18,
+                                            }}
+                                          >
+                                            {name}
+                                          </td>
+                                          <td
+                                            style={{
+                                              whiteSpace: "nowrap",
+                                              paddingRight: 18,
+                                            }}
+                                          >
+                                            {valueStr}
+                                          </td>
+                                          <td
+                                            style={{
+                                              whiteSpace: "nowrap",
+                                              paddingRight: 8,
+                                            }}
+                                          >
+                                            {val.Evaluation && (
+                                              <span className={evalColor}>
+                                                {val.Evaluation}
+                                              </span>
+                                            )}
+                                          </td>
+                                        </tr>
+                                      );
+                                    })}
+                                  </tbody>
+                                </table>
+                              ) : null}
+                            </Popover.Body>
+                          </Popover>
+                        }
+                      >
+                        <span
+                          style={{
+                            borderBottom: "1px dashed grey",
+                            textDecoration: "none",
+                            cursor: "pointer",
+                          }}
+                        >
+                          {Math.floor(comp.Comparatives * 100)}%
+                        </span>
+                      </OverlayTrigger>
+                    ) : (
+                      "—"
+                    )}
+                  </td>
+                  <td style={{ textAlign: "right" }}>
+                    {(() => {
+                      if (diffText === "—") return diffText;
+                      const num = parseFloat(diffText);
+                      let colorClass = "";
+                      if (!isNaN(num)) {
+                        colorClass =
+                          num >= 0
+                            ? "text-success fw-bold"
+                            : "text-danger fw-bold";
                       }
-                      style={{ minWidth: "60px", cursor: "pointer" }}
-                    >
-                      {calculateDifference(comp).toFixed(2)}%
-                    </Badge>
-                  </OverlayTrigger>
-                </td>
-              </tr>
-            ))}
+                      return <span className={colorClass}>{diffText}</span>;
+                    })()}
+                  </td>
+                </tr>
+              );
+            })}
+
           </tbody>
         </table>
       </div>
@@ -316,23 +423,66 @@ function CompaniesTable() {
         </button>
 
         <ul className="pagination mb-2">
-          {Array.from({ length: pageCount }).map((_, i) => (
-            <li
-              key={i}
-              className={`page-item ${
-                currentPage === i + 1 ? "active border-0" : ""
-              }`}
-            >
-              <button
-                className={`page-link ${
-                  currentPage === i + 1 ? "bg-black border-black" : "text-black"
-                }`}
-                onClick={() => setCurrentPage(i + 1)}
-              >
-                {i + 1}
-              </button>
-            </li>
-          ))}
+          {(() => {
+            const pages = [];
+            const showFirst = 5;
+            const showLast = 2;
+            const total = pageCount;
+            // Always show first 5
+            for (let i = 1; i <= Math.min(showFirst, total); i++) {
+              pages.push(i);
+            }
+            // If more than 7 pages, show ellipsis and last 2
+            if (total > showFirst + showLast) {
+              if (currentPage > showFirst && currentPage <= total - showLast) {
+                pages.push("ellipsis1");
+                // Show current page if it's not in first 5 or last 2
+                if (
+                  currentPage > showFirst &&
+                  currentPage <= total - showLast
+                ) {
+                  pages.push(currentPage);
+                }
+                pages.push("ellipsis2");
+              } else {
+                pages.push("ellipsis");
+              }
+              for (let i = total - showLast + 1; i <= total; i++) {
+                pages.push(i);
+              }
+            } else {
+              // If not enough pages for ellipsis, just show all
+              for (let i = showFirst + 1; i <= total; i++) {
+                pages.push(i);
+              }
+            }
+            return pages.map((p, idx) => {
+              if (typeof p === "string" && p.startsWith("ellipsis")) {
+                return (
+                  <li key={p + idx} className="page-item disabled">
+                    <span className="page-link">...</span>
+                  </li>
+                );
+              }
+              return (
+                <li
+                  key={p}
+                  className={`page-item ${
+                    currentPage === p ? "active border-0" : ""
+                  }`}
+                >
+                  <button
+                    className={`page-link ${
+                      currentPage === p ? "bg-black border-black" : "text-black"
+                    }`}
+                    onClick={() => setCurrentPage(p)}
+                  >
+                    {p}
+                  </button>
+                </li>
+              );
+            });
+          })()}
         </ul>
 
         <button

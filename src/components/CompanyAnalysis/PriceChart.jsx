@@ -1,4 +1,6 @@
-import React, { useState, useMemo } from "react";
+
+import React, { useState } from "react";
+
 import {
   LineChart,
   Line,
@@ -8,61 +10,78 @@ import {
   Tooltip,
   ReferenceArea,
   ResponsiveContainer,
+  Area,
 } from "recharts";
 import { ButtonGroup, Button } from "react-bootstrap";
 import InfoCards from "./InfoCards"; // Adjust this import path to your project structure
-
-const periods = {
-  "1M": 30,
-  "3M": 90,
-  "6M": 180,
-  "1Y": 365,
-  All: Infinity,
-};
 
 export default function PriceChart({
   intrinsicValueEstimates = [],
   dailyStockPrice = [],
 }) {
+  
+  const PERIODS = [
+    { label: "5Y", years: 5 },
+    { label: "4Y", years: 4 },
+    { label: "3Y", years: 3 },
+    { label: "2Y", years: 2 },
+    { label: "1Y", years: 1 },
+    { label: "YTD", years: "YTD" },
+  ];
   const [selectedPeriod, setSelectedPeriod] = useState("1Y");
 
-  const filteredData = useMemo(() => {
-    const days = periods[selectedPeriod];
-    return dailyStockPrice.slice(-days);
-  }, [dailyStockPrice, selectedPeriod]);
+  if (!dailyStockPrice.length) return null;
 
-  const filledData = useMemo(() => {
-    return filteredData.map((item) => {
-      const intrinsic = intrinsicValueEstimates.find((q) => {
-        const date = new Date(item.date);
-        return date >= new Date(q.startDate) && date <= new Date(q.endDate);
-      });
-      return {
-        ...item,
-        intrinsicMin: intrinsic ? intrinsic.min : null,
-        intrinsicMax: intrinsic ? intrinsic.max : null,
-      };
+  // --- Filter data by selected period ---
+  const now = new Date();
+  let periodStartDate;
+  if (selectedPeriod === "YTD") {
+    periodStartDate = new Date(now.getFullYear(), 0, 1); // Jan 1st this year
+  } else {
+    const years = PERIODS.find((p) => p.label === selectedPeriod)?.years || 1;
+    periodStartDate = new Date(now);
+    periodStartDate.setFullYear(now.getFullYear() - years);
+  }
+
+  // Filter dailyStockPrice
+  const filteredDailyStockPrice = dailyStockPrice.filter((item) => {
+    const d = new Date(item.date);
+    return d >= periodStartDate && d <= now;
+  });
+
+  // Filter intrinsicValueEstimates
+  const filteredIntrinsicValueEstimates = intrinsicValueEstimates.filter(
+    (q) => {
+      const end = new Date(q.endDate);
+      const start = new Date(q.startDate);
+      return end >= periodStartDate && start <= now;
+    }
+  );
+
+  // Extend each price entry with matching DCF/ExitMultiple band
+  const filledData = filteredDailyStockPrice.map((item) => {
+    const intrinsic = filteredIntrinsicValueEstimates.find((q) => {
+      const date = new Date(item.date);
+      return date >= new Date(q.startDate) && date <= new Date(q.endDate);
     });
-  }, [filteredData, intrinsicValueEstimates]);
+    return {
+      ...item,
+      DCFValue: intrinsic ? intrinsic.DCFValue : null,
+      ExitMultipleValue: intrinsic ? intrinsic.ExitMultipleValue : null,
+    };
+  });
 
-  const priceChange = useMemo(() => {
-    if (filledData.length < 2) return 0;
-    const firstPrice = filledData[0].price;
-    const lastPrice = filledData[filledData.length - 1].price;
-    return lastPrice - firstPrice;
-  }, [filledData]);
+  if (!filledData.length)
+    return <div className="mb-4 mt-4">No data for selected period.</div>;
 
-  const percentageChange = useMemo(() => {
-    if (filledData.length < 2) return 0;
-    const firstPrice = filledData[0].price;
-    const lastPrice = filledData[filledData.length - 1].price;
-    return (((lastPrice - firstPrice) / firstPrice) * 100).toFixed(2);
-  }, [filledData]);
+  const chartStart = filledData[0].date.split("T")[0];
+  const chartEnd = filledData[filledData.length - 1].date.split("T")[0];
+
 
   const allValues = filledData.reduce((acc, item) => {
     acc.push(item.price);
-    if (item.intrinsicMin != null) acc.push(item.intrinsicMin);
-    if (item.intrinsicMax != null) acc.push(item.intrinsicMax);
+    if (item.DCFValue != null) acc.push(item.DCFValue);
+    if (item.ExitMultipleValue != null) acc.push(item.ExitMultipleValue);
     return acc;
   }, []);
 
@@ -84,25 +103,34 @@ export default function PriceChart({
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length > 0) {
       const price = payload[0].value;
-      const min = payload[0].payload.intrinsicMin;
-      const max = payload[0].payload.intrinsicMax;
 
-      if (min && max) {
-        const percent = ((price - (min + max) / 2) / price) * 100;
+      const dcf = payload[0].payload.DCFValue;
+      const exit = payload[0].payload.ExitMultipleValue;
+      // Convert date to human readable format with weekday
+      const dateObj = new Date(label);
+      const dateStr = dateObj.toLocaleDateString("en-US", {
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+      if (dcf && exit) {
+        const avg = (dcf + exit) / 2;
+        const diff = avg / price - 1;
+
         return (
           <div className="p-2 bg-light border">
-            <div>Date: {label}</div>
+            <div>Date: {dateStr}</div>
             <div>Price: ${price.toFixed(2)}</div>
-            <div>
-              Intrinsic (Min - Max): ${min.toFixed(2)} - ${max.toFixed(2)}
-            </div>
-            <div>Difference: {percent.toFixed(2)}%</div>
+            <div>DCF: ${dcf.toFixed(2)}</div>
+            <div>Exit Multiple: ${exit.toFixed(2)}</div>
+            <div>Difference: {diff.toFixed(2)}%</div>
           </div>
         );
       }
       return (
         <div className="p-2 bg-light border">
-          <div>Date: {label}</div>
+          <div>Date: {dateStr}</div>
           <div>Price: ${price.toFixed(2)}</div>
         </div>
       );
@@ -110,71 +138,88 @@ export default function PriceChart({
     return null;
   };
 
-  if (!dailyStockPrice.length) return null;
-
-  const chartStart = filledData[0]?.date.split("T")[0];
-  const chartEnd = filledData[filledData.length - 1]?.date.split("T")[0];
-
-  // 👉 Calculate InfoCards Parameters
-  const lastDataPoint = filledData[filledData.length - 1];
-  const currentStockPrice = lastDataPoint?.price ?? 0;
-  const evaluationMin = lastDataPoint?.intrinsicMin ?? 0;
-  const evaluationMax = lastDataPoint?.intrinsicMax ?? 0;
-
-  const differencePercent =
-    currentStockPrice !== 0
-      ? (
-          ((currentStockPrice - (evaluationMin + evaluationMax) / 2) /
-            currentStockPrice) *
-          100
-        ).toFixed(2)
-      : 0;
+  // Calculate price change percentage
+  const firstPrice = filledData[0]?.price;
+  const lastPrice = filledData[filledData.length - 1]?.price;
+  let priceDiffLabel = null;
+  if (firstPrice != null && lastPrice != null && firstPrice !== 0) {
+    const percent = ((lastPrice - firstPrice) / firstPrice) * 100;
+    const isUp = percent >= 0;
+    priceDiffLabel = (
+      <span
+        style={{
+          color: isUp ? "#388e3c" : "#d32f2f",
+          fontWeight: 700,
+          marginLeft: 18,
+          paddingBottom: 7,
+          fontSize: 15,
+          display: "inline-flex",
+          alignItems: "center",
+        }}
+      >
+        {percent.toFixed(2)}% {isUp ? "▲" : "▼"}
+      </span>
+    );
+  }
 
   return (
     <div className="mb-4 mt-4">
-      {/* InfoCards component */}
-      <InfoCards
-        currentStockPrice={currentStockPrice}
-        evaluationMin={evaluationMin}
-        evaluationMax={evaluationMax}
-        differencePercent={differencePercent}
-      />
-
-      <h2 className="mb-4 pt-4 mt-4">Stock price vs Intrinsics</h2>
-
-      <div className="mb-3 d-flex justify-content-end align-items-center gap-2">
-        <div>
-          Price Change:{" "}
-          <strong>
-            <span
-              className={
-                percentageChange > 0
-                  ? "text-success"
-                  : percentageChange < 0
-                  ? "text-danger"
-                  : "text-secondary"
-              }
-            >
-              {percentageChange > 0 && "▲"}
-              {percentageChange < 0 && "▼"}
-              {Math.abs(percentageChange)}%
-            </span>
-          </strong>
+      {/* Header and period selection in one line */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-end",
+          gap: 12,
+          marginBottom: 16,
+        }}
+      >
+        <h2
+          className="mb-0 mt-4"
+          style={{ paddingBottom: 7, fontSize: 24, fontWeight: 700 }}
+        >
+          Stock price vs Evaluation
+        </h2>
+        <div style={{ display: "flex", alignItems: "flex-end", gap: 12 }}>
+          {priceDiffLabel}
+          <div style={{ display: "flex", gap: 12 }}>
+            {PERIODS.map((p) => (
+              <span
+                key={p.label}
+                onClick={() => setSelectedPeriod(p.label)}
+                style={{
+                  cursor: "pointer",
+                  color: selectedPeriod === p.label ? "#1976d2" : "#444",
+                  fontWeight: selectedPeriod === p.label ? 700 : 400,
+                  border: "none",
+                  background: "none",
+                  padding: "0 0 4px 0",
+                  borderBottom:
+                    selectedPeriod === p.label
+                      ? "3px solid #1976d2"
+                      : "3px solid transparent",
+                  fontSize: 15,
+                  transition: "color 0.2s, border-bottom 0.2s",
+                  textDecoration: "none",
+                  marginLeft: 0,
+                  marginRight: 0,
+                  outline: "none",
+                  minWidth: 32,
+                  textAlign: "center",
+                  display: "inline-block",
+                }}
+                tabIndex={0}
+                role="button"
+                onKeyPress={(e) => {
+                  if (e.key === "Enter" || e.key === " ")
+                    setSelectedPeriod(p.label);
+                }}
+              >
+                {p.label}
+              </span>
+            ))}
+          </div>
         </div>
-
-        <ButtonGroup>
-          {Object.keys(periods).map((period) => (
-            <Button
-              key={period}
-              variant={
-                period === selectedPeriod ? "primary" : "outline-primary"
-              }
-              onClick={() => setSelectedPeriod(period)}
-            >
-              {period}
-            </Button>
-          ))}
-        </ButtonGroup>
       </div>
 
       <ResponsiveContainer width="99%" height={240}>
@@ -182,6 +227,13 @@ export default function PriceChart({
           data={filledData}
           margin={{ top: 5, right: 1, left: 1, bottom: 5 }}
         >
+          <defs>
+            <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#8884d8" stopOpacity={0.35} />
+              <stop offset="100%" stopColor="#8884d8" stopOpacity={0} />
+            </linearGradient>
+          </defs>
+
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             dataKey="date"
@@ -203,39 +255,47 @@ export default function PriceChart({
           />
           <Tooltip content={<CustomTooltip />} />
 
-          {intrinsicValueEstimates
-            .map((q) => {
-              const clampedStart = new Date(
-                Math.max(new Date(q.startDate), new Date(chartStart))
-              )
-                .toISOString()
-                .split("T")[0];
-              const clampedEnd = new Date(
-                Math.min(new Date(q.endDate), new Date(chartEnd))
-              )
-                .toISOString()
-                .split("T")[0];
+          {/* --- DCF/Exit Multiple value zones --- */}
+          {filteredIntrinsicValueEstimates
 
+            .map((q) => {
+              // Find the closest available dates in filledData for x1 and x2
+              const getClosestDate = (target) => {
+                return filledData.reduce((prev, curr) => {
+                  return Math.abs(new Date(curr.date) - new Date(target)) <
+                    Math.abs(new Date(prev.date) - new Date(target))
+                    ? curr
+                    : prev;
+                }).date;
+              };
+              const clampedStart = getClosestDate(q.startDate);
+              const clampedEnd = getClosestDate(q.endDate);
               return {
                 ...q,
                 clampedStart,
                 clampedEnd,
               };
             })
-            .filter((q) => new Date(q.clampedStart) <= new Date(q.clampedEnd))
-            .map((q, i) => (
-              <ReferenceArea
-                key={`q-${i}`}
-                x1={q.clampedStart}
-                x2={q.clampedEnd}
-                y1={q.min}
-                y2={q.max}
-                fill="#ffff00"
-                fillOpacity={0.2}
-                stroke="#000"
-                strokeOpacity={0.0}
-              />
-            ))}
+            .filter(
+              (q) =>
+                new Date(q.clampedStart) <= new Date(q.clampedEnd) &&
+                !isNaN(q.DCFValue) &&
+                !isNaN(q.ExitMultipleValue)
+            )
+            .map((q, i) => {
+              return (
+                <ReferenceArea
+                  key={i}
+                  x1={q.clampedStart}
+                  x2={q.clampedEnd}
+                  y1={Math.min(q.DCFValue, q.ExitMultipleValue)}
+                  y2={Math.max(q.DCFValue, q.ExitMultipleValue)}
+                  fill="#ffff00"
+                  fillOpacity={0.2}
+                />
+              );
+            })}
+
 
           <Line
             stroke="#8884d8"

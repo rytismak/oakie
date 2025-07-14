@@ -1,47 +1,144 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { OverlayTrigger, Popover, Badge } from "react-bootstrap";
 
-function ValuationMetrics({ evaluationMetrics }) {
-  // --- 5. Valuation Metrics Section ---
-   const metricArray = evaluationMetrics || [];
-  // console.log(metricArray);
+// Accepts years as an array of year objects, each with PerformanceMetrics
+// Now also accepts sector as a prop
+function ValuationMetrics({ years, sector }) {
+  const [metricDefinitions, setMetricDefinitions] = useState({});
 
+  useEffect(() => {
+    const dataURL = `${
+      import.meta.env.BASE_URL
+    }companies-data/financial_metrics_definitions.json`;
+
+    fetch(dataURL)
+      .then((res) => res.json())
+      .then((data) => setMetricDefinitions(data))
+      .catch(() => setMetricDefinitions({}));
+  }, []);
+
+  if (!years || years.length === 0)
+    return <div>No valuation metrics available.</div>;
+
+  // Get all metric names from the first year
+  const metricNames = Object.keys(years[0].PerformanceMetrics || {});
+  const yearLabels = years.map((y) => y.Year);
+
+  // Build a metrics array for display: [{ name, values: [{year, value, label}] }]
+  const metrics = metricNames.map((metric) => ({
+    name: metric,
+    values: years.map((y) => ({
+      year: y.Year,
+      value: y.PerformanceMetrics[metric]?.Value ?? "",
+      label: y.PerformanceMetrics[metric]?.Evaluation ?? "",
+    })),
+  }));
 
   // color logic
-  const getColor = (value) => {
-    const parsed = parseFloat(value);
-    if (value == "bad") return "danger";
-    if (value == "good") return "success";
+  const getColor = (label) => {
+    if (label === "Weak") return "danger";
+    if (label === "Strong") return "success";
     return "secondary";
   };
+  // Helper to format numbers to 2 decimals if possible, and add % for certain metrics
+  const percentMetrics = [
+    "FCF yield",
+    "ROIC",
+    "ReinvRate",
+    "OMS",
+    "EVA/InvCap",
+  ];
+  const formatValue = (val, metricName) => {
+    if (val === null || val === undefined || val === "") return "";
+    const num = Number(val);
+    if (!isNaN(num)) {
+      if (percentMetrics.includes(metricName)) {
+        return (num * 100).toFixed(2) + "%";
+      }
+      if (metricName === "NOPAT") {
+        // Format as $XM or $XB with best-practice formatting
+        if (Math.abs(num) >= 1e9) {
+          return `$${(num / 1e9).toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}B`;
+        } else if (Math.abs(num) >= 1e6) {
+          return `$${(num / 1e6).toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}M`;
+        } else {
+          return `$${num.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}`;
+        }
+      }
+      return num.toFixed(2);
+    }
+    return val;
+  };
 
-  // color classes
-  const colorClass = (color) => {
-    return `badge align-items-center p-2 px-3 text-${color}-emphasis bg-${color}-subtle border border-${color}-subtle rounded-pill`;
+  // Helper for value popover text
+  const getValuePopoverText = (label, metricName, sectorName) => {
+    if (!label) return null;
+    if (label === "Weak")
+      return `This ${metricName} is considered <strong>weak</strong> for ${sectorName}`;
+    if (label === "Strong")
+      return `This ${metricName} is considered <strong>strong</strong> for ${sectorName}`;
+    if (label === "Moderate")
+      return `This ${metricName} is considered <strong>Moderate</strong> for ${sectorName}`;
+    return null;
   };
 
   return (
-    <div className="mb-4">
-      <h2 className="mb-4 pt-4">Valuation Metrics</h2>
+    <div className="pe-4">
       <table className="table">
         <thead>
           <tr>
-            <th className="fw-bold">Metric</th>
-            <th className="text-center fw-bold ">2022</th>
-            <th className="text-center fw-bold ">2023</th>
-            <th className="text-center fw-bold ">2024</th>
+            <th className="fw-bold">Evaluation Metrics</th>
+            {yearLabels.map((year) => (
+              <th key={year} className="text-end fw-bold">
+                {year}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {metricArray.map((m, i) => {
+          {metrics.map((m, i) => {
+            // Try to match metric name exactly, or fallback to case-insensitive match
+            let def = metricDefinitions[m.name];
+
+            if (!def && metricDefinitions) {
+              // Try to find a key that matches ignoring case and whitespace
+              const foundKey = Object.keys(metricDefinitions).find(
+                (k) =>
+                  k.replace(/\s+/g, "").toLowerCase() ===
+                  m.name.replace(/\s+/g, "").toLowerCase()
+              );
+              if (foundKey) def = metricDefinitions[foundKey];
+            }
+            
             const popover = (
               <Popover id={`popover-${i}`} placement="top">
                 <Popover.Header as="h3">{m.name}</Popover.Header>
-                <Popover.Body>{m.description}</Popover.Body>
+                <Popover.Body>
+                  {def ? (
+                    <>
+                      <div>
+                        <strong>Definition:</strong> {def.definition}
+                      </div>
+                      <div className="mt-2">
+                        <strong>Importance:</strong> {def.importance}
+                      </div>
+                    </>
+                  ) : (
+                    <span>No description available.</span>
+                  )}
+                </Popover.Body>
               </Popover>
             );
-
             return (
               <tr key={i}>
                 <td>
@@ -62,21 +159,50 @@ function ValuationMetrics({ evaluationMetrics }) {
                     </span>
                   </OverlayTrigger>
                 </td>
-                {["2022", "2023", "2024"].map((year) => {
-                  const entry = m.values.find(
-                    (v) => v.year === parseInt(year)
-                  );
-                  if (!entry) return <td key={year} className="text-center">–</td>;
-                  const badgeColor = getColor(entry.label);
+                {m.values.map((entry, idx) => {
+                  const valuePopoverText = getValuePopoverText(entry.label, m.name, sector);
+                  const valuePopover = valuePopoverText ? (
+                    <Popover id={`value-popover-${i}-${idx}`} placement="top">
+                      <Popover.Body>{valuePopoverText}</Popover.Body>
+                    </Popover>
+                  ) : null;
                   return (
-                    <td key={year} className="text-center">
-                      <Badge
-                        pill
-                        className={colorClass(badgeColor)}
-                        style={{ minWidth: "60px" }}
-                      >
-                        {entry.value}
-                      </Badge>
+                    <td key={entry.year + "-" + idx} className={"text-end"}>
+                      {valuePopover ? (
+                        <OverlayTrigger
+                          trigger={["hover", "focus"]}
+                          placement="top"
+                          overlay={valuePopover}
+                        >
+                          <span
+                            className={
+                              "text-end fw-bold text-" + getColor(entry.label)
+                            }
+                            style={{
+                              borderBottom: "1px dashed grey",
+                              textDecoration: "none",
+                              paddingBottom: "3px",
+                              cursor: "pointer",
+                            }}
+                          >
+                            {formatValue(entry.value, m.name)}
+                          </span>
+                        </OverlayTrigger>
+                      ) : (
+                        <span
+                          className={
+                            "text-end fw-bold text-" + getColor(entry.label)
+                          }
+                          style={{
+                            borderBottom: "1px dashed grey",
+                            textDecoration: "none",
+                            paddingBottom: "3px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          {formatValue(entry.value, m.name)}
+                        </span>
+                      )}
                     </td>
                   );
                 })}
@@ -85,31 +211,6 @@ function ValuationMetrics({ evaluationMetrics }) {
           })}
         </tbody>
       </table>
-
-      <div className="mt-4">
-        <span>Legend: </span>
-        <Badge
-          pill
-          className={colorClass("success")}
-          style={{ marginLeft:"8px", minWidth: "60px", textAlign: "center" }}
-        >
-          Good
-        </Badge>{" "}
-        <Badge
-          pill
-          className={colorClass("secondary")}
-          style={{ minWidth: "60px", textAlign: "center" }}
-        >
-          Neutral
-        </Badge>{" "}
-        <Badge
-          pill
-          className={colorClass("danger")}
-          style={{ minWidth: "60px", textAlign: "center" }}
-        >
-          Bad
-        </Badge>
-      </div>
     </div>
   );
 }
