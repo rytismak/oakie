@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Card, Row, Col, OverlayTrigger, Popover } from "react-bootstrap";
 
 const InfoCards = ({ stockPrice, dcfValue, exitMultipleValue }) => {
@@ -82,9 +83,11 @@ const InfoCards = ({ stockPrice, dcfValue, exitMultipleValue }) => {
           <Card.Body>
             <Card.Title className="h6 text-muted">Stock Price</Card.Title>
             <Card.Text className="h5">
+
               <strong>
                 {stockPrice != null ? `$${formatNum(stockPrice)}` : "—"}
               </strong>
+
             </Card.Text>
           </Card.Body>
         </Card>
@@ -127,6 +130,7 @@ const InfoCards = ({ stockPrice, dcfValue, exitMultipleValue }) => {
       <Col xs={12} md={4}>
         <Card style={diffCardStyle}>
           <Card.Body>
+
             <OverlayTrigger
               trigger={["hover", "focus"]}
               placement="top"
@@ -154,6 +158,7 @@ const InfoCards = ({ stockPrice, dcfValue, exitMultipleValue }) => {
             <Card.Text className={`h5 ${diffTextClass}`}>
               <strong>{diffText}</strong>
             </Card.Text>
+
           </Card.Body>
         </Card>
       </Col>

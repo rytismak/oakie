@@ -1,4 +1,3 @@
-// import "bootstrap/dist/css/bootstrap.min.css";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { Link } from "react-router-dom";
 import PriceChart from "../CompanyAnalysis/PriceChart";
@@ -10,15 +9,16 @@ import axios from "axios";
 
 // <span className="badge display-2 text-bg-warning">Top 3%</span>
 
-// const pageName = "ACME Corporation";
 export default function CompanyAnalysis() {
   const url = new URL(window.location.href);
   const params = new URLSearchParams(url.hash.split("?")[1]);
+
   const ticker = params.get("ticker");
   const dataURL = `${
     import.meta.env.BASE_URL
   }companies-data/details/${ticker}.json`;
   // console.log(dataURL);
+
 
   const [companyData, setcompanyData] = useState({});
 
@@ -27,11 +27,13 @@ export default function CompanyAnalysis() {
       .get(dataURL)
       .then((response) => {
         setcompanyData(response.data);
+
         console.log(response.data);
         console.log(response.data.Years[0]);
+
       })
       .catch((error) => {
-        console.error("Failed to load companies:", error);
+        console.error("Failed to load data:", error);
       });
   }, []);
 
@@ -70,11 +72,13 @@ export default function CompanyAnalysis() {
   return (
     <div className="container mt-4">
       <Breadcrumb>
+
         <Breadcrumb.Item
           linkAs={Link}
           linkProps={{ to: "/featured-companies" }}
         >
           Featuted Companies
+
         </Breadcrumb.Item>
         <Breadcrumb.Item active>{companyData.Company}</Breadcrumb.Item>
       </Breadcrumb>
@@ -90,6 +94,7 @@ export default function CompanyAnalysis() {
         dcfValue={lastDCFValue}
         exitMultipleValue={lastExitMultipleValue}
       />
+
 
       <PriceChart
         intrinsicValueEstimates={intrinsicValueEstimates}

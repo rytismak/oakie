@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+
 import { OverlayTrigger, Popover } from "react-bootstrap";
+
 
 function CompaniesTable() {
   const [companies, setCompanies] = useState([]);
@@ -61,8 +62,17 @@ function CompaniesTable() {
     );
   });
 
+  const calculateDifference = (comp) => {
+    return (
+      (comp.currentPrice -
+        (comp.intrinsicPrice.max + comp.intrinsicPrice.min) / 2) /
+      comp.currentPrice
+    );
+  };
+
   const sorted = [...filtered].sort((a, b) => {
     if (sortField) {
+
       let valA = a[sortField];
       let valB = b[sortField];
       if (sortField === "CurrentPrice" || sortField === "MarketCap") {
@@ -89,7 +99,9 @@ function CompaniesTable() {
         };
         valA = getDiff(a);
         valB = getDiff(b);
+
       }
+
       if (valA < valB) return sortOrder === "asc" ? -1 : 1;
       if (valA > valB) return sortOrder === "asc" ? 1 : -1;
     }
@@ -116,13 +128,16 @@ function CompaniesTable() {
 
   return (
     <div className="container mt-4">
-      <h1 className="display-6 mb-4">Featured Companies </h1>
+      {/* Header with Total Companies */}
+      <h2 className="mb-4">Companies List ({filtered.length})</h2>
+
       {/* Filters */}
-      <div className="row align-items-center">
-        <div className="col-12  mb-2 col-md-4">
+      <div className="row mb-2 align-items-center">
+        <div className="col-12 col-md-4">
+
           <input
             type="text"
-            className="form-control"
+            className="form-control mb-2"
             placeholder="Search by Company or Ticker"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -176,13 +191,12 @@ function CompaniesTable() {
 
       {/* Table */}
       <div className="table-responsive" style={{ overflowX: "auto" }}>
-        <table
-          className="table table-hover"
-          style={{ tableLayout: "fixed", minWidth: "800px" }}
-        >
+        <table className="table table-hover" style={{ tableLayout: "fixed" }}>
           <thead style={{ background: "white", color: "black" }}>
             <tr>
+
               {columns.map((col, idx) => (
+
                 <th
                   key={col.field}
                   onClick={() => handleSort(col.field)}
@@ -193,6 +207,7 @@ function CompaniesTable() {
                     zIndex: idx === 0 ? 2 : "",
                     background: "white",
                     color: "black",
+
                     width: idx === 0 ? "250px" : "auto", // even wider
                     minWidth: idx === 0 ? "250px" : "120px",
                     textAlign: col.align || "left",
@@ -200,6 +215,7 @@ function CompaniesTable() {
                 >
                   {col.label}
                   {sortField === col.field &&
+
                     (sortOrder === "asc" ? "\u00A0▲" : "\u00A0▼")}
                 </th>
               ))}
@@ -391,6 +407,7 @@ function CompaniesTable() {
                 </tr>
               );
             })}
+
           </tbody>
         </table>
       </div>

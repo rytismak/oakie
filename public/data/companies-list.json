@@ -11,17 +11,6 @@
     }
   },
   {
-    "companyName": "Burnett-Brown",
-    "ticker": "LGAA",
-    "marketCap": "424.0",
-    "industry": "Consumer Discretionary",
-    "currentPrice": 68.3,
-    "intrinsicPrice": {
-      "min": 62.67,
-      "max": 72.12
-    }
-  },
-  {
     "companyName": "Fuentes, Smith and Frederick",
     "ticker": "FILI",
     "marketCap": "276.3",

@@ -42,6 +42,62 @@ function Home() {
           value** by analyzing its financial statements, growth potential, and
           economic environment.
         </p>
+        <p>
+          Fundamental analysis focuses on evaluating a company's **intrinsic
+          value** by analyzing its financial statements, growth potential, and
+          economic environment.
+        </p>
+        <p>
+          Fundamental analysis focuses on evaluating a company's **intrinsic
+          value** by analyzing its financial statements, growth potential, and
+          economic environment.
+        </p>
+                <img
+          src={`${import.meta.env.BASE_URL}Hubble-Telescope-Pictures-1920x1200-575678530.jpg`}
+          alt="Market Trends"
+          className="img-fluid rounded shadow"
+        />
+
+                <p>
+          Fundamental analysis focuses on evaluating a company's **intrinsic
+          value** by analyzing its financial statements, growth potential, and
+          economic environment.
+        </p>
+                <p>
+          Fundamental analysis focuses on evaluating a company's **intrinsic
+          value** by analyzing its financial statements, growth potential, and
+          economic environment.
+        </p>
+
+             <div className="text-center">
+        <img
+          src={`${import.meta.env.BASE_URL}Hubble-Telescope-Pictures-1920x1200-575678530.jpg`}
+          alt="Market Trends"
+          className="img-fluid rounded shadow"
+        />
+      </div>
+                <p>
+          Fundamental analysis focuses on evaluating a company's **intrinsic
+          value** by analyzing its financial statements, growth potential, and
+          economic environment.
+          Fundamental analysis focuses on evaluating a company's **intrinsic
+          value** by analyzing its financial statements, growth potential, and
+          economic environment.
+          Fundamental analysis focuses on evaluating a company's **intrinsic
+          value** by analyzing its financial statements, growth potential, and
+          economic environment.
+          Fundamental analysis focuses on evaluating a company's **intrinsic
+          value** by analyzing its financial statements, growth potential, and
+          economic environment.
+          Fundamental analysis focuses on evaluating a company's **intrinsic
+          value** by analyzing its financial statements, growth potential, and
+          economic environment.
+        </p>
+                <p>
+          Fundamental analysis focuses on evaluating a company's **intrinsic
+          value** by analyzing its financial statements, growth potential, and
+          economic environment.
+        </p>
 
         <h4>Key Components:</h4>
         <ul>
