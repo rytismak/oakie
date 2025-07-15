@@ -84,11 +84,11 @@ function ValuationMetrics({ years, sector }) {
   const getValuePopoverText = (label, metricName, sectorName) => {
     if (!label) return null;
     if (label === "Weak")
-      return `This ${metricName} is considered <strong>weak</strong> for ${sectorName}`;
+      return `This ${metricName} is considered weak for ${sectorName}`;
     if (label === "Strong")
-      return `This ${metricName} is considered <strong>strong</strong> for ${sectorName}`;
+      return `This ${metricName} is considered strong for ${sectorName}`;
     if (label === "Moderate")
-      return `This ${metricName} is considered <strong>Moderate</strong> for ${sectorName}`;
+      return `This ${metricName} is considered Moderate for ${sectorName}`;
     return null;
   };
 
