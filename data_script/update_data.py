@@ -183,17 +183,20 @@ for i in range(0, len(tickers), BATCH_SIZE):
 
             # Summary entry
             current_price = None
+            current_price_date = None
             if prices:
                 for price_entry in reversed(prices):
                     price_val = price_entry.get('Close')
                     if price_val is not None and not (isinstance(price_val, float) and math.isnan(price_val)):
                         current_price = price_val
+                        current_price_date = price_entry.get('Date')
                         break
                 latest_price_val = prices[-1].get('Close')
                 if latest_price_val is None or (isinstance(latest_price_val, float) and math.isnan(latest_price_val)):
-                    logging.error(f"Latest price for {ticker} is NaN or None. Using most recent non-NaN price: {current_price}")
+                    logging.error(f"Latest price for {ticker} is NaN or None. Using most recent non-NaN price: {current_price} (date: {current_price_date})")
             else:
                 current_price = None
+                current_price_date = None
 
             summary_list.append({
                 'Company': company['Company'],
