@@ -10,7 +10,7 @@ function ValuationMetrics({ years, sector }) {
   useEffect(() => {
     const dataURL = `${
       import.meta.env.BASE_URL
-    }companies-data/financial_metrics_definitions.json`;
+    }vocab/financial_metrics_definitions.json`;
 
     fetch(dataURL)
       .then((res) => res.json())
