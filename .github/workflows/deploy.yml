@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - master
+  workflow_run:
+    workflows: ["Update Data and Commit Results"]
+    types:
+      - completed
 
 permissions:
   contents: write  # 👈 this is mandatory for pushing to gh-pages
