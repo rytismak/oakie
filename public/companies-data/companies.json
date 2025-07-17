@@ -54,7 +54,7 @@
         "Ticker": "AAON",
         "Sector": "Industrials",
         "Description": "",
-        "CurrentPrice": 74.2699966430664,
+        "CurrentPrice": null,
         "MarketCap": 5975857986.75,
         "DCFValue": 77.40313858741935,
         "ExitMultipleValue": 77.03765693929874,
