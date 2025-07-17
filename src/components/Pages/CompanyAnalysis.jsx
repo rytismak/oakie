@@ -103,15 +103,15 @@ export default function CompanyAnalysis() {
 
       {/* Price Difference Table and ValuationMetrics side by side */}
       <div className="row my-4">
-        <div className="col-lg-6 col-12 pe-4">
+        <div className="col-lg-6 col-12">
           {companyData.Years && <ValuationMetrics sector={companyData.Sector} years={companyData.Years} />}
         </div>
-        <div className="col-lg-6 col-12 mb-3 mb-lg-0 ps-4">
-          <table className="ps-4 table w-auto" style={{ minWidth: 400 }}>
+        <div className="col-lg-6 col-12 mb-3 mb-lg-0">
+          <table className="table w-100">
             <colgroup>
-              <col style={{ width: "33%" }} />
-              <col style={{ width: "33%" }} />
-              <col style={{ width: "33%" }} />
+              <col style={{ width: "50%" }} />
+              <col style={{ width: "25%" }} />
+              <col style={{ width: "25%" }} />
             </colgroup>
             <thead>
               <tr>
