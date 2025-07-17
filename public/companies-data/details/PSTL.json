@@ -12,7 +12,7 @@
             "PerformanceMetrics": {
                 "FCF yield": {
                     "Value": 0.007827117144599513,
-                    "Evaluation": "Weak"
+                    "Evaluation": ""
                 },
                 "NOPAT": {
                     "Value": 13779520.51557465,
@@ -20,31 +20,31 @@
                 },
                 "ROIC": {
                     "Value": 0.031307984303599525,
-                    "Evaluation": "Strong"
+                    "Evaluation": ""
                 },
                 "ReinvRate": {
                     "Value": -1.4035321459945196,
-                    "Evaluation": "Weak"
+                    "Evaluation": ""
                 },
                 "D/E": {
                     "Value": 0.816223384600225,
-                    "Evaluation": "Weak"
+                    "Evaluation": ""
                 },
                 "ICR": {
                     "Value": 1.521304347826087,
-                    "Evaluation": "Strong"
+                    "Evaluation": ""
                 },
                 "OMS": {
                     "Value": 0.21967604218985434,
-                    "Evaluation": "Strong"
+                    "Evaluation": ""
                 },
                 "EV/OCF": {
                     "Value": 126.19692525802935,
-                    "Evaluation": "Weak"
+                    "Evaluation": ""
                 },
                 "EVA/InvCap": {
                     "Value": -0.03178089575640006,
-                    "Evaluation": "Weak"
+                    "Evaluation": ""
                 }
             }
         },
@@ -56,7 +56,7 @@
             "PerformanceMetrics": {
                 "FCF yield": {
                     "Value": 0.05956086311437218,
-                    "Evaluation": "Strong"
+                    "Evaluation": ""
                 },
                 "NOPAT": {
                     "Value": 20885838.212634824,
@@ -64,40 +64,36 @@
                 },
                 "ROIC": {
                     "Value": 0.04191620349492013,
-                    "Evaluation": "Strong"
+                    "Evaluation": ""
                 },
                 "ReinvRate": {
                     "Value": -1.0517653051009046,
-                    "Evaluation": "Weak"
+                    "Evaluation": ""
                 },
                 "D/E": {
                     "Value": 0.9900710348807131,
-                    "Evaluation": "Weak"
+                    "Evaluation": ""
                 },
                 "ICR": {
                     "Value": 1.76475,
-                    "Evaluation": "Strong"
+                    "Evaluation": ""
                 },
                 "OMS": {
                     "Value": 0.27728748756088617,
-                    "Evaluation": "Strong"
+                    "Evaluation": ""
                 },
                 "EV/OCF": {
                     "Value": 16.671781617168612,
-                    "Evaluation": "Weak"
+                    "Evaluation": ""
                 },
                 "EVA/InvCap": {
                     "Value": -0.024268963430065054,
-                    "Evaluation": "Weak"
+                    "Evaluation": ""
                 }
             }
         }
     ],
     "HistoricalPrices": [
-        {
-            "Date": "2020-07-16 00:00:00",
-            "Close": 13.0
-        },
         {
             "Date": "2020-07-17 00:00:00",
             "Close": 13.399999618530273
@@ -5116,9 +5112,9 @@
         },
         {
             "Date": "2025-07-16 00:00:00",
-            "Close": 14.78849983215332
+            "Close": 14.859999656677246
         }
     ],
     "Points": 0,
-    "Comparatives": 1.0
+    "Comparatives": 0.0
 }
