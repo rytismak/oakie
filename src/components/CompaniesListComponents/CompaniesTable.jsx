@@ -1,7 +1,7 @@
+
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import { OverlayTrigger, Popover } from "react-bootstrap";
 
 
@@ -39,6 +39,7 @@ function CompaniesTable() {
       setSortField(field);
       setSortOrder("asc");
     }
+    setCurrentPage(1);
   };
 
   const filterByMarketCap = (comp) => {
@@ -72,9 +73,12 @@ function CompaniesTable() {
 
   const sorted = [...filtered].sort((a, b) => {
     if (sortField) {
-
       let valA = a[sortField];
       let valB = b[sortField];
+      if (sortField === "Company") {
+        valA = typeof valA === "string" ? valA.toLowerCase() : valA;
+        valB = typeof valB === "string" ? valB.toLowerCase() : valB;
+      }
       if (sortField === "CurrentPrice" || sortField === "MarketCap") {
         valA = Number(valA) || 0;
         valB = Number(valB) || 0;
@@ -99,9 +103,7 @@ function CompaniesTable() {
         };
         valA = getDiff(a);
         valB = getDiff(b);
-
       }
-
       if (valA < valB) return sortOrder === "asc" ? -1 : 1;
       if (valA > valB) return sortOrder === "asc" ? 1 : -1;
     }
@@ -119,8 +121,8 @@ function CompaniesTable() {
   const columns = [
     { field: "Company", label: "Company", align: "left" },
     { field: "Ticker", label: "Ticker", align: "left" },
-    { field: "MarketCap", label: "Market\u00A0Cap", align: "right" },
     { field: "Sector", label: "Sector", align: "left" },
+    { field: "MarketCap", label: "Market\u00A0Cap", align: "right" },
     { field: "CurrentPrice", label: "Stock\u00A0Price", align: "right" },
     { field: "Comparatives", label: "Comparatives", align: "right" },
     { field: "Difference", label: "Difference", align: "right" },
@@ -128,6 +130,28 @@ function CompaniesTable() {
 
   return (
     <div className="container mt-4">
+      <style>{`
+        @media (max-width: 768px) {
+          .table-sticky-col-header {
+            position: sticky;
+            left: 0;
+            background: white;
+            z-index: 2;
+            width: 160px !important;
+            min-width: 160px !important;
+            max-width: 160px !important;
+          }
+          .table-sticky-col {
+            position: sticky;
+            left: 0;
+            background: white;
+            z-index: 1;
+            width: 220px !important;
+            min-width: 220px !important;
+            max-width: 220px !important;
+          }
+        }
+      `}</style>
       {/* Header with Total Companies */}
       <h2 className="mb-4">Companies List ({filtered.length})</h2>
 
@@ -140,14 +164,20 @@ function CompaniesTable() {
             className="form-control mb-2"
             placeholder="Search by Company or Ticker"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
           />
         </div>
 
         <div className="col-12 mb-2 col-md-3">
           <select
             className="form-select flex-grow-1"
-            onChange={(e) => setFilterIndustry(e.target.value)}
+            onChange={(e) => {
+              setFilterIndustry(e.target.value);
+              setCurrentPage(1);
+            }}
             value={filterIndustry}
             aria-label="Filter by industry"
           >
@@ -162,7 +192,10 @@ function CompaniesTable() {
         <div className="col-12 mb-2 col-md-3">
           <select
             className="form-select flex-grow-1"
-            onChange={(e) => setFilterMarketCap(e.target.value)}
+            onChange={(e) => {
+              setFilterMarketCap(e.target.value);
+              setCurrentPage(1);
+            }}
             value={filterMarketCap}
             aria-label="Filter by market capitalization"
           >
@@ -182,6 +215,7 @@ function CompaniesTable() {
               setSearchTerm("");
               setFilterIndustry("");
               setFilterMarketCap("");
+              setCurrentPage(1);
             }}
           >
             Clear Filters
@@ -190,32 +224,39 @@ function CompaniesTable() {
       </div>
 
       {/* Table */}
-      <div className="table-responsive" style={{ overflowX: "auto" }}>
-        <table className="table table-hover" style={{ tableLayout: "fixed" }}>
+      <div className="table-responsive" style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+        <table className="table table-hover" style={{ tableLayout: "fixed", minWidth: "900px" }}>
           <thead style={{ background: "white", color: "black" }}>
             <tr>
-
               {columns.map((col, idx) => (
-
                 <th
                   key={col.field}
                   onClick={() => handleSort(col.field)}
+                  className={idx === 0 ? "table-sticky-col-header" : ""}
                   style={{
                     cursor: "pointer",
-                    position: idx === 0 ? "sticky" : "",
-                    left: idx === 0 ? 0 : "",
-                    zIndex: idx === 0 ? 2 : "",
-                    background: "white",
                     color: "black",
-
-                    width: idx === 0 ? "250px" : "auto", // even wider
-                    minWidth: idx === 0 ? "250px" : "120px",
+                    width:
+                      idx === 0
+                        ? (typeof window !== "undefined" && window.innerWidth <= 768 ? "170px" : "220px")
+                        : col.field === "Sector"
+                        ? "160px"
+                        : col.field === "Ticker"
+                        ? "70px"
+                        : "auto",
+                    minWidth:
+                      idx === 0
+                        ? (typeof window !== "undefined" && window.innerWidth <= 768 ? "170px" : "220px")
+                        : col.field === "Sector"
+                        ? "160px"
+                        : col.field === "Ticker"
+                        ? "70px"
+                        : "90px",
                     textAlign: col.align || "left",
                   }}
                 >
                   {col.label}
                   {sortField === col.field &&
-
                     (sortOrder === "asc" ? "\u00A0▲" : "\u00A0▼")}
                 </th>
               ))}
@@ -247,17 +288,11 @@ function CompaniesTable() {
                     navigate(`/company-analysis?ticker=${comp.Ticker}`)
                   }
                 >
-                  <td
-                    style={{
-                      position: "sticky",
-                      left: "0",
-                      zIndex: "1",
-                      background: "white",
-                    }}
-                  >
-                    {comp.Company}
+                  <td className="table-sticky-col">
+                    {comp.Company.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())}
                   </td>
                   <td>{comp.Ticker}</td>
+                  <td>{comp.Sector}</td>
                   <td style={{ textAlign: "right" }}>
                     {typeof comp.MarketCap === "number"
                       ? (() => {
@@ -278,7 +313,6 @@ function CompaniesTable() {
                         })()
                       : comp.MarketCap}
                   </td>
-                  <td>{comp.Sector}</td>
                   <td style={{ textAlign: "right" }}>
                     {typeof comp.CurrentPrice === "number"
                       ? `$${comp.CurrentPrice.toFixed(2)}`
@@ -407,7 +441,6 @@ function CompaniesTable() {
                 </tr>
               );
             })}
-
           </tbody>
         </table>
       </div>
@@ -423,20 +456,18 @@ function CompaniesTable() {
         </button>
 
         <ul className="pagination mb-2">
-          {(() => {
+          {/* Only show page numbers on desktop */}
+          {typeof window !== "undefined" && window.innerWidth > 768 && (() => {
             const pages = [];
             const showFirst = 5;
             const showLast = 2;
             const total = pageCount;
-            // Always show first 5
             for (let i = 1; i <= Math.min(showFirst, total); i++) {
               pages.push(i);
             }
-            // If more than 7 pages, show ellipsis and last 2
             if (total > showFirst + showLast) {
               if (currentPage > showFirst && currentPage <= total - showLast) {
                 pages.push("ellipsis1");
-                // Show current page if it's not in first 5 or last 2
                 if (
                   currentPage > showFirst &&
                   currentPage <= total - showLast
@@ -451,7 +482,6 @@ function CompaniesTable() {
                 pages.push(i);
               }
             } else {
-              // If not enough pages for ellipsis, just show all
               for (let i = showFirst + 1; i <= total; i++) {
                 pages.push(i);
               }
