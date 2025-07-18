@@ -255,9 +255,60 @@ function CompaniesTable() {
                     textAlign: col.align || "left",
                   }}
                 >
-                  {col.label}
-                  {sortField === col.field &&
-                    (sortOrder === "asc" ? "\u00A0▲" : "\u00A0▼")}
+                  {col.field === "Comparatives" ? (
+                    <OverlayTrigger
+                      trigger={["hover", "focus"]}
+                      placement="top"
+                      overlay={
+                        <Popover id="popover-comparatives-header" placement="top">
+                          <Popover.Header as="h3">Comparatives</Popover.Header>
+                          <Popover.Body>
+                            Comparatives shows how a company’s performance stacks up against its industry by comparing the number of strong metrics to weak ones. For example, a score of 200% means the company has twice as many metrics performing better than the industry average as those performing worse.
+                          </Popover.Body>
+                        </Popover>
+                      }
+                    >
+                      <span
+                        style={{
+                          borderBottom: "1px dashed grey",
+                          textDecoration: "none",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {col.label}
+                        {sortField === col.field && (sortOrder === "asc" ? "\u00A0▲" : "\u00A0▼")}
+                      </span>
+                    </OverlayTrigger>
+                  ) : col.field === "Difference" ? (
+                    <OverlayTrigger
+                      trigger={["hover", "focus"]}
+                      placement="top"
+                      overlay={
+                        <Popover id="popover-difference-header" placement="top">
+                          <Popover.Header as="h3">Difference</Popover.Header>
+                          <Popover.Body>
+                            Difference indicates how much higher or lower the estimated intrinsic value is compared to current stock price. A positive number means the estimated intrinsic value is higher than the current stock price (i.e. undervaluation), while a negative number means the current stock price is higher than estimated intrinsic value (i.e. overvaluation).
+                          </Popover.Body>
+                        </Popover>
+                      }
+                    >
+                      <span
+                        style={{
+                          borderBottom: "1px dashed grey",
+                          textDecoration: "none",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {col.label}
+                        {sortField === col.field && (sortOrder === "asc" ? "\u00A0▲" : "\u00A0▼")}
+                      </span>
+                    </OverlayTrigger>
+                  ) : (
+                    <>
+                      {col.label}
+                      {sortField === col.field && (sortOrder === "asc" ? "\u00A0▲" : "\u00A0▼")}
+                    </>
+                  )}
                 </th>
               ))}
             </tr>

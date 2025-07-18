@@ -54,28 +54,37 @@ function ValuationMetrics({ years, sector }) {
     const num = Number(val);
     if (!isNaN(num)) {
       if (percentMetrics.includes(metricName)) {
-        return (num * 100).toFixed(2) + "%";
+        return (num * 100).toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }) + "%";
       }
       if (metricName === "NOPAT") {
         // Format as $XM or $XB with best-practice formatting
-        if (Math.abs(num) >= 1e9) {
-          return `$${(num / 1e9).toLocaleString(undefined, {
+        const sign = num < 0 ? "-" : "";
+        const absNum = Math.abs(num);
+        if (absNum >= 1e9) {
+          return `${sign}$${(absNum / 1e9).toLocaleString(undefined, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}B`;
-        } else if (Math.abs(num) >= 1e6) {
-          return `$${(num / 1e6).toLocaleString(undefined, {
+        } else if (absNum >= 1e6) {
+          return `${sign}$${(absNum / 1e6).toLocaleString(undefined, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}M`;
         } else {
-          return `$${num.toLocaleString(undefined, {
+          return `${sign}$${absNum.toLocaleString(undefined, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}`;
         }
       }
-      return num.toFixed(2);
+      // For all other numbers, format with commas and 2 decimals
+      return num.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
     }
     return val;
   };
@@ -93,11 +102,11 @@ function ValuationMetrics({ years, sector }) {
   };
 
   return (
-    <div className="pe-4">
+    <div className="w-100">
       <table className="table">
         <thead>
           <tr>
-            <th className="fw-bold">Evaluation Metrics</th>
+            <th className="fw-bold">Financial Indicators</th>
             {yearLabels.map((year) => (
               <th key={year} className="text-end fw-bold">
                 {year}
@@ -107,11 +116,10 @@ function ValuationMetrics({ years, sector }) {
         </thead>
         <tbody>
           {metrics.map((m, i) => {
-            // Try to match metric name exactly, or fallback to case-insensitive match
+            // ...existing code...
             let def = metricDefinitions[m.name];
-
             if (!def && metricDefinitions) {
-              // Try to find a key that matches ignoring case and whitespace
+              // ...existing code...
               const foundKey = Object.keys(metricDefinitions).find(
                 (k) =>
                   k.replace(/\s+/g, "").toLowerCase() ===
@@ -119,7 +127,6 @@ function ValuationMetrics({ years, sector }) {
               );
               if (foundKey) def = metricDefinitions[foundKey];
             }
-            
             const popover = (
               <Popover id={`popover-${i}`} placement="top">
                 <Popover.Header as="h3">{m.name}</Popover.Header>
@@ -160,7 +167,12 @@ function ValuationMetrics({ years, sector }) {
                   </OverlayTrigger>
                 </td>
                 {m.values.map((entry, idx) => {
-                  const valuePopoverText = getValuePopoverText(entry.label, m.name, sector);
+                  // ...existing code...
+                  const valuePopoverText = getValuePopoverText(
+                    entry.label,
+                    m.name,
+                    sector
+                  );
                   const valuePopover = valuePopoverText ? (
                     <Popover id={`value-popover-${i}-${idx}`} placement="top">
                       <Popover.Body>{valuePopoverText}</Popover.Body>
@@ -211,6 +223,16 @@ function ValuationMetrics({ years, sector }) {
           })}
         </tbody>
       </table>
+      {/* Legend below table */}
+      <div className="mt-2 mb-4 ms-2">
+        <span style={{ fontSize: "0.8em" }}>
+          <span className="fw-bold text-success">Green</span> - better than industry standard
+          <br />
+          <span className="fw-bold text-secondary">Grey</span> - similar to industry standard
+          <br />
+          <span className="fw-bold text-danger">Red</span> - below industry standard
+        </span>
+      </div>
     </div>
   );
 }

@@ -19,7 +19,6 @@ export default function CompanyAnalysis() {
   }companies-data/details/${ticker}.json`;
   // console.log(dataURL);
 
-
   const [companyData, setcompanyData] = useState({});
 
   useEffect(() => {
@@ -30,7 +29,6 @@ export default function CompanyAnalysis() {
 
         console.log(response.data);
         console.log(response.data.Years[0]);
-
       })
       .catch((error) => {
         console.error("Failed to load data:", error);
@@ -72,13 +70,11 @@ export default function CompanyAnalysis() {
   return (
     <div className="container mt-4">
       <Breadcrumb>
-
         <Breadcrumb.Item
           linkAs={Link}
           linkProps={{ to: "/featured-companies" }}
         >
           Featuted Companies
-
         </Breadcrumb.Item>
         <Breadcrumb.Item active>{companyData.Company}</Breadcrumb.Item>
       </Breadcrumb>
@@ -87,24 +83,38 @@ export default function CompanyAnalysis() {
       <h1 className="display-6">{companyData.Company}</h1>
 
       {/* Company Description */}
-      <p className="mt-4 text-muted">{companyData.Description}</p>
+      {companyData.Description && companyData.Description.trim() !== "" && (
+        <p className="my-4 text-muted">{companyData.Description}</p>
+      )}
 
-      <InfoCards
-        stockPrice={lastStockPrice}
-        dcfValue={lastDCFValue}
-        exitMultipleValue={lastExitMultipleValue}
-      />
-
-
-      <PriceChart
-        intrinsicValueEstimates={intrinsicValueEstimates}
-        dailyStockPrice={dailyStockPrice}
-      />
+      {/* PriceChart and InfoCards side by side on desktop, stacked on mobile */}
+      <div className="row">
+        <div className="col-lg-8 col-12 mb-3 mb-lg-0">
+          <PriceChart
+            intrinsicValueEstimates={intrinsicValueEstimates}
+            dailyStockPrice={dailyStockPrice}
+          />
+        </div>
+        <div className="col-lg-4 col-12 pt-lg-3">
+          <div style={{ marginTop: window.innerWidth >= 992 ? "26px" : "0" }}>
+            <InfoCards
+              stockPrice={lastStockPrice}
+              dcfValue={lastDCFValue}
+              exitMultipleValue={lastExitMultipleValue}
+            />
+          </div>
+        </div>
+      </div>
 
       {/* Price Difference Table and ValuationMetrics side by side */}
-      <div className="row my-4">
+      <div className="row">
         <div className="col-lg-6 col-12">
-          {companyData.Years && <ValuationMetrics sector={companyData.Sector} years={companyData.Years} />}
+          {companyData.Years && (
+            <ValuationMetrics
+              sector={companyData.Sector}
+              years={companyData.Years}
+            />
+          )}
         </div>
         <div className="col-lg-6 col-12 mb-3 mb-lg-0">
           <table className="table w-100">

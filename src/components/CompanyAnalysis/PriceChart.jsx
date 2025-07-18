@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 
 import {
@@ -19,7 +18,6 @@ export default function PriceChart({
   intrinsicValueEstimates = [],
   dailyStockPrice = [],
 }) {
-  
   const PERIODS = [
     { label: "5Y", years: 5 },
     { label: "4Y", years: 4 },
@@ -76,7 +74,6 @@ export default function PriceChart({
 
   const chartStart = filledData[0].date.split("T")[0];
   const chartEnd = filledData[filledData.length - 1].date.split("T")[0];
-
 
   const allValues = filledData.reduce((acc, item) => {
     acc.push(item.price);
@@ -149,9 +146,8 @@ export default function PriceChart({
         style={{
           color: isUp ? "#388e3c" : "#d32f2f",
           fontWeight: 700,
-          marginLeft: 18,
+          paddingLeft: 6,
           paddingBottom: 7,
-          fontSize: 15,
           display: "inline-flex",
           alignItems: "center",
         }}
@@ -162,26 +158,11 @@ export default function PriceChart({
   }
 
   return (
-    <div className="mb-4 mt-4">
-      {/* Header and period selection in one line */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-end",
-          gap: 12,
-          marginBottom: 16,
-        }}
-      >
-        <h2
-          className="mb-0 mt-4"
-          style={{ paddingBottom: 7, fontSize: 24, fontWeight: 700 }}
-        >
-          Stock price vs Evaluation
-        </h2>
-        <div style={{ display: "flex", alignItems: "flex-end", gap: 12 }}>
-          {priceDiffLabel}
-          <div style={{ display: "flex", gap: 12 }}>
+    <div className="mb-2 mt-4">
+      {/* Responsive header: header on top, price diff and period selector left aligned */}
+      <div className="mb-2">
+        <div className="d-flex flex-row align-items-end gap-2 mt-2 justify-content-start">
+          <div className="d-flex gap-1 flex-wrap" style={{ fontSize: "1em" }}>
             {PERIODS.map((p) => (
               <span
                 key={p.label}
@@ -189,15 +170,15 @@ export default function PriceChart({
                 style={{
                   cursor: "pointer",
                   color: selectedPeriod === p.label ? "#1976d2" : "#444",
-                  fontWeight: selectedPeriod === p.label ? 700 : 400,
+                  fontWeight: 700,
                   border: "none",
                   background: "none",
-                  padding: "0 0 4px 0",
+                  padding: "0 0 2px 0",
                   borderBottom:
                     selectedPeriod === p.label
                       ? "3px solid #1976d2"
                       : "3px solid transparent",
-                  fontSize: 15,
+                  fontSize: "inherit",
                   transition: "color 0.2s, border-bottom 0.2s",
                   textDecoration: "none",
                   marginLeft: 0,
@@ -218,10 +199,11 @@ export default function PriceChart({
               </span>
             ))}
           </div>
+          <span style={{ fontSize: "0.8em" }}>{priceDiffLabel}</span>
         </div>
       </div>
 
-      <ResponsiveContainer width="99%" height={240}>
+      <ResponsiveContainer width="99%" height={150}>
         <LineChart
           data={filledData}
           margin={{ top: 5, right: 1, left: 1, bottom: 5 }}
@@ -295,9 +277,8 @@ export default function PriceChart({
               );
             })}
 
-
           <Line
-            stroke="#8884d8"
+            stroke="#1976d2"
             dataKey="price"
             isAnimationActive={false}
             dot={false}
