@@ -1,6 +1,6 @@
 {
     "Company": "Outbrain Inc.",
-    "Ticker": "OB",
+    "Ticker": "TEAD",
     "Sector": "Information Technology",
     "Description": "",
     "Years": [
@@ -5112,7 +5112,7 @@
         },
         {
             "Date": "2025-07-17 00:00:00",
-            "Close": ""
+            "Close": 2.7100000381469727
         }
     ],
     "Points": -3,
