@@ -10,6 +10,9 @@ import {
   ReferenceArea,
   ResponsiveContainer,
   Area,
+  AreaChart,
+  ComposedChart,
+  Legend,
 } from "recharts";
 import { ButtonGroup, Button } from "react-bootstrap";
 import InfoCards from "./InfoCards"; // Adjust this import path to your project structure
@@ -93,9 +96,38 @@ export default function PriceChart({
     (_, i) => paddedMin + (i * (paddedMax - paddedMin)) / (numberOfTicks - 1)
   );
 
-  const firstOfMonthDates = filledData
-    .filter((item) => new Date(item.date).getUTCDate() === 1)
-    .map((item) => item.date);
+  // Check if any stock price is >= 1000 to adjust left margin
+  const hasHighPrice = filledData.some(item => item.price >= 1000);
+  const leftMargin = hasHighPrice ? 10 : 5;
+
+  // Generate month ticks more reliably
+  const generateMonthTicks = () => {
+    const startDate = new Date(filledData[0].date);
+    const endDate = new Date(filledData[filledData.length - 1].date);
+    const monthTicks = [];
+    
+    // Start from the beginning of the first month
+    const currentDate = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+    
+    while (currentDate <= endDate) {
+      // Find the closest date in our data to the first of this month
+      const monthStart = new Date(currentDate);
+      const closestDataPoint = filledData.reduce((closest, current) => {
+        const currentDistance = Math.abs(new Date(current.date) - monthStart);
+        const closestDistance = Math.abs(new Date(closest.date) - monthStart);
+        return currentDistance < closestDistance ? current : closest;
+      });
+      
+      monthTicks.push(closestDataPoint.date);
+      
+      // Move to next month
+      currentDate.setMonth(currentDate.getMonth() + 1);
+    }
+    
+    return monthTicks;
+  };
+
+  const monthTickDates = generateMonthTicks();
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length > 0) {
@@ -114,20 +146,114 @@ export default function PriceChart({
       if (dcf && exit) {
         const avg = (dcf + exit) / 2;
         const diff = (avg / price - 1) * 100; // Percentage difference
+        const isPositive = diff >= 0;
         return (
-          <div className="p-2 bg-light border">
-            <div>Date: {dateStr}</div>
-            <div>Price: ${price.toFixed(2)}</div>
-            <div>DCF: ${dcf.toFixed(2)}</div>
-            <div>Exit Multiple: ${exit.toFixed(2)}</div>
-            <div>Difference: {diff.toFixed(2)}%</div>
+          <div 
+            className="shadow-sm"
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.98)',
+              border: '1px solid #e0e0e0',
+              borderRadius: '8px',
+              padding: '12px 14px',
+              fontSize: '13px',
+              lineHeight: '1.4',
+              color: '#333',
+              backdropFilter: 'blur(4px)'
+            }}
+          >
+            <div style={{ fontWeight: '400', color: '#333', marginBottom: '6px', fontSize: '1.2em' }}>
+              {dateStr}
+            </div>
+            <div style={{ marginBottom: '2px', display: 'flex', alignItems: 'center' }}>
+              
+              <span style={{ color: '#666', minWidth: '45px', display: 'inline-block', fontWeight: '400' }}>Price:</span>
+              <div style={{
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%',
+                backgroundColor: '#1976d2',
+                marginRight: '4px'
+              }}></div>
+              <span style={{ fontWeight: '700' }}>
+                ${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </span>
+            </div>
+            <div style={{ marginBottom: '2px', display: 'flex', alignItems: 'center' }}>
+              
+              <span style={{ color: '#666', minWidth: '45px', display: 'inline-block', fontWeight: '400' }}>DCF:</span>
+              <div style={{
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%',
+                backgroundColor: '#ff9800',
+                marginRight: '4px'
+              }}></div>
+              <span style={{ fontWeight: '700' }}>${dcf.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+            </div>
+            <div style={{ marginBottom: '6px', display: 'flex', alignItems: 'center' }}>
+ 
+              <span style={{ color: '#666', minWidth: '45px', display: 'inline-block', fontWeight: '400' }}>Exit:</span>
+                           <div style={{
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%',
+                backgroundColor: '#9c27b0',
+                marginRight: '4px'
+              }}></div>
+              <span style={{ fontWeight: '700' }}>${exit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+            </div>
+            <div style={{ 
+              borderTop: '1px solid #f0f0f0', 
+              paddingTop: '6px',
+              fontSize: '12px',
+              fontWeight: '400',
+              display: 'flex',
+              alignItems: 'center'
+            }}>
+
+              <span style={{ color: '#666', minWidth: '45px', display: 'inline-block' }}>Diff:</span>
+              <span style={{ 
+                color: isPositive ? '#4caf50' : '#f44336',
+                fontWeight: '700',
+                display: 'inline-flex',
+                alignItems: 'center'
+              }}>
+                {isPositive ? '▲' : '▼'} {diff.toFixed(1)}%
+              </span>
+            </div>
           </div>
         );
       }
       return (
-        <div className="p-2 bg-light border">
-          <div>Date: {dateStr}</div>
-          <div>Price: ${price.toFixed(2)}</div>
+        <div 
+          className="shadow-sm"
+          style={{
+            backgroundColor: 'rgba(255, 255, 255, 0.98)',
+            border: '1px solid #e0e0e0',
+            borderRadius: '8px',
+            padding: '12px 14px',
+            fontSize: '13px',
+            lineHeight: '1.4',
+            color: '#333',
+            backdropFilter: 'blur(4px)'
+          }}
+        >
+          <div style={{ fontWeight: '400', color: '#333', marginBottom: '6px', fontSize: '1.2em' }}>
+            {dateStr}
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{
+              width: '8px',
+              height: '8px',
+              borderRadius: '50%',
+              backgroundColor: '#1976d2',
+              marginRight: '6px'
+            }}></div>
+            <span style={{ color: '#666', minWidth: '45px', display: 'inline-block', fontWeight: '400' }}>Price:</span>
+            <span style={{ fontWeight: '700' }}>
+              ${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            </span>
+          </div>
         </div>
       );
     }
@@ -156,6 +282,62 @@ export default function PriceChart({
       </span>
     );
   }
+
+  // Custom legend renderer
+  const CustomLegend = (props) => {
+    const { payload } = props;
+    return (
+      <div className="d-flex justify-content-start gap-3 mt-2" style={{ fontSize: '0.8em' }}>
+        <div className="d-flex align-items-center gap-1">
+          <div style={{
+            width: '16px',
+            height: '3px',
+            background: 'linear-gradient(to right, #1976d2, #42a5f5)',
+            borderRadius: '2px'
+          }}></div>
+          <span style={{ color: '#666', fontWeight: '400' }}>Stock Price</span>
+        </div>
+        <div className="d-flex align-items-center gap-1">
+          <svg width="16" height="3" style={{ overflow: 'visible' }}>
+            <line
+              x1="0"
+              y1="1.5"
+              x2="16"
+              y2="1.5"
+              stroke="#ff9800"
+              strokeWidth="2"
+              strokeDasharray="3 2"
+            />
+          </svg>
+          <span style={{ color: '#666', fontWeight: '400' }}>DCF Value</span>
+        </div>
+        <div className="d-flex align-items-center gap-1">
+          <svg width="16" height="3" style={{ overflow: 'visible' }}>
+            <line
+              x1="0"
+              y1="1.5"
+              x2="16"
+              y2="1.5"
+              stroke="#9c27b0"
+              strokeWidth="2"
+              strokeDasharray="2 1.5"
+            />
+          </svg>
+          <span style={{ color: '#666', fontWeight: '400' }}>Exit Multiple</span>
+        </div>
+        <div className="d-flex align-items-center gap-1">
+          <div style={{
+            width: '16px',
+            height: '8px',
+            backgroundColor: '#4caf50',
+            opacity: 0.2,
+            borderRadius: '2px'
+          }}></div>
+          <span style={{ color: '#666', fontWeight: '400' }}>Intrinsic Range</span>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="mb-2 mt-4">
@@ -203,19 +385,25 @@ export default function PriceChart({
         </div>
       </div>
 
-      <ResponsiveContainer width="99%" height={150}>
-        <LineChart
+      <ResponsiveContainer width="99%" height={190}>
+        <ComposedChart
           data={filledData}
-          margin={{ top: 5, right: 1, left: 1, bottom: 5 }}
+          margin={{ top: 0, right: 0, left: leftMargin, bottom: 25 }}
         >
           <defs>
             <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#8884d8" stopOpacity={0.35} />
-              <stop offset="100%" stopColor="#8884d8" stopOpacity={0} />
+              <stop offset="0%" stopColor="#1976d2" stopOpacity={0.8} />
+              <stop offset="50%" stopColor="#1976d2" stopOpacity={0.4} />
+              <stop offset="100%" stopColor="#1976d2" stopOpacity={0.1} />
+            </linearGradient>
+            <linearGradient id="lineGradient" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#1976d2" stopOpacity={1} />
+              <stop offset="50%" stopColor="#42a5f5" stopOpacity={1} />
+              <stop offset="100%" stopColor="#1976d2" stopOpacity={1} />
             </linearGradient>
           </defs>
 
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" strokeOpacity={0.5} />
           <XAxis
             dataKey="date"
             tickFormatter={(date) =>
@@ -224,21 +412,46 @@ export default function PriceChart({
             tick={{ fontSize: 10 }}
             angle={-45}
             textAnchor="end"
-            ticks={firstOfMonthDates}
+            ticks={monthTickDates}
             domain={["dataMin", "dataMax"]}
+            axisLine={{ stroke: "#e0e0e0" }}
+            tickLine={{ stroke: "#e0e0e0" }}
           />
           <YAxis
             dataKey="price"
-            tick={{ fontSize: 10 }}
+            tick={{ fontSize: 10, textAnchor: "end" }}
             ticks={yTicks}
-            tickFormatter={(value) => `$${value.toFixed(2)}`}
+            tickFormatter={(value) => `$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
             domain={[paddedMin, paddedMax]}
+            width={40}
+            axisLine={{ stroke: "#e0e0e0" }}
+            tickLine={{ stroke: "#e0e0e0" }}
           />
           <Tooltip content={<CustomTooltip />} />
+          <Legend content={<CustomLegend />} />
 
-          {/* --- DCF/Exit Multiple value zones --- */}
+          <Area
+            type="monotone"
+            dataKey="price"
+            stroke="url(#lineGradient)"
+            strokeWidth={3}
+            fill="url(#priceGradient)"
+            fillOpacity={1}
+            isAnimationActive={true}
+            animationDuration={1500}
+            animationEasing="ease-in-out"
+            dot={false}
+            activeDot={{ 
+              r: 4, 
+              fill: "#1976d2",
+              stroke: "#ffffff",
+              strokeWidth: 2,
+              style: { filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.2))" }
+            }}
+          />
+
+          {/* Filled areas between DCF and Exit Multiple values */}
           {filteredIntrinsicValueEstimates
-
             .map((q) => {
               // Find the closest available dates in filledData for x1 and x2
               const getClosestDate = (target) => {
@@ -271,20 +484,34 @@ export default function PriceChart({
                   x2={q.clampedEnd}
                   y1={Math.min(q.DCFValue, q.ExitMultipleValue)}
                   y2={Math.max(q.DCFValue, q.ExitMultipleValue)}
-                  fill="#ffff00"
+                  fill="#4caf50"
                   fillOpacity={0.2}
                 />
               );
             })}
 
+          {/* DCF and Exit Multiple lines on top of the areas */}
           <Line
-            stroke="#1976d2"
-            dataKey="price"
-            isAnimationActive={false}
+            type="monotone"
+            dataKey="DCFValue"
+            stroke="#ff9800"
+            strokeWidth={2.5}
+            strokeDasharray="5 5"
             dot={false}
-            strokeWidth={2}
+            connectNulls={false}
+            name="DCF Value"
           />
-        </LineChart>
+          <Line
+            type="monotone"
+            dataKey="ExitMultipleValue"
+            stroke="#9c27b0"
+            strokeWidth={2.5}
+            strokeDasharray="3 3"
+            dot={false}
+            connectNulls={false}
+            name="Exit Multiple"
+          />
+        </ComposedChart>
       </ResponsiveContainer>
     </div>
   );

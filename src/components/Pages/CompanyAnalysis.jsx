@@ -67,20 +67,41 @@ export default function CompanyAnalysis() {
   const lastDCFValue = lastIntrinsic.DCFValue ?? null;
   const lastExitMultipleValue = lastIntrinsic.ExitMultipleValue ?? null;
 
+  // Format company name with proper capitalization
+  const formatCompanyName = (name) => {
+    if (!name) return "";
+    return name.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+  };
+
+  // Check if mobile view
+  const isMobile = window.innerWidth < 992;
+
   return (
     <div className="container mt-4">
-      <Breadcrumb>
-        <Breadcrumb.Item
-          linkAs={Link}
-          linkProps={{ to: "/featured-companies" }}
-        >
-          Featuted Companies
-        </Breadcrumb.Item>
-        <Breadcrumb.Item active>{companyData.Company}</Breadcrumb.Item>
-      </Breadcrumb>
+      {isMobile ? (
+        // Mobile: Show back link with arrow
+        <div className="mb-3">
+          <Link to="/featured-companies" className="text-decoration-none text-primary">
+            ← Back to Featured Companies
+          </Link>
+        </div>
+      ) : (
+        // Desktop: Show breadcrumbs
+        <Breadcrumb>
+          <Breadcrumb.Item
+            linkAs={Link}
+            linkProps={{ to: "/featured-companies" }}
+          >
+            Featured Companies
+          </Breadcrumb.Item>
+          <Breadcrumb.Item active>{formatCompanyName(companyData.Company)}</Breadcrumb.Item>
+        </Breadcrumb>
+      )}
 
       {/* Header */}
-      <h1 className="display-6">{companyData.Company}</h1>
+      <h1 className={isMobile ? "h3" : "display-6"}>
+        {formatCompanyName(companyData.Company)}
+      </h1>
 
       {/* Company Description */}
       {companyData.Description && companyData.Description.trim() !== "" && (
@@ -105,6 +126,7 @@ export default function CompanyAnalysis() {
           </div>
         </div>
       </div>
+    
 
       {/* Price Difference Table and ValuationMetrics side by side */}
       <div className="row">
@@ -133,6 +155,30 @@ export default function CompanyAnalysis() {
             <tbody>
               {(() => {
                 const periods = [
+                  {
+                    label: "1M",
+                    getStart: () => {
+                      const d = new Date();
+                      d.setMonth(d.getMonth() - 1);
+                      return d;
+                    },
+                  },
+                  {
+                    label: "3M",
+                    getStart: () => {
+                      const d = new Date();
+                      d.setMonth(d.getMonth() - 3);
+                      return d;
+                    },
+                  },
+                  {
+                    label: "6M",
+                    getStart: () => {
+                      const d = new Date();
+                      d.setMonth(d.getMonth() - 6);
+                      return d;
+                    },
+                  },
                   {
                     label: "YTD",
                     getStart: () => new Date(new Date().getFullYear(), 0, 1),

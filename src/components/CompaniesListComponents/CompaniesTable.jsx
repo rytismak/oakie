@@ -1,9 +1,7 @@
-
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { OverlayTrigger, Popover } from "react-bootstrap";
-
 
 function CompaniesTable() {
   const [companies, setCompanies] = useState([]);
@@ -79,9 +77,29 @@ function CompaniesTable() {
         valA = typeof valA === "string" ? valA.toLowerCase() : valA;
         valB = typeof valB === "string" ? valB.toLowerCase() : valB;
       }
+      if (sortField === "Sector") {
+        valA = typeof valA === "string" ? valA.toLowerCase() : valA;
+        valB = typeof valB === "string" ? valB.toLowerCase() : valB;
+      }
       if (sortField === "CurrentPrice" || sortField === "MarketCap") {
         valA = Number(valA) || 0;
         valB = Number(valB) || 0;
+      }
+      if (sortField === "IntrinsicValue") {
+        // Sort by average of DCF and Exit Multiple values
+        const getIntrinsicAvg = (comp) => {
+          if (
+            comp.DCFValue != null &&
+            comp.ExitMultipleValue != null &&
+            !isNaN(comp.DCFValue) &&
+            !isNaN(comp.ExitMultipleValue)
+          ) {
+            return (Number(comp.DCFValue) + Number(comp.ExitMultipleValue)) / 2;
+          }
+          return -Infinity; // Treat missing as lowest
+        };
+        valA = getIntrinsicAvg(a);
+        valB = getIntrinsicAvg(b);
       }
       if (sortField === "Difference") {
         // Calculate difference for a and b
@@ -110,6 +128,9 @@ function CompaniesTable() {
     return 0;
   });
 
+  // Check if mobile view
+  const isMobile = window.innerWidth < 992;
+
   const pageCount = Math.ceil(sorted.length / perPage);
   const paged = sorted.slice(
     (currentPage - 1) * perPage,
@@ -121,9 +142,9 @@ function CompaniesTable() {
   const columns = [
     { field: "Company", label: "Company", align: "left" },
     { field: "Ticker", label: "Ticker", align: "left" },
-    { field: "Sector", label: "Sector", align: "left" },
     { field: "MarketCap", label: "Market\u00A0Cap", align: "right" },
     { field: "CurrentPrice", label: "Stock\u00A0Price", align: "right" },
+    { field: "IntrinsicValue", label: "Intrinsic\u00A0Value", align: "right" },
     { field: "Comparatives", label: "Comparatives", align: "right" },
     { field: "Difference", label: "Difference", align: "right" },
   ];
@@ -153,12 +174,12 @@ function CompaniesTable() {
         }
       `}</style>
       {/* Header with Total Companies */}
-      <h2 className="mb-4">Companies List ({filtered.length})</h2>
-
+      <h1 className={isMobile ? "h3 mb-4" : "display-6 mb-4"}>
+        Companies List ({filtered.length})
+      </h1>
       {/* Filters */}
       <div className="row mb-2 align-items-center">
         <div className="col-12 col-md-4">
-
           <input
             type="text"
             className="form-control mb-2"
@@ -224,8 +245,14 @@ function CompaniesTable() {
       </div>
 
       {/* Table */}
-      <div className="table-responsive" style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
-        <table className="table table-hover" style={{ tableLayout: "fixed", minWidth: "900px" }}>
+      <div
+        className="table-responsive"
+        style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}
+      >
+        <table
+          className="table table-hover"
+          style={{ tableLayout: "fixed", minWidth: "900px" }}
+        >
           <thead style={{ background: "white", color: "black" }}>
             <tr>
               {columns.map((col, idx) => (
@@ -238,19 +265,25 @@ function CompaniesTable() {
                     color: "black",
                     width:
                       idx === 0
-                        ? (typeof window !== "undefined" && window.innerWidth <= 768 ? "170px" : "220px")
-                        : col.field === "Sector"
-                        ? "160px"
+                        ? typeof window !== "undefined" &&
+                          window.innerWidth <= 768
+                          ? "170px"
+                          : "220px"
                         : col.field === "Ticker"
-                        ? "70px"
+                        ? "50px"
+                        : col.field === "IntrinsicValue"
+                        ? "160px"
                         : "auto",
                     minWidth:
                       idx === 0
-                        ? (typeof window !== "undefined" && window.innerWidth <= 768 ? "170px" : "220px")
-                        : col.field === "Sector"
-                        ? "160px"
+                        ? typeof window !== "undefined" &&
+                          window.innerWidth <= 768
+                          ? "170px"
+                          : "220px"
                         : col.field === "Ticker"
-                        ? "70px"
+                        ? "50px"
+                        : col.field === "IntrinsicValue"
+                        ? "160px"
                         : "90px",
                     textAlign: col.align || "left",
                   }}
@@ -260,10 +293,18 @@ function CompaniesTable() {
                       trigger={["hover", "focus"]}
                       placement="top"
                       overlay={
-                        <Popover id="popover-comparatives-header" placement="top">
+                        <Popover
+                          id="popover-comparatives-header"
+                          placement="top"
+                        >
                           <Popover.Header as="h3">Comparatives</Popover.Header>
                           <Popover.Body>
-                            Comparatives shows how a company’s performance stacks up against its industry by comparing the number of strong metrics to weak ones. For example, a score of 200% means the company has twice as many metrics performing better than the industry average as those performing worse.
+                            Comparatives shows how a company’s performance
+                            stacks up against its industry by comparing the
+                            number of strong metrics to weak ones. For example,
+                            a score of 200% means the company has twice as many
+                            metrics performing better than the industry average
+                            as those performing worse.
                           </Popover.Body>
                         </Popover>
                       }
@@ -276,7 +317,8 @@ function CompaniesTable() {
                         }}
                       >
                         {col.label}
-                        {sortField === col.field && (sortOrder === "asc" ? "\u00A0▲" : "\u00A0▼")}
+                        {sortField === col.field &&
+                          (sortOrder === "asc" ? "\u00A0▲" : "\u00A0▼")}
                       </span>
                     </OverlayTrigger>
                   ) : col.field === "Difference" ? (
@@ -287,7 +329,13 @@ function CompaniesTable() {
                         <Popover id="popover-difference-header" placement="top">
                           <Popover.Header as="h3">Difference</Popover.Header>
                           <Popover.Body>
-                            Difference indicates how much higher or lower the estimated intrinsic value is compared to current stock price. A positive number means the estimated intrinsic value is higher than the current stock price (i.e. undervaluation), while a negative number means the current stock price is higher than estimated intrinsic value (i.e. overvaluation).
+                            Difference indicates how much higher or lower the
+                            estimated intrinsic value is compared to current
+                            stock price. A positive number means the estimated
+                            intrinsic value is higher than the current stock
+                            price (i.e. undervaluation), while a negative number
+                            means the current stock price is higher than
+                            estimated intrinsic value (i.e. overvaluation).
                           </Popover.Body>
                         </Popover>
                       }
@@ -300,13 +348,15 @@ function CompaniesTable() {
                         }}
                       >
                         {col.label}
-                        {sortField === col.field && (sortOrder === "asc" ? "\u00A0▲" : "\u00A0▼")}
+                        {sortField === col.field &&
+                          (sortOrder === "asc" ? "\u00A0▲" : "\u00A0▼")}
                       </span>
                     </OverlayTrigger>
                   ) : (
                     <>
                       {col.label}
-                      {sortField === col.field && (sortOrder === "asc" ? "\u00A0▲" : "\u00A0▼")}
+                      {sortField === col.field &&
+                        (sortOrder === "asc" ? "\u00A0▲" : "\u00A0▼")}
                     </>
                   )}
                 </th>
@@ -329,7 +379,11 @@ function CompaniesTable() {
                 const avg =
                   (Number(comp.DCFValue) + Number(comp.ExitMultipleValue)) / 2;
                 const diff = avg / Number(comp.CurrentPrice) - 1;
-                diffText = (diff * 100).toFixed(2) + "%";
+                diffText =
+                  (diff * 100).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  }) + "%";
               }
               return (
                 <tr
@@ -340,10 +394,26 @@ function CompaniesTable() {
                   }
                 >
                   <td className="table-sticky-col">
-                    {comp.Company.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())}
+                    <div>
+                      <div>
+                        {comp.Company.replace(
+                          /\w\S*/g,
+                          (w) =>
+                            w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()
+                        )}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "0.8em",
+                          color: "#666",
+                          marginTop: "2px",
+                        }}
+                      >
+                        {comp.Sector}
+                      </div>
+                    </div>
                   </td>
                   <td>{comp.Ticker}</td>
-                  <td>{comp.Sector}</td>
                   <td style={{ textAlign: "right" }}>
                     {typeof comp.MarketCap === "number"
                       ? (() => {
@@ -366,111 +436,117 @@ function CompaniesTable() {
                   </td>
                   <td style={{ textAlign: "right" }}>
                     {typeof comp.CurrentPrice === "number"
-                      ? `$${comp.CurrentPrice.toFixed(2)}`
+                      ? `$${comp.CurrentPrice.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}`
                       : comp.CurrentPrice}
                   </td>
                   <td style={{ textAlign: "right" }}>
-                    {typeof comp.Comparatives === "number" ? (
-                      <OverlayTrigger
-                        trigger={["hover", "focus"]}
-                        placement="top"
-                        overlay={
-                          <Popover
-                            id={`popover-comparatives-${comp.Ticker}`}
+                    {(() => {
+                      if (
+                        comp.DCFValue != null &&
+                        comp.ExitMultipleValue != null &&
+                        !isNaN(comp.DCFValue) &&
+                        !isNaN(comp.ExitMultipleValue)
+                      ) {
+                        const dcf = Number(comp.DCFValue);
+                        const exit = Number(comp.ExitMultipleValue);
+                        const min = Math.min(dcf, exit);
+                        const max = Math.max(dcf, exit);
+                        const rangeText = `$${min.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })} - $${max.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}`;
+
+                        return (
+                          <OverlayTrigger
+                            trigger={["hover", "focus"]}
                             placement="top"
-                          >
-                            <Popover.Header as="h3">
-                              Comparatives Details
-                            </Popover.Header>
-                            <Popover.Body>
-                              {comp.LatestPerformanceMetrics ? (
-                                <table className="table table-sm mb-0">
-                                  <tbody>
-                                    {Object.entries(
-                                      comp.LatestPerformanceMetrics
-                                    ).map(([name, val]) => {
-                                      // Format percent metrics
-                                      const percentMetrics = [
-                                        "FCF yield",
-                                        "ROIC",
-                                        "ReinvRate",
-                                        "OMS",
-                                        "EVA/InvCap",
-                                      ];
-                                      let valueStr = "—";
-                                      if (
-                                        val &&
-                                        val.Value != null &&
-                                        val.Value !== ""
-                                      ) {
-                                        const num = Number(val.Value);
-                                        if (
-                                          !isNaN(num) &&
-                                          percentMetrics.includes(name)
-                                        ) {
-                                          valueStr =
-                                            (num * 100).toFixed(2) + "%";
-                                        } else if (!isNaN(num)) {
-                                          valueStr = num.toFixed(2);
-                                        } else {
-                                          valueStr = val.Value;
-                                        }
-                                      }
-                                      let evalColor = "";
-                                      if (val.Evaluation === "Weak")
-                                        evalColor = "text-danger fw-bold";
-                                      if (val.Evaluation === "Strong")
-                                        evalColor = "text-success fw-bold";
-                                      return (
-                                        <tr key={name}>
-                                          <td
-                                            style={{
-                                              whiteSpace: "nowrap",
-                                              paddingRight: 18,
-                                            }}
-                                          >
-                                            {name}
-                                          </td>
-                                          <td
-                                            style={{
-                                              whiteSpace: "nowrap",
-                                              paddingRight: 18,
-                                            }}
-                                          >
-                                            {valueStr}
-                                          </td>
-                                          <td
-                                            style={{
-                                              whiteSpace: "nowrap",
-                                              paddingRight: 8,
-                                            }}
-                                          >
-                                            {val.Evaluation && (
-                                              <span className={evalColor}>
-                                                {val.Evaluation}
-                                              </span>
-                                            )}
-                                          </td>
-                                        </tr>
-                                      );
+                            overlay={
+                              <div
+                                className="shadow-sm"
+                                style={{
+                                  backgroundColor: "rgba(255, 255, 255, 0.98)",
+                                  border: "1px solid #e0e0e0",
+                                  borderRadius: "8px",
+                                  padding: "12px 14px",
+                                  fontSize: "13px",
+                                  lineHeight: "1.4",
+                                  color: "#333",
+                                  backdropFilter: "blur(4px)",
+                                  maxWidth: "250px",
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    fontWeight: "600",
+                                    color: "#1976d2",
+                                    marginBottom: "6px",
+                                  }}
+                                >
+                                  Intrinsic Value Details
+                                </div>
+                                <div style={{ marginBottom: "4px" }}>
+                                  <span
+                                    style={{
+                                      color: "#666",
+                                      display: "inline-block",
+                                      minWidth: "50px",
+                                    }}
+                                  >
+                                    DCF:
+                                  </span>
+                                  <span style={{ fontWeight: "600" }}>
+                                    $
+                                    {dcf.toLocaleString("en-US", {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
                                     })}
-                                  </tbody>
-                                </table>
-                              ) : null}
-                            </Popover.Body>
-                          </Popover>
-                        }
-                      >
-                        <span
-                          style={{
-                            borderBottom: "1px dashed grey",
-                            textDecoration: "none",
-                            cursor: "pointer",
-                          }}
-                        >
-                          {Math.floor(comp.Comparatives * 100)}%
-                        </span>
-                      </OverlayTrigger>
+                                  </span>
+                                </div>
+                                <div>
+                                  <span
+                                    style={{
+                                      color: "#666",
+                                      display: "inline-block",
+                                      minWidth: "50px",
+                                    }}
+                                  >
+                                    Exit:
+                                  </span>
+                                  <span style={{ fontWeight: "600" }}>
+                                    $
+                                    {exit.toLocaleString("en-US", {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                    })}
+                                  </span>
+                                </div>
+                              </div>
+                            }
+                          >
+                            <span
+                              style={{
+                                borderBottom: "1px dashed grey",
+                                textDecoration: "none",
+                                cursor: "pointer",
+                              }}
+                            >
+                              {rangeText}
+                            </span>
+                          </OverlayTrigger>
+                        );
+                      }
+                      return "—";
+                    })()}
+                  </td>
+                  <td style={{ textAlign: "right" }}>
+                    {typeof comp.Comparatives === "number" ? (
+                      <span>{Math.floor(comp.Comparatives * 100)}%</span>
                     ) : (
                       "—"
                     )}
@@ -508,62 +584,69 @@ function CompaniesTable() {
 
         <ul className="pagination mb-2">
           {/* Only show page numbers on desktop */}
-          {typeof window !== "undefined" && window.innerWidth > 768 && (() => {
-            const pages = [];
-            const showFirst = 5;
-            const showLast = 2;
-            const total = pageCount;
-            for (let i = 1; i <= Math.min(showFirst, total); i++) {
-              pages.push(i);
-            }
-            if (total > showFirst + showLast) {
-              if (currentPage > showFirst && currentPage <= total - showLast) {
-                pages.push("ellipsis1");
+          {typeof window !== "undefined" &&
+            window.innerWidth > 768 &&
+            (() => {
+              const pages = [];
+              const showFirst = 5;
+              const showLast = 2;
+              const total = pageCount;
+              for (let i = 1; i <= Math.min(showFirst, total); i++) {
+                pages.push(i);
+              }
+              if (total > showFirst + showLast) {
                 if (
                   currentPage > showFirst &&
                   currentPage <= total - showLast
                 ) {
-                  pages.push(currentPage);
+                  pages.push("ellipsis1");
+                  if (
+                    currentPage > showFirst &&
+                    currentPage <= total - showLast
+                  ) {
+                    pages.push(currentPage);
+                  }
+                  pages.push("ellipsis2");
+                } else {
+                  pages.push("ellipsis");
                 }
-                pages.push("ellipsis2");
+                for (let i = total - showLast + 1; i <= total; i++) {
+                  pages.push(i);
+                }
               } else {
-                pages.push("ellipsis");
+                for (let i = showFirst + 1; i <= total; i++) {
+                  pages.push(i);
+                }
               }
-              for (let i = total - showLast + 1; i <= total; i++) {
-                pages.push(i);
-              }
-            } else {
-              for (let i = showFirst + 1; i <= total; i++) {
-                pages.push(i);
-              }
-            }
-            return pages.map((p, idx) => {
-              if (typeof p === "string" && p.startsWith("ellipsis")) {
+              return pages.map((p, idx) => {
+                if (typeof p === "string" && p.startsWith("ellipsis")) {
+                  return (
+                    <li key={p + idx} className="page-item disabled">
+                      <span className="page-link">...</span>
+                    </li>
+                  );
+                }
                 return (
-                  <li key={p + idx} className="page-item disabled">
-                    <span className="page-link">...</span>
+                  <li
+                    key={p}
+                    className={`page-item ${
+                      currentPage === p ? "active border-0" : ""
+                    }`}
+                  >
+                    <button
+                      className={`page-link ${
+                        currentPage === p
+                          ? "bg-black border-black"
+                          : "text-black"
+                      }`}
+                      onClick={() => setCurrentPage(p)}
+                    >
+                      {p}
+                    </button>
                   </li>
                 );
-              }
-              return (
-                <li
-                  key={p}
-                  className={`page-item ${
-                    currentPage === p ? "active border-0" : ""
-                  }`}
-                >
-                  <button
-                    className={`page-link ${
-                      currentPage === p ? "bg-black border-black" : "text-black"
-                    }`}
-                    onClick={() => setCurrentPage(p)}
-                  >
-                    {p}
-                  </button>
-                </li>
-              );
-            });
-          })()}
+              });
+            })()}
         </ul>
 
         <button

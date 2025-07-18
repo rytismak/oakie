@@ -128,23 +128,38 @@ function ValuationMetrics({ years, sector }) {
               if (foundKey) def = metricDefinitions[foundKey];
             }
             const popover = (
-              <Popover id={`popover-${i}`} placement="top">
-                <Popover.Header as="h3">{m.name}</Popover.Header>
-                <Popover.Body>
-                  {def ? (
-                    <>
-                      <div>
-                        <strong>Definition:</strong> {def.definition}
-                      </div>
-                      <div className="mt-2">
-                        <strong>Importance:</strong> {def.importance}
-                      </div>
-                    </>
-                  ) : (
-                    <span>No description available.</span>
-                  )}
-                </Popover.Body>
-              </Popover>
+              <div 
+                className="shadow-sm"
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.98)',
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '8px',
+                  padding: '12px 14px',
+                  fontSize: '13px',
+                  lineHeight: '1.4',
+                  color: '#333',
+                  backdropFilter: 'blur(4px)',
+                  maxWidth: '320px'
+                }}
+              >
+                <div style={{ fontWeight: '600', color: '#1976d2', marginBottom: '6px' }}>
+                  {m.name}
+                </div>
+                {def ? (
+                  <>
+                    <div style={{ marginBottom: '8px' }}>
+                      <span style={{ fontWeight: '600', color: '#666' }}>Definition:</span>
+                      <div style={{ marginTop: '2px' }}>{def.definition}</div>
+                    </div>
+                    <div>
+                      <span style={{ fontWeight: '600', color: '#666' }}>Importance:</span>
+                      <div style={{ marginTop: '2px' }}>{def.importance}</div>
+                    </div>
+                  </>
+                ) : (
+                  <span style={{ color: '#666' }}>No description available.</span>
+                )}
+              </div>
             );
             return (
               <tr key={i}>
@@ -174,9 +189,22 @@ function ValuationMetrics({ years, sector }) {
                     sector
                   );
                   const valuePopover = valuePopoverText ? (
-                    <Popover id={`value-popover-${i}-${idx}`} placement="top">
-                      <Popover.Body>{valuePopoverText}</Popover.Body>
-                    </Popover>
+                    <div 
+                      className="shadow-sm"
+                      style={{
+                        backgroundColor: 'rgba(255, 255, 255, 0.98)',
+                        border: '1px solid #e0e0e0',
+                        borderRadius: '8px',
+                        padding: '10px 12px',
+                        fontSize: '12px',
+                        lineHeight: '1.4',
+                        color: '#333',
+                        backdropFilter: 'blur(4px)',
+                        maxWidth: '250px'
+                      }}
+                    >
+                      {valuePopoverText}
+                    </div>
                   ) : null;
                   return (
                     <td key={entry.year + "-" + idx} className={"text-end"}>
