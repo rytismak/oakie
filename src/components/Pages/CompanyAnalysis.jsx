@@ -99,7 +99,7 @@ export default function CompanyAnalysis() {
       )}
 
       {/* Header */}
-      <h1 className={isMobile ? "h3" : "display-6"}>
+      <h1 className={isMobile ? "h3 mb-0" : "display-6 mb-o"}>
         {formatCompanyName(companyData.Company)}
       </h1>
 
@@ -129,7 +129,7 @@ export default function CompanyAnalysis() {
     
 
       {/* Price Difference Table and ValuationMetrics side by side */}
-      <div className="row">
+      <div className="row g-lg-5">
         <div className="col-lg-6 col-12">
           {companyData.Years && (
             <ValuationMetrics

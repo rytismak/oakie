@@ -271,7 +271,6 @@ export default function PriceChart({
       <span
         style={{
           color: isUp ? "#388e3c" : "#d32f2f",
-          fontWeight: 700,
           paddingLeft: 6,
           paddingBottom: 7,
           display: "inline-flex",
