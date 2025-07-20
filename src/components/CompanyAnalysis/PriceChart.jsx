@@ -335,7 +335,7 @@ export default function PriceChart({
                 }}
               >
                 {" "}
-                {isPositive ? "▲" : "▼"}
+                {isPositive ? "▲" : "▼"}{" "} 
                 {diff.toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,

@@ -132,7 +132,9 @@ export default function CompanyAnalysis() {
 
       {/* Company Description */}
       {companyData.Description && companyData.Description.trim() !== "" && (
-        <p className="my-4 text-muted">{companyData.Description}</p>
+        <p className="">
+          {companyData.Description}
+        </p>
       )}
 
       {/* Price Difference Table and ValuationMetrics side by side */}
