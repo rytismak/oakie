@@ -2,22 +2,27 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { OverlayTrigger, Popover } from "react-bootstrap";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 function CompaniesTable() {
   const [companies, setCompanies] = useState([]);
   const [industryOptions, setIndustryOptions] = useState(["All sectors"]);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     axios
       .get(`${import.meta.env.BASE_URL}/companies-data/companies.json`)
       .then((response) => {
         setCompanies(response.data);
+        setLoading(false); // Set loading to false after data is fetched
         // Extract unique sectors for filter dropdown
         const sectors = Array.from(new Set(response.data.map((c) => c.Sector)));
         setIndustryOptions(["All sectors", ...sectors.filter(Boolean).sort()]);
       })
       .catch((error) => {
         console.error("Failed to load companies:", error);
+        setLoading(false); // Set loading to false even if there's an error
       });
   }, []);
 
@@ -148,6 +153,15 @@ function CompaniesTable() {
     { field: "Comparatives", label: "Comparatives", align: "right" },
     { field: "Difference", label: "Difference", align: "right" },
   ];
+
+  if (loading) {
+    return (
+      <div className="container mt-4">
+        <h1 className="display-6 mb-4">Loading Companies...</h1>
+        <Skeleton count={10} height={40} style={{ marginBottom: "10px" }} />
+      </div>
+    );
+  }
 
   return (
     <div className="container mt-4">
