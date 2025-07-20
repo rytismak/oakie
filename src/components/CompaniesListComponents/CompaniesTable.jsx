@@ -66,14 +66,6 @@ function CompaniesTable() {
     );
   });
 
-  const calculateDifference = (comp) => {
-    return (
-      (comp.currentPrice -
-        (comp.intrinsicPrice.max + comp.intrinsicPrice.min) / 2) /
-      comp.currentPrice
-    );
-  };
-
   const sorted = [...filtered].sort((a, b) => {
     if (sortField) {
       let valA = a[sortField];
@@ -157,7 +149,7 @@ function CompaniesTable() {
   if (loading) {
     return (
       <div className="container mt-4">
-        <h1 className="display-6 mb-4">Loading Companies...</h1>
+        <h1 className="display-6 mb-4">Companies List</h1>
         <Skeleton count={10} height={40} style={{ marginBottom: "10px" }} />
       </div>
     );
