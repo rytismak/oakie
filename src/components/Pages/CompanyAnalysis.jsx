@@ -111,11 +111,6 @@ export default function CompanyAnalysis() {
         {formatCompanyName(companyData.Company)}
       </h1>
 
-      {/* Company Description */}
-      {companyData.Description && companyData.Description.trim() !== "" && (
-        <p className="my-4 text-muted">{companyData.Description}</p>
-      )}
-
       {/* PriceChart and InfoCards side by side on desktop, stacked on mobile */}
       <div className="row">
         <div className="col-lg-8 col-12 mb-3 mb-lg-0">
@@ -134,6 +129,11 @@ export default function CompanyAnalysis() {
           </div>
         </div>
       </div>
+
+      {/* Company Description */}
+      {companyData.Description && companyData.Description.trim() !== "" && (
+        <p className="my-4 text-muted">{companyData.Description}</p>
+      )}
 
       {/* Price Difference Table and ValuationMetrics side by side */}
       <div className="row g-lg-5">
@@ -263,7 +263,8 @@ export default function CompanyAnalysis() {
                     const symbol = isPositive ? "▲" : "▼";
                     changeCell = (
                       <span>
-                        {change.toFixed(2)}% <span className={colorClass}>{symbol}</span>
+                        {change.toFixed(2)}%{" "}
+                        <span className={colorClass}>{symbol}</span>
                       </span>
                     );
                     priceDiffCell = (
