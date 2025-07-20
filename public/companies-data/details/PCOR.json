@@ -2,7 +2,7 @@
     "Company": "Procore Technologies, Inc.",
     "Ticker": "PCOR",
     "Sector": "Information Technology",
-    "Description": "",
+    "Description": "PagerDuty, Inc. engages in the operation of a digital operations management platform in the United States and internationally. The company's digital operations management platform collects data and digital signals from virtually any software-enabled system or device and leverage machine learning to correlate, process, and predict opportunities and incidents. Its platform includes PagerDuty Incident Management that provides a real-time view across the status of a digital service; AIOps that applies machine learning to correlate and automate the identification of incidents from billions of events; automation offers centralized design time and run time environment for orchestrating automated workflows; customer service operations, which is offered to orchestrate, automate, and scale responses to customer impacting issues; and artificial intelligence that helps in identifying next best action, generation of status updates, automatic generation of post-incident summaries, and others. The company serves various industries, including software and technology, telecommunications, retail, travel and hospitality, media and entertainment, and financial services. PagerDuty, Inc. was founded in 2009 and is headquartered in San Francisco, California.",
     "Years": [
         {
             "Year": "2023",
