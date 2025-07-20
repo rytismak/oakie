@@ -334,8 +334,8 @@ export default function PriceChart({
                   alignItems: "center",
                 }}
               >
-                {" "}
-                {isPositive ? "▲" : "▼"}{" "} 
+                {/* {" "} */}
+                {/* {isPositive ? "▲" : "▼"}{" "}  */}
                 {diff.toLocaleString("en-US", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
