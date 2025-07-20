@@ -5,187 +5,73 @@ import { HashLink } from "react-router-hash-link";
 function Home() {
   return (
     <div className="container mt-4">
-      {/* Contents Section */}
-      
-
-      {/* Header 1: Fundamental Analysis */}
-      <section id="fundamental-analysis" className="mb-5">
-        <h1 className="display-6 mb-4">HELLO THERE</h1>
-        
-        <div className="border p-3 mb-4 bg-light rounded">
-        <h2>Contents</h2>
-        <ul className="list-unstyled">
-          <li>
-            <HashLink
-              smooth
-              to="#fundamental-analysis"
-              className="text-primary"
-            >
-              Fundamental Analysis
-            </HashLink>
-          </li>
-          <li>
-            <HashLink smooth to="#technical-analysis" className="text-primary">
-              Technical Analysis
-            </HashLink>
-          </li>
-          <li>
-            <HashLink smooth to="#market-forces" className="text-primary">
-              Market Forces
-            </HashLink>
-          </li>
-        </ul>
-      </div>
-
+      <section id="oakie-intro" className="mb-5">
+        <h1 className="display-6 mb-4">Streamline Your Investment Research with Oakie</h1>
         <p>
-          Fundamental analysis focuses on evaluating a company's **intrinsic
-          value** by analyzing its financial statements, growth potential, and
-          economic environment.
+          Navigating the world of stock investing can feel like drowning in data.
+          Traditional financial tools and stock screeners often bombard you with
+          so much information that finding a truly promising investment feels
+          impossible. We've been there – staring at endless spreadsheets and
+          combing through financial statements, wondering:
         </p>
-        <p>
-          Fundamental analysis focuses on evaluating a company's **intrinsic
-          value** by analyzing its financial statements, growth potential, and
-          economic environment.
-        </p>
-        <p>
-          Fundamental analysis focuses on evaluating a company's **intrinsic
-          value** by analyzing its financial statements, growth potential, and
-          economic environment.
-        </p>
-                <img
-          src={`${import.meta.env.BASE_URL}Hubble-Telescope-Pictures-1920x1200-575678530.jpg`}
-          alt="Market Trends"
-          className="img-fluid rounded shadow"
-        />
-
-                <p>
-          Fundamental analysis focuses on evaluating a company's **intrinsic
-          value** by analyzing its financial statements, growth potential, and
-          economic environment.
-        </p>
-                <p>
-          Fundamental analysis focuses on evaluating a company's **intrinsic
-          value** by analyzing its financial statements, growth potential, and
-          economic environment.
-        </p>
-
-             <div className="text-center">
-        <img
-          src={`${import.meta.env.BASE_URL}Hubble-Telescope-Pictures-1920x1200-575678530.jpg`}
-          alt="Market Trends"
-          className="img-fluid rounded shadow"
-        />
-      </div>
-                <p>
-          Fundamental analysis focuses on evaluating a company's **intrinsic
-          value** by analyzing its financial statements, growth potential, and
-          economic environment.
-          Fundamental analysis focuses on evaluating a company's **intrinsic
-          value** by analyzing its financial statements, growth potential, and
-          economic environment.
-          Fundamental analysis focuses on evaluating a company's **intrinsic
-          value** by analyzing its financial statements, growth potential, and
-          economic environment.
-          Fundamental analysis focuses on evaluating a company's **intrinsic
-          value** by analyzing its financial statements, growth potential, and
-          economic environment.
-          Fundamental analysis focuses on evaluating a company's **intrinsic
-          value** by analyzing its financial statements, growth potential, and
-          economic environment.
-        </p>
-                <p>
-          Fundamental analysis focuses on evaluating a company's **intrinsic
-          value** by analyzing its financial statements, growth potential, and
-          economic environment.
-        </p>
-
-        <h4>Key Components:</h4>
         <ul>
           <li>
-            <strong>Price-to-Earnings Ratio (P/E):</strong> Measures how much
-            investors are willing to pay per dollar of earnings.
+            Is a company with $100 million in operating income a hidden gem, or a
+            ticking time bomb?
           </li>
+          <li>How much debt is too much debt?</li>
+          <li>What do declining operating margins really tell you?</li>
           <li>
-            <strong>Book Value vs. Market Value:</strong> Compares the actual
-            asset value with what the market believes the company is worth.
-          </li>
-          <li>
-            <strong>Dividend Yield:</strong> Indicates the return on investment
-            for dividend-paying stocks.
-          </li>
-          <li>
-            <strong>Earnings Per Share (EPS):</strong> A critical metric for
-            profitability.
+            And with all the hype, are you missing out if you're not just buying
+            the "Magnificent 7"?
           </li>
         </ul>
-      </section>
-
-      {/* Image Section */}
-      <div className="text-center">
-        <img
-          src={`${import.meta.env.BASE_URL}image.png`}
-          alt="Market Trends"
-          className="img-fluid rounded shadow"
-        />
-      </div>
-
-      {/* Header 2: Technical Analysis */}
-      <section id="technical-analysis" className="mt-5 mb-5">
-        <h2>Technical Analysis: Patterns & Price Movements</h2>
         <p>
-          Unlike fundamental analysis, **technical analysis** examines
-          historical price movements, trends, and chart patterns to predict
-          future stock behavior.
+          These are vital questions, but finding the answers shouldn't require a
+          finance degree or countless hours of research. We believe that
+          identifying fundamentally strong businesses should be straightforward,
+          even for new and aspiring investors.
         </p>
-
-        <h4>Popular Indicators:</h4>
+        <p>That's why we created </p>
+        <p>
+          Oakie is more than just a stock screener; it's your intuitive guide to
+          smarter investing. We cut through the noise, distilling essential
+          financial metrics into clear, actionable insights. Oakie helps you:
+        </p>
         <ul>
           <li>
-            <strong>Moving Averages:</strong> Helps smooth out price
-            fluctuations over time.
+            <strong>
+              Quickly identify potentially interesting companies
+            </strong>{" "}
+            by focusing on the metrics that truly matter.
           </li>
           <li>
-            <strong>RSI (Relative Strength Index):</strong> Measures stock
-            momentum to detect overbought or oversold conditions.
+            <strong>
+              Contextualize financial data
+            </strong>{" "}
+            by comparing companies against their industry peers, giving you a
+            clearer picture of their performance.
           </li>
           <li>
-            <strong>Candlestick Patterns:</strong> Used to predict price
-            reversals based on historical trends.
-          </li>
-          <li>
-            <strong>Bollinger Bands:</strong> Shows volatility by expanding and
-            contracting with price changes.
+            <strong>
+              Simplify complex valuation
+            </strong>{" "}
+            so you can understand what makes a good business, without getting
+            lost in the details.
           </li>
         </ul>
-      </section>
-
-      {/* Header 3: Market Forces */}
-      <section id="market-forces" className="mb-5">
-        <h2>Market Forces & Stock Price Movements</h2>
         <p>
-          Stock prices are influenced by **supply and demand**, economic
-          indicators, and investor sentiment.
+          We're building Oakie to empower you to find solid investment
+          opportunities with confidence.
         </p>
-
-        <h4>Key Factors Affecting Stock Prices:</h4>
-        <ul>
-          <li>
-            <strong>Interest Rates:</strong> Higher rates reduce stock
-            valuations, while lower rates boost investment appeal.
-          </li>
-          <li>
-            <strong>Economic Growth:</strong> Positive GDP growth tends to drive
-            stock prices higher.
-          </li>
-          <li>
-            <strong>Market Sentiment:</strong> Fear or optimism among investors
-            impacts trends.
-          </li>
-          <li>
-            <strong>Industry Trends:</strong> Sectors like tech and healthcare
-            may experience rapid shifts based on innovation.
-          </li>
-        </ul>
+        <hr />
+        <p className="text-muted">
+          <em>
+            This is a preview version for testing purposes. We'd love your
+            feedback as we refine Oakie to be the best tool for aspiring
+            investors!
+          </em>
+        </p>
       </section>
     </div>
   );

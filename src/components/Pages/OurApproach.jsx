@@ -4,129 +4,85 @@ import { HashLink } from "react-router-hash-link";
 
 function OurApproach() {
   return (
-    <div className="container mt-5">
-      {/* Contents Section */}
-      <div className="border p-3 mb-4 bg-light rounded">
-        <h2>Contents</h2>
-        <ul className="list-unstyled">
-          <li>
-            <HashLink
-              smooth
-              to="#fundamental-analysis"
-              className="text-primary"
-            >
-              Fundamental Analysis
-            </HashLink>
-          </li>
-          <li>
-            <HashLink smooth to="#technical-analysis" className="text-primary">
-              Technical Analysis
-            </HashLink>
-          </li>
-          <li>
-            <HashLink smooth to="#market-forces" className="text-primary">
-              Market Forces
-            </HashLink>
-          </li>
-        </ul>
-      </div>
-
-      {/* Header 1: Fundamental Analysis */}
-      <section id="fundamental-analysis" className="mb-5">
-        <h2>Fundamental Analysis: Understanding True Value</h2>
+    <div className="container mt-4">
+      <section id="our-approach" className="mb-5">
+        <h1 className="display-6 mb-4">Clarity Through Foundational Analysis</h1>
         <p>
-          Fundamental analysis focuses on evaluating a company's **intrinsic
-          value** by analyzing its financial statements, growth potential, and
-          economic environment.
+          At Oakie, our mission is to simplify informed investing. We guide you
+          toward companies with strong fundamentals, grounded in a proven
+          investment philosophy and reliable data.
         </p>
-
-        <h4>Key Components:</h4>
+        <h2>Our Core Investment Philosophy:</h2>
+        <p>
+          We subscribe to{" "}
+          <strong>value investing</strong>, a time-tested approach focused on
+          identifying quality businesses trading below their true worth. To
+          uncover this "intrinsic value," we utilize a robust valuation process.
+          We primarily employ{" "}
+          <strong>Discounted Cash Flow (DCF)</strong> analysis – a powerful method
+          that estimates a company's current value based on its projected future
+          earnings power. To ensure a comprehensive perspective, we also consider
+          the <strong>EV/EBITDA multiple</strong>, which provides another valuable
+          data point for business valuation. We then integrate insights from both
+          approaches to arrive at a well-rounded estimate of intrinsic value.
+        </p>
+        <p>
+          Beyond intrinsic value, we provide a holistic view by analyzing a range
+          of essential metrics. These indicators offer insights into a company's:
+        </p>
         <ul>
           <li>
-            <strong>Price-to-Earnings Ratio (P/E):</strong> Measures how much
-            investors are willing to pay per dollar of earnings.
+            <strong>Financial Health:</strong> Its stability and ability to meet
+            obligations.
           </li>
           <li>
-            <strong>Book Value vs. Market Value:</strong> Compares the actual
-            asset value with what the market believes the company is worth.
+            <strong>Efficiency:</strong> How well it manages its operations.
           </li>
           <li>
-            <strong>Dividend Yield:</strong> Indicates the return on investment
-            for dividend-paying stocks.
+            <strong>Risk Profile:</strong> Potential vulnerabilities and
+            strengths.
           </li>
           <li>
-            <strong>Earnings Per Share (EPS):</strong> A critical metric for
-            profitability.
+            <strong>Growth Potential:</strong> Opportunities for future
+            expansion.
+          </li>
+          <li>
+            <strong>Valuation:</strong> Whether the current share price reflects
+            its true worth.
           </li>
         </ul>
-      </section>
-
-      {/* Image Section */}
-      <div className="text-center">
-        <img
-          src={`${import.meta.env.BASE_URL}image.png`}
-          alt="Market Trends"
-          className="img-fluid rounded shadow"
-        />
-      </div>
-
-      {/* Header 2: Technical Analysis */}
-      <section id="technical-analysis" className="mt-5 mb-5">
-        <h2>Technical Analysis: Patterns & Price Movements</h2>
         <p>
-          Unlike fundamental analysis, **technical analysis** examines
-          historical price movements, trends, and chart patterns to predict
-          future stock behavior.
+          Crucially, we don't just present raw numbers. We contextualize these
+          metrics by comparing them against{" "}
+          <strong>industry-specific thresholds</strong>, helping you understand
+          what “good” performance looks like within a company's sector.
         </p>
-
-        <h4>Popular Indicators:</h4>
-        <ul>
-          <li>
-            <strong>Moving Averages:</strong> Helps smooth out price
-            fluctuations over time.
-          </li>
-          <li>
-            <strong>RSI (Relative Strength Index):</strong> Measures stock
-            momentum to detect overbought or oversold conditions.
-          </li>
-          <li>
-            <strong>Candlestick Patterns:</strong> Used to predict price
-            reversals based on historical trends.
-          </li>
-          <li>
-            <strong>Bollinger Bands:</strong> Shows volatility by expanding and
-            contracting with price changes.
-          </li>
-        </ul>
-      </section>
-
-      {/* Header 3: Market Forces */}
-      <section id="market-forces" className="mb-5">
-        <h2>Market Forces & Stock Price Movements</h2>
+        <h2>The Oakie Data Difference: Trustworthy & Transparent</h2>
         <p>
-          Stock prices are influenced by **supply and demand**, economic
-          indicators, and investor sentiment.
+          We understand that accurate and reliable financial data is the bedrock
+          of sound investment decisions. It's astonishing how challenging and
+          costly it can be for individual investors to access high-quality,
+          dependable data – even when it's publicly available.
         </p>
-
-        <h4>Key Factors Affecting Stock Prices:</h4>
-        <ul>
-          <li>
-            <strong>Interest Rates:</strong> Higher rates reduce stock
-            valuations, while lower rates boost investment appeal.
-          </li>
-          <li>
-            <strong>Economic Growth:</strong> Positive GDP growth tends to drive
-            stock prices higher.
-          </li>
-          <li>
-            <strong>Market Sentiment:</strong> Fear or optimism among investors
-            impacts trends.
-          </li>
-          <li>
-            <strong>Industry Trends:</strong> Sectors like tech and healthcare
-            may experience rapid shifts based on innovation.
-          </li>
-        </ul>
+        <p>
+          That's why we've committed to building our own robust database,
+          primarily sourced directly from the{" "}
+          <strong>U.S. Securities and Exchange Commission (SEC)</strong>. Publicly
+          traded companies in the U.S. are legally required to submit
+          comprehensive financial reports to the SEC. This makes the SEC the{" "}
+          <strong>gold standard for data accuracy and reliability</strong>. While
+          we may integrate data from other reputable vendors to enrich our
+          insights, our unwavering commitment is to prioritize the SEC as our
+          primary data source. This ensures you're always working with the most
+          credible information.
+        </p>
+        <hr />
+        <p className="text-muted">
+          <em>
+            This is a preview version for testing purposes. We invite you to
+            explore the data and share your valuable feedback!
+          </em>
+        </p>
       </section>
     </div>
   );

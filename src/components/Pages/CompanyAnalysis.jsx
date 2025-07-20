@@ -107,9 +107,14 @@ export default function CompanyAnalysis() {
       )}
 
       {/* Header */}
-      <h1 className={isMobile ? "h3 mb-0" : "display-6 mb-o"}>
+      <h1 className={isMobile ? "h3 mb-0" : "display-6 mb-0"}>
         {formatCompanyName(companyData.Company)}
       </h1>
+      {companyData.Sector && (
+        <p className="text-muted mb-0" style={{ fontWeight: "normal" }}>
+          {companyData.Sector}
+        </p>
+      )}
 
       {/* PriceChart and InfoCards side by side on desktop, stacked on mobile */}
       <div className="row">
