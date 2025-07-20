@@ -97,37 +97,71 @@ export default function PriceChart({
   );
 
   // Check if any stock price is >= 1000 to adjust left margin
-  const hasHighPrice = filledData.some(item => item.price >= 1000);
+  const hasHighPrice = filledData.some((item) => item.price >= 1000);
   const leftMargin = hasHighPrice ? 10 : 5;
 
-  // Generate month ticks more reliably
-  const generateMonthTicks = () => {
+  // Generate month or year ticks based on selected period
+  const generateTicks = () => {
     const startDate = new Date(filledData[0].date);
     const endDate = new Date(filledData[filledData.length - 1].date);
-    const monthTicks = [];
-    
-    // Start from the beginning of the first month
-    const currentDate = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
-    
-    while (currentDate <= endDate) {
-      // Find the closest date in our data to the first of this month
-      const monthStart = new Date(currentDate);
-      const closestDataPoint = filledData.reduce((closest, current) => {
-        const currentDistance = Math.abs(new Date(current.date) - monthStart);
-        const closestDistance = Math.abs(new Date(closest.date) - monthStart);
-        return currentDistance < closestDistance ? current : closest;
-      });
-      
-      monthTicks.push(closestDataPoint.date);
-      
-      // Move to next month
-      currentDate.setMonth(currentDate.getMonth() + 1);
+    const ticks = [];
+
+    // For periods > 1Y, generate yearly ticks
+    if (selectedPeriod !== "1Y" && selectedPeriod !== "YTD") {
+      // Start from the beginning of the first year in the data range
+      let currentYear = startDate.getFullYear();
+      const endYear = endDate.getFullYear();
+
+      while (currentYear <= endYear) {
+        // Find the closest date in our data to January 1st of this year
+        const yearStart = new Date(currentYear, 0, 1);
+        
+        // Find the closest data point that is actually in this year
+        const yearDataPoints = filledData.filter(point => {
+          const pointDate = new Date(point.date);
+          return pointDate.getFullYear() === currentYear;
+        });
+
+        if (yearDataPoints.length > 0) {
+          // Find the earliest date in this year
+          const earliestInYear = yearDataPoints.reduce((earliest, current) => {
+            return new Date(current.date) < new Date(earliest.date) ? current : earliest;
+          });
+          
+          ticks.push(earliestInYear.date);
+        }
+
+        currentYear++;
+      }
+    } else {
+      // For 1Y and YTD, generate monthly ticks
+      // Start from the beginning of the first month
+      const currentDate = new Date(
+        startDate.getFullYear(),
+        startDate.getMonth(),
+        1
+      );
+
+      while (currentDate <= endDate) {
+        // Find the closest date in our data to the first of this month
+        const monthStart = new Date(currentDate);
+        const closestDataPoint = filledData.reduce((closest, current) => {
+          const currentDistance = Math.abs(new Date(current.date) - monthStart);
+          const closestDistance = Math.abs(new Date(closest.date) - monthStart);
+          return currentDistance < closestDistance ? current : closest;
+        });
+
+        ticks.push(closestDataPoint.date);
+
+        // Move to next month
+        currentDate.setMonth(currentDate.getMonth() + 1);
+      }
     }
-    
-    return monthTicks;
+
+    return ticks;
   };
 
-  const monthTickDates = generateMonthTicks();
+  const tickDates = generateTicks();
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length > 0) {
@@ -148,110 +182,220 @@ export default function PriceChart({
         const diff = (avg / price - 1) * 100; // Percentage difference
         const isPositive = diff >= 0;
         return (
-          <div 
+          <div
             className="shadow-sm"
             style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.98)',
-              border: '1px solid #e0e0e0',
-              borderRadius: '8px',
-              padding: '12px 14px',
-              fontSize: '13px',
-              lineHeight: '1.4',
-              color: '#333',
-              backdropFilter: 'blur(4px)'
+              backgroundColor: "rgba(255, 255, 255, 0.98)",
+              border: "1px solid #e0e0e0",
+              borderRadius: "8px",
+              padding: "12px 14px",
+              fontSize: "13px",
+              lineHeight: "1.4",
+              color: "#333",
+              backdropFilter: "blur(4px)",
             }}
           >
-            <div style={{ fontWeight: '400', color: '#333', marginBottom: '6px', fontSize: '1.2em' }}>
+            <div
+              style={{
+                fontWeight: "400",
+                color: "#333",
+                marginBottom: "6px",
+                fontSize: "1.2em",
+              }}
+            >
               {dateStr}
             </div>
-            <div style={{ marginBottom: '2px', display: 'flex', alignItems: 'center' }}>
-              
-              <span style={{ color: '#666', minWidth: '45px', display: 'inline-block', fontWeight: '400' }}>Price:</span>
-              <div style={{
-                width: '8px',
-                height: '8px',
-                borderRadius: '50%',
-                backgroundColor: '#1976d2',
-                marginRight: '4px'
-              }}></div>
-              <span style={{ fontWeight: '700' }}>
-                ${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            <div
+              style={{
+                marginBottom: "2px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <span
+                style={{
+                  color: "#666",
+                  minWidth: "45px",
+                  display: "inline-block",
+                  fontWeight: "400",
+                }}
+              >
+                Price:
+              </span>
+              <div
+                style={{
+                  width: "8px",
+                  height: "8px",
+                  borderRadius: "50%",
+                  backgroundColor: "#1976d2",
+                  marginRight: "4px",
+                }}
+              ></div>
+              <span style={{ fontWeight: "700" }}>
+                $
+                {price.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
               </span>
             </div>
-            <div style={{ marginBottom: '2px', display: 'flex', alignItems: 'center' }}>
-              
-              <span style={{ color: '#666', minWidth: '45px', display: 'inline-block', fontWeight: '400' }}>DCF:</span>
-              <div style={{
-                width: '8px',
-                height: '8px',
-                borderRadius: '50%',
-                backgroundColor: '#ff9800',
-                marginRight: '4px'
-              }}></div>
-              <span style={{ fontWeight: '700' }}>${dcf.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+            <div
+              style={{
+                marginBottom: "2px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <span
+                style={{
+                  color: "#666",
+                  minWidth: "45px",
+                  display: "inline-block",
+                  fontWeight: "400",
+                }}
+              >
+                DCF:
+              </span>
+              <div
+                style={{
+                  width: "8px",
+                  height: "8px",
+                  borderRadius: "50%",
+                  backgroundColor: "#ff9800",
+                  marginRight: "4px",
+                }}
+              ></div>
+              <span style={{ fontWeight: "700" }}>
+                $
+                {dcf.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </span>
             </div>
-            <div style={{ marginBottom: '6px', display: 'flex', alignItems: 'center' }}>
- 
-              <span style={{ color: '#666', minWidth: '45px', display: 'inline-block', fontWeight: '400' }}>Exit:</span>
-                           <div style={{
-                width: '8px',
-                height: '8px',
-                borderRadius: '50%',
-                backgroundColor: '#9c27b0',
-                marginRight: '4px'
-              }}></div>
-              <span style={{ fontWeight: '700' }}>${exit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+            <div
+              style={{
+                marginBottom: "6px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <span
+                style={{
+                  color: "#666",
+                  minWidth: "45px",
+                  display: "inline-block",
+                  fontWeight: "400",
+                }}
+              >
+                Exit:
+              </span>
+              <div
+                style={{
+                  width: "8px",
+                  height: "8px",
+                  borderRadius: "50%",
+                  backgroundColor: "#9c27b0",
+                  marginRight: "4px",
+                }}
+              ></div>
+              <span style={{ fontWeight: "700" }}>
+                $
+                {exit.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </span>
             </div>
-            <div style={{ 
-              borderTop: '1px solid #f0f0f0', 
-              paddingTop: '6px',
-              fontSize: '12px',
-              fontWeight: '400',
-              display: 'flex',
-              alignItems: 'center'
-            }}>
-
-              <span style={{ color: '#666', minWidth: '45px', display: 'inline-block' }}>Diff:</span>
-              <span style={{ 
-                color: isPositive ? '#4caf50' : '#f44336',
-                fontWeight: '700',
-                display: 'inline-flex',
-                alignItems: 'center'
-              }}>
-                {isPositive ? '▲' : '▼'} {diff.toFixed(1)}%
+            <div
+              style={{
+                borderTop: "1px solid #f0f0f0",
+                paddingTop: "6px",
+                fontSize: "12px",
+                fontWeight: "400",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <span
+                style={{
+                  color: "#666",
+                  minWidth: "45px",
+                  display: "inline-block",
+                }}
+              >
+                Diff:
+              </span>
+              <span
+                style={{
+                  color: isPositive ? "#4caf50" : "#f44336",
+                  fontWeight: "700",
+                  display: "inline-flex",
+                  alignItems: "center",
+                }}
+              >
+                {" "}
+                {isPositive ? "▲" : "▼"}
+                {diff.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+                %
               </span>
             </div>
           </div>
         );
       }
       return (
-        <div 
+        <div
           className="shadow-sm"
           style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.98)',
-            border: '1px solid #e0e0e0',
-            borderRadius: '8px',
-            padding: '12px 14px',
-            fontSize: '13px',
-            lineHeight: '1.4',
-            color: '#333',
-            backdropFilter: 'blur(4px)'
+            backgroundColor: "rgba(255, 255, 255, 0.98)",
+            border: "1px solid #e0e0e0",
+            borderRadius: "8px",
+            padding: "12px 14px",
+            fontSize: "13px",
+            lineHeight: "1.4",
+            color: "#333",
+            backdropFilter: "blur(4px)",
           }}
         >
-          <div style={{ fontWeight: '400', color: '#333', marginBottom: '6px', fontSize: '1.2em' }}>
+          <div
+            style={{
+              fontWeight: "400",
+              color: "#333",
+              marginBottom: "6px",
+              fontSize: "1.2em",
+            }}
+          >
             {dateStr}
           </div>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div style={{
-              width: '8px',
-              height: '8px',
-              borderRadius: '50%',
-              backgroundColor: '#1976d2',
-              marginRight: '6px'
-            }}></div>
-            <span style={{ color: '#666', minWidth: '45px', display: 'inline-block', fontWeight: '400' }}>Price:</span>
-            <span style={{ fontWeight: '700' }}>
-              ${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <div
+              style={{
+                width: "8px",
+                height: "8px",
+                borderRadius: "50%",
+                backgroundColor: "#1976d2",
+                marginRight: "6px",
+              }}
+            ></div>
+            <span
+              style={{
+                color: "#666",
+                minWidth: "45px",
+                display: "inline-block",
+                fontWeight: "400",
+              }}
+            >
+              Price:
+            </span>
+            <span style={{ fontWeight: "700" }}>
+              $
+              {price.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
             </span>
           </div>
         </div>
@@ -277,7 +421,11 @@ export default function PriceChart({
           alignItems: "center",
         }}
       >
-        {percent.toFixed(2)}% {isUp ? "▲" : "▼"}
+        {Math.abs(percent).toLocaleString("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}
+        % {isUp ? "▲" : "▼"}
       </span>
     );
   }
@@ -286,53 +434,64 @@ export default function PriceChart({
   const CustomLegend = (props) => {
     const { payload } = props;
     return (
-      <div className="d-flex justify-content-start gap-3 mt-2" style={{ fontSize: '0.8em' }}>
+      <div
+        className="d-flex justify-content-start gap-3 mt-2"
+        style={{ fontSize: "0.8em" }}
+      >
         <div className="d-flex align-items-center gap-1">
-          <div style={{
-            width: '16px',
-            height: '3px',
-            background: 'linear-gradient(to right, #1976d2, #42a5f5)',
-            borderRadius: '2px'
-          }}></div>
-          <span style={{ color: '#666', fontWeight: '400' }}>Stock Price</span>
+          <div
+            style={{
+              width: "16px",
+              height: "1px",
+              background: "linear-gradient(to right, #1976d2, #42a5f5)",
+              borderRadius: "2px",
+            }}
+          ></div>
+          <span style={{ color: "#666", fontWeight: "400" }}>Stock Price</span>
         </div>
         <div className="d-flex align-items-center gap-1">
-          <svg width="16" height="3" style={{ overflow: 'visible' }}>
+          <svg width="16" height="3" style={{ overflow: "visible" }}>
             <line
               x1="0"
               y1="1.5"
               x2="16"
               y2="1.5"
               stroke="#ff9800"
-              strokeWidth="2"
+              strokeWidth="1" // Match the reduced stroke width
               strokeDasharray="3 2"
             />
           </svg>
-          <span style={{ color: '#666', fontWeight: '400' }}>DCF Value</span>
+          <span style={{ color: "#666", fontWeight: "400" }}>DCF Value</span>
         </div>
         <div className="d-flex align-items-center gap-1">
-          <svg width="16" height="3" style={{ overflow: 'visible' }}>
+          <svg width="16" height="3" style={{ overflow: "visible" }}>
             <line
               x1="0"
               y1="1.5"
               x2="16"
               y2="1.5"
               stroke="#9c27b0"
-              strokeWidth="2"
+              strokeWidth="1" // Match the reduced stroke width
               strokeDasharray="2 1.5"
             />
           </svg>
-          <span style={{ color: '#666', fontWeight: '400' }}>Exit Multiple</span>
+          <span style={{ color: "#666", fontWeight: "400" }}>
+            Exit Multiple
+          </span>
         </div>
         <div className="d-flex align-items-center gap-1">
-          <div style={{
-            width: '16px',
-            height: '8px',
-            backgroundColor: '#4caf50',
-            opacity: 0.2,
-            borderRadius: '2px'
-          }}></div>
-          <span style={{ color: '#666', fontWeight: '400' }}>Intrinsic Range</span>
+          <div
+            style={{
+              width: "16px",
+              height: "8px",
+              backgroundColor: "#4caf50",
+              opacity: 0.2,
+              borderRadius: "2px",
+            }}
+          ></div>
+          <span style={{ color: "#666", fontWeight: "400" }}>
+            Intrinsic Range
+          </span>
         </div>
       </div>
     );
@@ -402,16 +561,28 @@ export default function PriceChart({
             </linearGradient>
           </defs>
 
-          <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" strokeOpacity={0.5} />
+          <CartesianGrid
+            strokeDasharray="3 3"
+            stroke="#e0e0e0"
+            strokeOpacity={0.5}
+          />
           <XAxis
             dataKey="date"
-            tickFormatter={(date) =>
-              new Date(date).toLocaleString("en", { month: "short" })
-            }
+            tickFormatter={(date) => {
+              const dateObj = new Date(date);
+              
+              // For periods > 1Y (2Y, 3Y, 4Y, 5Y), show years
+              if (selectedPeriod !== "1Y" && selectedPeriod !== "YTD") {
+                return dateObj.getFullYear();
+              }
+              
+              // For 1Y and YTD periods, show month names
+              return dateObj.toLocaleString("en", { month: "short" });
+            }}
             tick={{ fontSize: 10 }}
             angle={-45}
             textAnchor="end"
-            ticks={monthTickDates}
+            ticks={tickDates}
             domain={["dataMin", "dataMax"]}
             axisLine={{ stroke: "#e0e0e0" }}
             tickLine={{ stroke: "#e0e0e0" }}
@@ -420,7 +591,12 @@ export default function PriceChart({
             dataKey="price"
             tick={{ fontSize: 10, textAnchor: "end" }}
             ticks={yTicks}
-            tickFormatter={(value) => `$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+            tickFormatter={(value) =>
+              `$${value.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}`
+            }
             domain={[paddedMin, paddedMax]}
             width={40}
             axisLine={{ stroke: "#e0e0e0" }}
@@ -433,19 +609,19 @@ export default function PriceChart({
             type="monotone"
             dataKey="price"
             stroke="url(#lineGradient)"
-            strokeWidth={3}
+            strokeWidth={1}
             fill="url(#priceGradient)"
             fillOpacity={1}
             isAnimationActive={true}
             animationDuration={1500}
             animationEasing="ease-in-out"
             dot={false}
-            activeDot={{ 
-              r: 4, 
+            activeDot={{
+              r: 4,
               fill: "#1976d2",
               stroke: "#ffffff",
-              strokeWidth: 2,
-              style: { filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.2))" }
+              strokeWidth: 1,
+              style: { filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.2))" },
             }}
           />
 
@@ -494,7 +670,7 @@ export default function PriceChart({
             type="monotone"
             dataKey="DCFValue"
             stroke="#ff9800"
-            strokeWidth={2.5}
+            strokeWidth={1} // Reduced stroke width
             strokeDasharray="5 5"
             dot={false}
             connectNulls={false}
@@ -504,7 +680,7 @@ export default function PriceChart({
             type="monotone"
             dataKey="ExitMultipleValue"
             stroke="#9c27b0"
-            strokeWidth={2.5}
+            strokeWidth={1} // Reduced stroke width
             strokeDasharray="3 3"
             dot={false}
             connectNulls={false}

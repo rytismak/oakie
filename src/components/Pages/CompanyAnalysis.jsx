@@ -70,7 +70,10 @@ export default function CompanyAnalysis() {
   // Format company name with proper capitalization
   const formatCompanyName = (name) => {
     if (!name) return "";
-    return name.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+    return name.replace(
+      /\w\S*/g,
+      (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()
+    );
   };
 
   // Check if mobile view
@@ -81,7 +84,10 @@ export default function CompanyAnalysis() {
       {isMobile ? (
         // Mobile: Show back link with arrow
         <div className="mb-3">
-          <Link to="/featured-companies" className="text-decoration-none text-primary">
+          <Link
+            to="/featured-companies"
+            className="text-decoration-none text-primary"
+          >
             ← Back to Featured Companies
           </Link>
         </div>
@@ -94,7 +100,9 @@ export default function CompanyAnalysis() {
           >
             Featured Companies
           </Breadcrumb.Item>
-          <Breadcrumb.Item active>{formatCompanyName(companyData.Company)}</Breadcrumb.Item>
+          <Breadcrumb.Item active>
+            {formatCompanyName(companyData.Company)}
+          </Breadcrumb.Item>
         </Breadcrumb>
       )}
 
@@ -126,7 +134,6 @@ export default function CompanyAnalysis() {
           </div>
         </div>
       </div>
-    
 
       {/* Price Difference Table and ValuationMetrics side by side */}
       <div className="row g-lg-5">
@@ -255,8 +262,8 @@ export default function CompanyAnalysis() {
                       : "text-danger fw-bold";
                     const symbol = isPositive ? "▲" : "▼";
                     changeCell = (
-                      <span className={colorClass}>
-                        {change.toFixed(2)}% {symbol}
+                      <span>
+                        {change.toFixed(2)}% <span className={colorClass}>{symbol}</span>
                       </span>
                     );
                     priceDiffCell = (

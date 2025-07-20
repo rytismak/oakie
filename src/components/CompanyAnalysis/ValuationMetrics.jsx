@@ -216,7 +216,7 @@ function ValuationMetrics({ years, sector }) {
                         >
                           <span
                             className={
-                              "text-end fw-bold text-" + getColor(entry.label)
+                              "text-end text-" + getColor(entry.label)
                             }
                             style={{
                               borderBottom: "1px dashed grey",
@@ -231,7 +231,7 @@ function ValuationMetrics({ years, sector }) {
                       ) : (
                         <span
                           className={
-                            "text-end fw-bold text-" + getColor(entry.label)
+                            "text-end text-" + getColor(entry.label)
                           }
                           style={{
                             borderBottom: "1px dashed grey",
@@ -254,11 +254,11 @@ function ValuationMetrics({ years, sector }) {
       {/* Legend below table */}
       <div className="mt-2 mb-4 ms-2">
         <span style={{ fontSize: "0.8em" }}>
-          <span className="fw-bold text-success">Green</span> - better than industry standard
+          <span className="text-success">Green</span> - better than industry standard
           <br />
-          <span className="fw-bold text-secondary">Grey</span> - similar to industry standard
+          <span className="text-secondary">Grey</span> - similar to industry standard
           <br />
-          <span className="fw-bold text-danger">Red</span> - below industry standard
+          <span className="text-danger">Red</span> - below industry standard
         </span>
       </div>
     </div>
