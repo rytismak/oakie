@@ -1,8 +1,8 @@
 import Navbar from "./GlobalComponents/Navbar";
 import Footer from "./GlobalComponents/Footer";
 import "bootstrap";
-import '../custom.scss';
-import '../index.css'
+import "../custom.scss";
+import "../index.css";
 import { HashRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./Pages/Home";
 import KeyMetrics from "./Pages/KeyMetrics";
@@ -14,9 +14,10 @@ import CompanyAnalysis from "./Pages/CompanyAnalysis";
 function App() {
   return (
     <div>
+      
       <Router>
         <Navbar />
-        <div className="container align-items-center">
+        <div className="container px-2 py-2 align-items-center">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/key-metrics" element={<KeyMetrics />} />

@@ -178,6 +178,12 @@ function CompaniesTable() {
             max-width: 220px !important;
           }
         }
+        @media (min-width: 992px) {
+          .table {
+            table-layout: fixed;
+            width: 100%;
+          }
+        }
       `}</style>
       {/* Header with Total Companies */}
       <h1 className={isMobile ? "h3 mb-4" : "display-6 mb-4"}>

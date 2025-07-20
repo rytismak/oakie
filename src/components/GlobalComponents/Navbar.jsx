@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div className="container">
+      <div className="container px-2 py-2">
         {/* Brand */}
         <Link className="navbar-brand d-flex align-items-center" to="/">
           <img
