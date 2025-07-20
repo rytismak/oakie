@@ -10,7 +10,7 @@ function Home() {
 
       {/* Header 1: Fundamental Analysis */}
       <section id="fundamental-analysis" className="mb-5">
-        <h1 className="display-6 mb-4">Fundamental Analysis: Real understanding True Value</h1>
+        <h1 className="display-6 mb-4">HELLO THERE</h1>
         
         <div className="border p-3 mb-4 bg-light rounded">
         <h2>Contents</h2>
