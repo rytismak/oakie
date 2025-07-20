@@ -15,7 +15,6 @@ import {
   Legend,
 } from "recharts";
 import { ButtonGroup, Button } from "react-bootstrap";
-import InfoCards from "./InfoCards"; // Adjust this import path to your project structure
 
 export default function PriceChart({
   intrinsicValueEstimates = [],
@@ -327,8 +326,8 @@ export default function PriceChart({
                 Diff:
               </span>
               <span
+                className={isPositive ? 'text-success' : 'text-danger'}
                 style={{
-                  color: isPositive ? "#4caf50" : "#f44336",
                   fontWeight: "700",
                   display: "inline-flex",
                   alignItems: "center",
