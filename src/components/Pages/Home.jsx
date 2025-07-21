@@ -32,7 +32,7 @@ function Home() {
           identifying fundamentally strong businesses should be straightforward,
           even for new and aspiring investors.
         </p>
-        <p>That's why we created <strong>Oakie</strong></p>
+        <p>That's why we created <strong>Oakie</strong>.</p>
         <p>
           Oakie is more than just a stock screener; it's your intuitive guide to
           smarter investing. We cut through the noise, distilling essential
