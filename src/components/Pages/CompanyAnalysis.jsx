@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import PriceChart from "../CompanyAnalysis/PriceChart";
 import ValuationMetrics from "../CompanyAnalysis/ValuationMetrics";
 import InfoCards from "../CompanyAnalysis/InfoCards";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -81,7 +83,29 @@ export default function CompanyAnalysis() {
 
   return (
     <div className="container mt-4">
-      {isMobile ? (
+      {Object.keys(companyData).length === 0 ? (
+        <>
+          <div className="mb-3">
+            <Skeleton width={200} height={30} />
+          </div>
+          <div className="row">
+            <div className="col-lg-8 col-12 mb-3 mb-lg-0">
+              <Skeleton height={300} />
+            </div>
+            <div className="col-lg-4 col-12 pt-lg-3">
+              <Skeleton height={150} />
+            </div>
+          </div>
+          <div className="row g-lg-5">
+            <div className="col-lg-6 col-12">
+              <Skeleton height={200} />
+            </div>
+            <div className="col-lg-6 col-12 mb-3 mb-lg-0">
+              <Skeleton height={200} />
+            </div>
+          </div>
+        </>
+      ) : isMobile ? (
         // Mobile: Show back link with arrow
         <div className="mb-3">
           <Link
