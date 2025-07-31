@@ -1,3 +1,10 @@
+// Helper to format market cap
+function formatMarketCap(cap) {
+  if (cap == null || isNaN(cap)) return "—";
+  const num = Number(cap);
+  // Always show in billions with 'B', as in CompaniesList
+  return `$${(num / 1e9).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}B`;
+}
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { Link } from "react-router-dom";
 import PriceChart from "../CompanyAnalysis/PriceChart";
@@ -12,6 +19,8 @@ import axios from "axios";
 // <span className="badge display-2 text-bg-warning">Top 3%</span>
 
 export default function CompanyAnalysis() {
+  const [companyData, setcompanyData] = useState({});
+
   const url = new URL(window.location.href);
   const params = new URLSearchParams(url.hash.split("?")[1]);
 
@@ -21,16 +30,14 @@ export default function CompanyAnalysis() {
   }companies-data/details/${ticker}.json`;
   // console.log(dataURL);
 
-  const [companyData, setcompanyData] = useState({});
-
   useEffect(() => {
     axios
       .get(dataURL)
       .then((response) => {
         setcompanyData(response.data);
 
-        console.log(response.data);
-        console.log(response.data.Years[0]);
+        // console.log(response.data);
+        // console.log(response.data.Years[0]);
       })
       .catch((error) => {
         console.error("Failed to load data:", error);
@@ -81,6 +88,18 @@ export default function CompanyAnalysis() {
   // Check if mobile view
   const isMobile = window.innerWidth < 992;
 
+  // State for description expand/collapse
+  const [showFullDescription, setShowFullDescription] = useState(false);
+
+  // Get MarketCap from last year if available
+  let marketCap = null;
+  if (companyData.Years && Array.isArray(companyData.Years) && companyData.Years.length > 0) {
+    const lastYear = companyData.Years[companyData.Years.length - 1];
+    if (lastYear && lastYear.MarketCap) {
+      marketCap = lastYear.MarketCap;
+    }
+  }
+
   return (
     <div className="container mt-4">
       {Object.keys(companyData).length === 0 ? (
@@ -130,26 +149,27 @@ export default function CompanyAnalysis() {
         </Breadcrumb>
       )}
 
-      {/* Header */}
-      <h1 className={isMobile ? "h3 mb-0" : "display-6 mb-0"}>
-        {formatCompanyName(companyData.Company)}
-      </h1>
-      {companyData.Sector && (
-        <p className="text-muted mb-0" style={{ fontWeight: "normal" }}>
-          {companyData.Sector}
-        </p>
-      )}
-
       {/* PriceChart and InfoCards side by side on desktop, stacked on mobile */}
       <div className="row">
-        <div className="col-lg-8 col-12 mb-3 mb-lg-0">
+        <div className="col-lg-10 col-12 mb-3 mb-lg-0">
+          {/* Header */}
+          <h1 className={isMobile ? "h3 mb-0" : "display-6 mb-0"}>
+            {formatCompanyName(companyData.Company)}
+            {companyData.Ticker ? ` (${companyData.Ticker})` : ticker ? ` (${ticker})` : ""}
+            {marketCap && !isNaN(marketCap) && Number(marketCap) > 0 ? ` | ${formatMarketCap(marketCap)}` : ""}
+          </h1>
+          {companyData.Sector && (
+            <p className="text-muted mb-0" style={{ fontWeight: "normal" }}>
+              {companyData.Sector}
+            </p>
+          )}
           <PriceChart
             intrinsicValueEstimates={intrinsicValueEstimates}
             dailyStockPrice={dailyStockPrice}
           />
         </div>
-        <div className="col-lg-4 col-12 pt-lg-3">
-          <div style={{ marginTop: window.innerWidth >= 992 ? "26px" : "0" }}>
+        <div className="col-lg-2 col-12 pt-lg-3">
+          <div>
             <InfoCards
               stockPrice={lastStockPrice}
               dcfValue={lastDCFValue}
@@ -160,15 +180,45 @@ export default function CompanyAnalysis() {
       </div>
 
       {/* Company Description */}
-      {companyData.Description && companyData.Description.trim() !== "" && (
-        <p className="">
-          {companyData.Description}
-        </p>
-      )}
-
+      {companyData.Description &&
+        companyData.Description.trim() !== "" &&
+        (() => {
+          const desc = companyData.Description.trim();
+          if (desc.length <= 200) {
+            return <p>{desc}</p>;
+          }
+          const first200 = desc.slice(0, 200);
+          return (
+            <div style={{ position: "relative" }}>
+              <p style={{ marginBottom: 0, display: "inline" }}>
+                {showFullDescription ? (
+                  desc
+                ) : (
+                  <>
+                    {first200 + "... "}
+                    <button
+                      className="btn btn-link p-0"
+                      style={{
+                        fontSize: "1em",
+                        color: "rgb(25, 118, 210)",
+                        textDecoration: "underline",
+                        background: "none",
+                        border: "none",
+                        verticalAlign: "baseline",
+                      }}
+                      onClick={() => setShowFullDescription(true)}
+                    >
+                      Read more
+                    </button>
+                  </>
+                )}
+              </p>
+            </div>
+          );
+        })()}
       {/* Price Difference Table and ValuationMetrics side by side */}
-      <div className="row g-lg-5">
-        <div className="col-lg-6 col-12">
+      <div className="row mt-3 g-lg-5">
+        <div className="col-lg-6 mt-0 mb-3 col-12">
           {companyData.Years && (
             <ValuationMetrics
               sector={companyData.Sector}
@@ -176,7 +226,7 @@ export default function CompanyAnalysis() {
             />
           )}
         </div>
-        <div className="col-lg-6 col-12 mb-3 mb-lg-0">
+        <div className="col-lg-6 mt-0 col-12 mb-3 mb-lg-0">
           <table className="table w-100">
             <colgroup>
               <col style={{ width: "50%" }} />

@@ -129,46 +129,17 @@ const InfoCards = ({ stockPrice, dcfValue, exitMultipleValue }) => {
   );
 
   return (
-    <Table className="mt-3">
-      <thead>
-        <tr>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
+    <Table className="mt-0 mb-3">
       <tbody>
+        {/* Difference row at the top, styled as header */}
         <tr>
-          <td>Stock Price</td>
-          <td className="text-end">
-            <strong>
-              {stockPrice != null ? `$${formatNum(stockPrice)}` : "—"}
-            </strong>
-          </td>
-        </tr>
-        <tr style={evalText !== "—" ? {} : {}}>
-          <td>
-            <OverlayTrigger
-              trigger={["hover", "focus"]}
-              placement="top"
-              overlay={evalPopover}
+          <td colSpan={2} className="py-2 ">
+            <div
+              className={`${diffTextClass} display-6`}
+              style={{ fontWeight: 500, lineHeight: 1.3 }}
             >
-              <span
-                style={{
-                  borderBottom: "1px dashed grey",
-                  textDecoration: "none",
-                  cursor: "pointer",
-                }}
-              >
-                Intrinsic value range
-              </span>
-            </OverlayTrigger>
-          </td>
-          <td className="text-end">
-            <strong>{evalText}</strong>
-          </td>
-        </tr>
-        <tr>
-          <td>
+              {diffText}
+            </div>
             <OverlayTrigger
               trigger={["hover", "focus"]}
               placement="top"
@@ -176,18 +147,64 @@ const InfoCards = ({ stockPrice, dcfValue, exitMultipleValue }) => {
             >
               <span
                 style={{
+                  display: "inline-block",
                   borderBottom: "1px dashed grey",
                   textDecoration: "none",
                   cursor: "pointer",
+                  color: "#333",
+                  marginTop: "2px",
                 }}
               >
                 Difference
               </span>
             </OverlayTrigger>
           </td>
-          <td className={`${diffTextClass} text-end`} style={diffCardStyle}>
-            {/* Show difference with proper formatting */}
-            <strong>{diffText}</strong>
+        </tr>
+        {/* Stock Price row, styled like Difference */}
+        <tr>
+          <td colSpan={2} className="py-2">
+            <div
+              style={{ fontWeight: 500, fontSize: "1.0rem", lineHeight: 1.5 }}
+            >
+              {stockPrice != null ? `$${formatNum(stockPrice)}` : "—"}
+            </div>
+            <span
+              style={{
+                display: "inline-block",
+                color: "#333",
+                marginTop: "2px",
+              }}
+            >
+              Stock Price
+            </span>
+          </td>
+        </tr>
+        {/* Intrinsic Value Range row, styled like Difference */}
+        <tr>
+          <td colSpan={2} className="py-2" style={{ paddingBottom: 0 }}>
+            <div
+              style={{ fontWeight: 500, fontSize: "1.0rem", lineHeight: 1.7 }}
+            >
+              {evalText}
+            </div>
+            <OverlayTrigger
+              trigger={["hover", "focus"]}
+              placement="top"
+              overlay={evalPopover}
+            >
+              <span
+                style={{
+                  display: "inline-block",
+                  borderBottom: "1px dashed grey",
+                  textDecoration: "none",
+                  cursor: "pointer",
+                  color: "#333",
+                  marginTop: "2px",
+                }}
+              >
+                Intrinsic value range
+              </span>
+            </OverlayTrigger>
           </td>
         </tr>
       </tbody>
