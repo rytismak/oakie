@@ -41,50 +41,37 @@ function ValuationMetrics({ years, sector }) {
     if (label === "Strong") return "success";
     return "secondary";
   };
-  // Helper to format numbers to 2 decimals if possible, and add % for certain metrics
-  const percentMetrics = [
-    "FCF yield",
-    "ROIC",
-    "ReinvRate",
-    "OMS",
-    "EVA/InvCap",
-  ];
+  // Helper to format numbers according to specific requirements
   const formatValue = (val, metricName) => {
     if (val === null || val === undefined || val === "") return "";
     const num = Number(val);
     if (!isNaN(num)) {
-      if (percentMetrics.includes(metricName)) {
-        return (num * 100).toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        }) + "%";
+      switch (metricName) {
+        case "FCF yield":
+        case "ROIC":
+        case "ReinvRate":
+        case "OMS":
+        case "EVA/InvCap":
+          // Percent metrics with one decimal place
+          return (num * 100).toFixed(1) + "%";
+        
+        case "NOPAT":
+          // Number in millions with one decimal place
+          return (num / 1e6).toFixed(1) + " M";
+        
+        case "D/E":
+        case "ICR":
+        case "EV/OCF":
+          // Numbers with one decimal place
+          return num.toFixed(1);
+        
+        default:
+          // For any other metrics, format with 2 decimals as before
+          return num.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          });
       }
-      if (metricName === "NOPAT") {
-        // Format as $XM or $XB with best-practice formatting
-        const sign = num < 0 ? "-" : "";
-        const absNum = Math.abs(num);
-        if (absNum >= 1e9) {
-          return `${sign}$${(absNum / 1e9).toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}B`;
-        } else if (absNum >= 1e6) {
-          return `${sign}$${(absNum / 1e6).toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}M`;
-        } else {
-          return `${sign}$${absNum.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}`;
-        }
-      }
-      // For all other numbers, format with commas and 2 decimals
-      return num.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
     }
     return val;
   };

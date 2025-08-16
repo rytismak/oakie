@@ -7,6 +7,7 @@ function formatMarketCap(cap) {
 }
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { Link } from "react-router-dom";
+import { OverlayTrigger } from "react-bootstrap";
 import PriceChart from "../CompanyAnalysis/PriceChart";
 import ValuationMetrics from "../CompanyAnalysis/ValuationMetrics";
 import InfoCards from "../CompanyAnalysis/InfoCards";
@@ -100,6 +101,28 @@ export default function CompanyAnalysis() {
     }
   }
 
+  // Market Cap popover
+  const marketCapPopover = (
+    <div
+      className="shadow-sm"
+      style={{
+        backgroundColor: "rgba(255, 255, 255, 0.98)",
+        border: "1px solid #e0e0e0",
+        borderRadius: "8px",
+        padding: "12px 14px",
+        fontSize: "13px",
+        lineHeight: "1.4",
+        color: "#333",
+        backdropFilter: "blur(4px)",
+        maxWidth: "250px",
+      }}
+    >
+      <div style={{ fontWeight: "600", color: "#1976d2", marginBottom: "6px" }}>
+        Market Cap
+      </div>
+    </div>
+  );
+
   return (
     <div className="container mt-4">
       {Object.keys(companyData).length === 0 ? (
@@ -156,7 +179,26 @@ export default function CompanyAnalysis() {
           <h1 className={isMobile ? "h3 mb-0" : "display-6 mb-0"}>
             {formatCompanyName(companyData.Company)}
             {companyData.Ticker ? ` (${companyData.Ticker})` : ticker ? ` (${ticker})` : ""}
-            {marketCap && !isNaN(marketCap) && Number(marketCap) > 0 ? ` | ${formatMarketCap(marketCap)}` : ""}
+            {marketCap && !isNaN(marketCap) && Number(marketCap) > 0 ? (
+              <>
+                {" | "}
+                <OverlayTrigger
+                  trigger={["hover", "focus"]}
+                  placement="top"
+                  overlay={marketCapPopover}
+                >
+                  <span
+                    style={{
+                      borderBottom: "1px dashed grey",
+                      textDecoration: "none",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {formatMarketCap(marketCap)}
+                  </span>
+                </OverlayTrigger>
+              </>
+            ) : ""}
           </h1>
           {companyData.Sector && (
             <p className="text-muted mb-0" style={{ fontWeight: "normal" }}>
