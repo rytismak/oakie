@@ -3,7 +3,13 @@ function formatMarketCap(cap) {
   if (cap == null || isNaN(cap)) return "—";
   const num = Number(cap);
   // Always show in billions with 'B', as in CompaniesList
-  return `$${(num / 1e9).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}B`;
+  if (num >= 1e9) {
+    // Show in billions if 1 billion or more
+    return `$${(num / 1e9).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}B`;
+  } else {
+    // Show in millions if less than 1 billion
+    return `$${(num / 1e6).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}M`;
+  }
 }
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { Link } from "react-router-dom";
