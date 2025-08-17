@@ -180,7 +180,7 @@ export default function CompanyAnalysis() {
 
       {/* PriceChart and InfoCards side by side on desktop, stacked on mobile */}
       <div className="row">
-        <div className="col-lg-10 col-12 mb-3 mb-lg-0">
+        <div className="col-lg-9 col-12 mb-3 mb-lg-0">
           {/* Header */}
           <h1 className={isMobile ? "h3 mb-0" : "display-6 mb-0"}>
             {formatCompanyName(companyData.Company)}
@@ -216,7 +216,7 @@ export default function CompanyAnalysis() {
             dailyStockPrice={dailyStockPrice}
           />
         </div>
-        <div className="col-lg-2 col-12 pt-lg-3">
+        <div className="col-lg-3 col-12 pt-lg-3">
           <div>
             <InfoCards
               stockPrice={lastStockPrice}
