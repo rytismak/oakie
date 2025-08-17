@@ -430,14 +430,14 @@ function CompaniesTable() {
                     {typeof comp.MarketCap === "number"
                       ? (() => {
                           const val = comp.MarketCap;
-                          if (val >= 1e8) {
-                            // 100 million or more: show in billions
+                          if (val >= 1e9) {
+                            // 1 billion or more: show in billions
                             return `$${(val / 1e9).toLocaleString(undefined, {
                               minimumFractionDigits: 2,
                               maximumFractionDigits: 2,
                             })}B`;
                           } else {
-                            // less than 100 million: show in millions
+                            // less than 1 billion: show in millions
                             return `$${(val / 1e6).toLocaleString(undefined, {
                               minimumFractionDigits: 2,
                               maximumFractionDigits: 2,
