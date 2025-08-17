@@ -20,7 +20,7 @@ function KeyMetrics() {
         </p>
         <p>
           We believe a deeper dive is necessary. While more involved to calculate,
-           <strong>absolute metrics</strong> offer a clearer, more fundamental understanding
+           <strong> absolute metrics</strong> offer a clearer, more fundamental understanding
           of a company's true worth and financial health. These are the metrics we
           prioritize at Oakie, designed to cut through the noise and reveal a business's
           intrinsic value.
@@ -32,7 +32,7 @@ function KeyMetrics() {
             underlying worth, independent of its current market price. We primarily derive
             this from its expected future free cash flows (FCF), discounted to their
             present value. To ensure a comprehensive perspective, we also consider the
-             <strong>EV/EBITDA multiple</strong>, which provides another valuable data point
+             <strong> EV/EBITDA multiple</strong>, which provides another valuable data point
             for business valuation. We then integrate insights from both approaches to
             arrive at a well-rounded estimate. If Oakie's calculated intrinsic value is
             higher than the current market price, it suggests the business might be{" "}
@@ -86,8 +86,8 @@ function KeyMetrics() {
           </li>
           <li>
             <strong>Economic Value Added to Invested Capital Ratio (EVA/IC): </strong>
-            Economic Value Added (EVA) represents the profit a company earns <em>above</em>
-             the cost of its capital. The EVA/IC ratio measures how efficiently a company
+            Economic Value Added (EVA) represents the profit a company earns <em>above </em>
+            the cost of its capital. The EVA/IC ratio measures how efficiently a company
             generates this "true" economic profit from its invested capital, highlighting
             value creation.
           </li>
