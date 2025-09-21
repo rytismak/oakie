@@ -854,7 +854,7 @@
         "Ticker": "ALG",
         "Sector": "Industrials",
         "Description": "Allegro MicroSystems, Inc., together with its subsidiaries, designs, develops, manufactures, and markets sensor integrated circuits (ICs) and application-specific power ICs for motion control and energy-efficient systems. Its products include magnetic sensor ICs, such as position, speed, and current sensor ICs; and power ICs comprising motor driver ICs, such as regulator, power management ICs, and LED driver ICs, and isolated gate drivers. The company sells its products to original equipment manufacturers and distributors primarily in the automotive and industrial markets through its direct sales force, third party distributors, independent sales representatives, and consignment. It operates in the United States, rest of the Americas, Europe, Japan, Greater China, South Korea, and other Asian markets. The company was founded in 1990 and is headquartered in Manchester, New Hampshire.",
-        "CurrentPrice": 198.4600067138672,
+        "CurrentPrice": null,
         "MarketCap": 2607436129.81,
         "DCFValue": 135.2343182359953,
         "ExitMultipleValue": 116.91920022866854,
