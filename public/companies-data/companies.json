@@ -16254,7 +16254,7 @@
         "Ticker": "SOHO",
         "Sector": "Real Estate",
         "Description": "Sonos, Inc., together with its subsidiaries, designs, develops, manufactures, and sells audio products and services in the Americas, Europe, the Middle East, Africa, and the Asia Pacific. The company offers wireless, portable, and home theater speakers; and headphones, components, and accessories. It offers its products through physical stores, websites, online retailers, and custom installers. The company was formerly known as Rincon Audio, Inc. and changed its name to Sonos, Inc. in May 2004. Sonos, Inc. was incorporated in 2002 and is headquartered in Santa Barbara, California.",
-        "CurrentPrice": 2.25,
+        "CurrentPrice": null,
         "MarketCap": 21238606.55,
         "DCFValue": 14.889193354584927,
         "ExitMultipleValue": 13.603357628174201,
