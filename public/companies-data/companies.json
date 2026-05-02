@@ -604,7 +604,7 @@
         "Ticker": "AHH",
         "Sector": "Real Estate",
         "Description": "Armada Hoffler (NYSE: AHH) is a vertically integrated, self-managed real estate investment trust with over four decades of experience developing, building, acquiring, and managing high-quality retail, office, and multifamily properties located primarily in the Mid-Atlantic and Southeastern United States. The Company also provides general construction and development services to third-party clients, in addition to developing and building properties to be placed in their stabilized portfolio. Founded in 1979 by Daniel A. Hoffler, Armada Hoffler has elected to be taxed as a REIT for U.S. federal income tax purposes.",
-        "CurrentPrice": 6.079999923706055,
+        "CurrentPrice": null,
         "MarketCap": 472896195.84000003,
         "DCFValue": 37.64664109916223,
         "ExitMultipleValue": 36.55088436113601,
