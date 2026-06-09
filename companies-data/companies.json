@@ -8904,7 +8904,7 @@
         "Ticker": "HOLX",
         "Sector": "Health Care",
         "Description": "HighPeak Energy, Inc. operates as an independent crude oil and natural gas exploration and production company. It engages in the exploration, development, and production of crude oil, natural gas, and natural gas liquids reserves in the Permian Basin in West Texas and Eastern New Mexico. The company was founded in 2019 and is headquartered in Fort Worth, Texas.",
-        "CurrentPrice": 76.01000213623047,
+        "CurrentPrice": null,
         "MarketCap": 14712599098.109999,
         "DCFValue": 71.68384216858298,
         "ExitMultipleValue": 86.42985615674705,
